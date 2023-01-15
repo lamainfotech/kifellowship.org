@@ -1,0 +1,62 @@
+.block-title {
+
+    @include media-breakpoint-up(lg) {
+        @include font-size(1.25rem);
+    }
+
+    h2 {
+        color: $black;
+        @include font-size(1.875rem);
+
+        @include media-breakpoint-up(md) {
+            @include font-size(2.375rem);
+        }
+
+        @include media-breakpoint-up(lg) {
+            @include font-size(2.625rem);
+        }
+
+        @include media-breakpoint-up(xl) {
+            @include font-size(3rem);
+        }
+
+        span {
+            display: block;
+            @include font-size(1rem);
+            color: $primary;
+            margin-bottom: 0.5rem;
+
+            @include media-breakpoint-up(lg) {
+                @include font-size(1.125rem);
+            }
+
+            @include media-breakpoint-up(xl) {
+                @include font-size(1.5rem);
+            }
+        }
+    }
+
+    &--alt {
+
+        h2,
+        .h6 {
+            color: $dark-black;
+            @include font-size(1.125rem);
+
+            @include media-breakpoint-up(sm) {
+                @include font-size(1.25rem);
+            }
+
+            @include media-breakpoint-up(lg) {
+                @include font-size(1.5rem);
+            }
+
+            small {
+                display: block;
+                color: $gray-700;
+                line-height: 1.5;
+                @include font-size(.875rem);
+            }
+        }
+    }
+}

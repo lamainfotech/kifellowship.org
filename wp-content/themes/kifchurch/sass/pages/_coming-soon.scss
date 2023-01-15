@@ -1,0 +1,10 @@
+.coming-soon{
+    margin-top: 94px;
+    &__content{
+        height: 50vh;
+
+        @include media-breakpoint-up(lg){
+            height: 65vh;
+        }
+    }
+}

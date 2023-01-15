@@ -1,0 +1,110 @@
+// Banner
+
+.banner {
+    min-height: 550px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include media-breakpoint-up(md) {
+        height: 100vh;
+        padding: 2rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+        padding: 2rem;
+    }
+
+    @include media-breakpoint-up(xl) {
+    }
+    @include media-breakpoint-up(xxl) {
+    }
+
+    &-content {
+        color: $white;
+
+        @include media-breakpoint-up(lg) {
+            @include font-size(1.125rem);
+        }
+
+        h1 {
+            color: $white;
+            text-transform: capitalize;
+            @include font-size(2.5875rem);
+
+            @include media-breakpoint-up(md) {
+                @include font-size(2.8rem);
+            }
+
+            @include media-breakpoint-up(lg) {
+                @include font-size(3.325rem);
+            }
+
+            @include media-breakpoint-up(xl) {
+                @include font-size(3.65rem);
+            }
+
+            span{
+                display: block;
+                font-family: $font-cursive;
+                font-weight: 400;
+                margin-bottom: 0.6rem;
+                @include font-size(1.8rem);
+
+                @include media-breakpoint-up(lg){
+                    @include font-size(2rem);
+                }
+                @include media-breakpoint-up(xl){
+                    @include font-size(2.8rem);
+                }
+            }
+        }
+
+        .btn-wrap {
+            a {
+                border-radius: 65px;
+            }
+        }
+    }
+
+    &-inner {
+        min-height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        margin-top: 92.97px;
+
+        @include media-breakpoint-up(md) {
+            margin-top: 103.2px;
+        }
+
+        @include media-breakpoint-up(lg) {
+            min-height: 250px;
+            padding: 2rem;
+            margin-top: 86.45px;
+        }
+
+        @include media-breakpoint-up(xl) {
+            min-height: 285px;
+            margin-top: 103.94px;
+        }
+
+        &__content {
+            h1 {
+                color: $white;
+                text-transform: capitalize;
+                @include font-size(2.5rem);
+
+                @include media-breakpoint-up(lg) {
+                    @include font-size(3.125rem);
+                }
+
+                @include media-breakpoint-up(xl) {
+                    @include font-size(3.75rem);
+                }
+            }
+        }
+    }
+}

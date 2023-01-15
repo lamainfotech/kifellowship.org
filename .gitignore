@@ -1,0 +1,27 @@
+# ignore everything in the root except the "wp-content" directory.
+!wp-content/
+
+# ignore node dependency directories
+/wp-content/themes/kifchurch/node_modules/
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+error_log
+
+#mac
+*.DS_Store
+
+#robots
+robots.txt
+
+#Sometimes WP configured to have "media" as "uploads" folder
+/media/
+
+#WordPress
+/.htaccess
+/wp-config.php
+/wp-content/cache/
+/wp-content/uploads/
+/wp-snapshots/

@@ -1,0 +1,45 @@
+.gallery {
+    margin-bottom: 0;
+    line-height: 0;
+
+    &:hover {
+        display: block;
+
+        img {
+            transform: scale(1.1);
+        }
+    }
+
+    &-media {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            transition: all 0.3s;
+            object-fit: cover;
+            height: 295px;
+
+            @include media-breakpoint-up(sm){
+                height: 315px;
+            }
+            @include media-breakpoint-up(md){
+                height: 205px;
+            }
+            @include media-breakpoint-up(lg){
+                height: 175px;
+            }
+            @include media-breakpoint-up(xl){
+                height: 247.45px;
+            }
+        }
+    }
+
+    &-section{
+        margin-top: 100px;
+    }
+}
+

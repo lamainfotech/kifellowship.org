@@ -1,0 +1,210 @@
+.podcast {
+
+    &-section {
+        .negative-margin {
+            position: relative;
+            z-index: 11;
+
+            @include media-breakpoint-up(sm) {
+                margin-top: -2rem;
+            }
+
+            @include media-breakpoint-up(lg) {
+                margin-top: -3rem;
+            }
+
+            @include media-breakpoint-up(xxl) {
+                margin-top: -4rem;
+            }
+        }
+    }
+
+    &-block {
+        padding-left: 1rem;
+        padding-right: 1.5rem;
+        border-radius: 8px;
+
+        @include media-breakpoint-up(sm) {
+            padding-left: 1.5rem;
+            padding-right: 2rem;
+        }
+
+        @include media-breakpoint-up(lg) {
+            padding-left: 2.5rem;
+            padding-right: 3rem;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            padding-left: 3.25rem;
+            padding-right: 4rem;
+        }
+
+        .block-title {
+            .line-after {
+                position: relative;
+                overflow: hidden;
+                display: block;
+                // vertical-align: baseline;
+
+                &:after {
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    top: 50%;
+                    margin-left: .75rem;
+                    border-top: 1px solid $light-gray-200;
+
+                    @include media-breakpoint-up(sm) {
+                        margin-left: 1rem;
+                    }
+
+                    @include media-breakpoint-up(lg) {
+                        margin-left: 1.5rem;
+                    }
+
+                    @include media-breakpoint-up(xxl) {
+                        margin-left: 2rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &-wrapper {
+        position: relative;
+        align-items: center;
+        padding: 1rem 0;
+        justify-content: space-between;
+
+        @include media-breakpoint-up(sm) {
+            padding: 1.125rem 0;
+        }
+
+        @include media-breakpoint-up(lg) {
+            padding: 1.25rem 0;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            padding: 1.5rem 0;
+        }
+
+        &:not(:last-child) {
+            &:before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 1rem;
+                right: 1rem;
+                border-bottom: 1px solid $light-gray-100;
+            }
+        }
+
+        &:nth-child(2) {
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 1rem;
+                right: 1rem;
+                border-bottom: 1px solid $light-gray-100;
+            }
+        }
+    }
+
+    &-content {
+        .block-title {
+            color: $gray-700;
+            @include font-size(.875rem);
+
+            p:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &-media {
+        margin-left: auto;
+        position: relative;
+
+        .btn-wrap {
+            a {
+                color: $dark-black;
+                display: inline-block;
+                text-decoration: none;
+
+                i {
+
+                    @include font-size(3.25rem);
+
+                    @include media-breakpoint-up(sm) {
+                        @include font-size(3.75rem);
+                    }
+
+                    @include media-breakpoint-up(lg) {
+                        @include font-size(4.125rem);
+                    }
+
+                    @include media-breakpoint-up(xxl) {
+                        @include font-size(4.625rem);
+                    }
+                }
+            }
+        }
+    }
+
+    &-image {
+        position: relative;
+        overflow: hidden;
+
+        picture {
+            display: block;
+
+            img {
+                width: 100%;
+                border-radius: 12px;
+                object-fit: cover;
+
+                @include media-breakpoint-up(md) {
+                    max-height: 480px;
+                }
+
+                @include media-breakpoint-up(lg) {
+                    max-height: none;
+                }
+            }
+        }
+
+        .btn-wrap {
+            @include media-breakpoint-down(md) {
+                .play-button {
+                    color: $white;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-decoration: none;
+
+                    i {
+                        @include font-size(3.5rem !important);
+
+                        @include media-breakpoint-up(sm) {
+                            @include font-size(4rem !important);
+                        }
+                    }
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        top: -999px;
+                        left: -999px;
+                        right: -999px;
+                        bottom: -999px;
+                    }
+                }
+            }
+
+
+        }
+
+    }
+}

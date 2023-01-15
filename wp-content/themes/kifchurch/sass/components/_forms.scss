@@ -1,0 +1,179 @@
+// Forms
+.contact-form {
+    max-width: 900px;
+    margin: 0 auto;
+
+    .form {
+        &-group {
+            margin-bottom: 1rem;
+
+            @include media-breakpoint-up(lg) {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        &-control {
+            height: 45px;
+            background-color: $gray-200;
+            text-transform: capitalize;
+
+            @include media-breakpoint-up(md) {
+                height: 50px;
+            }
+
+            @include media-breakpoint-up(lg) {
+                height: 55px;
+                padding-left: 1.2rem;
+            }
+
+            @include media-breakpoint-up(xl) {
+                height: 60px;
+            }
+
+            &.option {
+                letter-spacing: 1.2px;
+                color: #727373;
+
+                @include media-breakpoint-up(lg) {
+                    @include font-size(1.25rem);
+                }
+            }
+
+            &::placeholder {
+                letter-spacing: 1.2px;
+
+                @include media-breakpoint-up(lg) {
+                    @include font-size(1.25rem);
+                }
+            }
+
+            &.textarea {
+                height: 80px;
+                resize: none;
+
+                @include media-breakpoint-up(md) {
+                    height: 90px;
+                }
+
+                @include media-breakpoint-up(lg) {
+                    height: 125px;
+                }
+
+                @include media-breakpoint-up(xl) {
+                    height: 135px;
+                }
+            }
+        }
+    }
+
+    .wpforms {
+        &-field {
+            &-medium {
+                max-width: 100% !important;
+                height: 45px;
+                border-radius: 5px !important;
+                background-color: $gray-200 !important;
+                text-transform: capitalize !important;
+
+                @include media-breakpoint-up(md) {
+                    height: 50px !important;
+                }
+
+                @include media-breakpoint-up(lg) {
+                    height: 55px !important;
+                    padding-left: 1.2rem !important;
+                }
+
+                @include media-breakpoint-up(xl) {
+                    height: 60px !important;
+                }
+            }
+        }
+
+        &-submit-container {
+            text-align: center !important;
+            margin-top: 0.8rem !important;
+
+            @include media-breakpoint-up(md) {
+                margin-top: 1.5rem !important;
+
+            }
+
+            .wpforms-submit {
+                display: inline-block !important;
+                text-transform: capitalize !important;
+                font-family: $font-heebo !important;
+                font-weight: 500 !important;
+                border-radius: 12px !important;
+                border-color: transparent !important;
+                line-height: 1.2 !important;
+                background-color: $black !important;
+                color: $white !important;
+                transition: all 0.3s !important;
+                @include font-size(1rem !important);
+                min-width: 140px !important;
+                padding: 1rem 25px !important;
+
+                @include media-breakpoint-up(lg) {
+                    min-width: 160px !important;
+                    padding: 1.0625rem 1.875rem !important;
+                    @include font-size(1.375rem !important);
+                }
+
+                @include media-breakpoint-up(xl) {
+                    min-width: 170px !important;
+                    padding: 1.25rem 2.1875rem !important;
+                    @include font-size(1.5rem !important);
+                }
+
+                &:focus,
+                &:hover {
+                    outline: none !important;
+                    box-shadow: none !important;
+                    background-color: $white !important;
+                    color: $black !important;
+                    border-color: $black !important;
+                }
+            }
+        }
+
+
+    }
+}
+
+#wpforms-232-field_5,
+#wpforms-236-field_5 {
+    height: 80px !important;
+    resize: none !important;
+    padding-top: 0.6rem !important;
+
+    @include media-breakpoint-up(md) {
+        height: 90px !important;
+    padding-top: 0.8rem !important;
+
+    }
+
+    @include media-breakpoint-up(lg) {
+        height: 125px !important;
+        padding-top: 1rem !important;
+    }
+
+    @include media-breakpoint-up(xl) {
+        height: 135px !important;
+    }
+}
+
+#wpforms-232-field_4,
+#wpforms-236-field_4 {
+    appearance: none !important;
+    background: url(#{$image-path}/down_arrow.svg) center;
+    background-position: calc(100% - 12px) 50%;
+    background-repeat: no-repeat;
+    background-size: 10px;
+
+    @include media-breakpoint-up(lg){
+    background-position: calc(100% - 19px) 50%;
+    background-size: 12px;
+
+    }
+}
