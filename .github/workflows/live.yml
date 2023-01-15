@@ -16,4 +16,4 @@ jobs:
       with:
         server: ftp.khagendralama.com.np
         username: deploy@kifellowship.org
-        password: ${{ secrets.kif_live_ftp_password }}
+        password: ${{ secrets.live_ftp_password }}
