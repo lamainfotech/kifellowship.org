@@ -1,0 +1,10 @@
+.ybug-roles-wrapper {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.ybug-roles-wrapper.is-disabled .ybug-role-name {
+    opacity: 0.5;
+}
