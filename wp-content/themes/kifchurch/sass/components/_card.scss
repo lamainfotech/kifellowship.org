@@ -244,6 +244,12 @@
                 }
             }
         }
+
+        &--sm{
+            &::before{
+                background-color: rgba($dark-black, 0.6);
+            }
+        }
     }
 
     &-event {
