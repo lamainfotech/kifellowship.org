@@ -106,5 +106,43 @@
                 }
             }
         }
+
+        &--alt{
+            min-height: 320px;
+
+            @include media-breakpoint-up(sm) {
+                min-height: 360px;
+            }
+
+            @include media-breakpoint-up(md) {
+                min-height: 400px;
+            }
+            
+            @include media-breakpoint-up(lg) {
+                min-height: 440px;
+            }
+    
+            @include media-breakpoint-up(xl) {
+                min-height: 500px;
+            }
+
+            .banner-content{
+                h1 {
+                    font-family: $font-heebo;
+                    span {
+                        font-family: $font-heebo;
+                        @include font-size(1.125rem);
+                        
+                        @include media-breakpoint-up(sm) {
+                            @include font-size(1.25rem);
+                        }
+
+                        @include media-breakpoint-up(lg) {
+                            @include font-size(1.5rem);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

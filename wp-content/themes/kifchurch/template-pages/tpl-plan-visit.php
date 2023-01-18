@@ -1,30 +1,36 @@
 <?php
-/* Template Name: Static Plan A Visit */
+/* Template Name: Plan A Visit */
 get_header();
 ?>
 
-<section class="two-col text-left py-xxl-5 py-lg-4 py-sm-3 py-2">
-    <div class="container">
-        <div class="row justify-content-lg-between">
-            <div class="col-lg-6 col-xl-7 pr-lg-2 pr-xl-4 pr-xxl-5">
-                <div class="block-title">
-                    <h3>Welcome to KIF Service</h3>
-                    <p>We warmly welcome you to join us. We have our worship service in English at 10:00 AM every Saturday with tea/coffee and snacks. We are a group of people from different nations.</p>
-
-                    <p>We strive to create a vital community—with practical messages, heartfelt worship, prayer, justice, and mercy for those in need. It is our desire to cultivate a Christ-like lifestyle. Each of us is at various stages on our journey. Whether you’re a spiritual seeker who’s just starting to ask questions about God, or you already have a mature relationship with Christ, you will find a home here at Kifellowship.</p>
-
-                    <p>We observe a holy communion on the first Saturday of the month.</p>
+<?php if(have_rows('lit_pav_sections')) : ?>
+    <?php while(have_rows('lit_pav_sections')) : the_row(); ?>
+        <?php if(get_row_layout() == 'lit_pav_first_section') :
+            $left_content = get_sub_field('lit_pav_fs_left_column');
+            $right_content = get_sub_field('lit_pav_fs_right_column'); ?>
+            <section class="two-col text-left py-xxl-5 py-lg-4 py-sm-3 py-2">
+                <div class="container">
+                    <div class="row justify-content-lg-between">
+                        <?php if(!empty($left_content)) { ?>
+                            <div class="col-lg-6 col-xl-7 pr-lg-2 pr-xl-4 pr-xxl-5">
+                                <div class="block-title">
+                                    <?php echo wpautop($left_content); ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <?php if(!empty($right_content)) { ?>
+                            <div class="col-lg-6 col-xl-4 pl-xxl-2">
+                                <div class="block-title">
+                                    <?php echo wpautop($right_content); ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-xl-4 pl-xxl-2">
-                <div class="block-title">
-                    <h3>KIF Kids</h3>
-                    <p>We believe that children are a vital part of our church body and if you are a family with kids- the KIF-KIDS join in singing & worship with the adults and are dismissed for their classes after the worship.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </section>
+        <?php endif; ?>
+    <?php endwhile; ?>
+<?php endif; ?>
 
 <section class="info-block bg-primary py-1">
     <div class="container">

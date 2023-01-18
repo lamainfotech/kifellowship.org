@@ -60,3 +60,33 @@
         }
     }
 }
+
+.info-block {
+    &__desc {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+
+        .icon-group {
+
+            i {
+                @include font-size(4rem);
+
+                &:not(:last-child) {
+                    margin-right: 12px;
+                }
+
+                @include media-breakpoint-up(lg) {
+                    margin-right: 12px;
+                }
+            }
+        }
+    }
+
+    &__content {
+        p:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+}

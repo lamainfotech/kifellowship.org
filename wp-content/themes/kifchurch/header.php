@@ -137,10 +137,22 @@
                 </section><!-- /.banner-inner -->
             <?php } elseif (is_page('podcasts')) { ?>
                 <h1>Podcasts</h1>
+            <?php } elseif (is_page('plan-a-visit')) { ?>
+                <section class="banner-inner banner-inner--alt bg-cover overlay">
+                    <img src="<?php echo site_url(); ?>/media/saturday-sermon.jpg" width="1440" height="501" loading="lazy" alt="Banner Image">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="banner-content block-title text-center pt-xxl-3 pt-xl-3 pt-lg-1 pt-0">
+                                    <h1 class="h2"><span>You Are Welcome</span>Planning to Visit Us?</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section><!-- /.banner -->
             <?php } elseif (is_home()) { ?>
                 <section class="banner-inner bg-cover banner-overlay">
                     <img src="<?php echo site_url(); ?>/media/breadcrumb-banner.png" width="1440" height="285" alt="Default Banner">
-
                     <div class="banner-inner__content text-center">
                         <h1>Articles</h1>
 
@@ -201,5 +213,4 @@
                         ?>
                     </div>
                 </section><!-- /.banner-inner -->
-
             <?php } ?>

@@ -61,7 +61,7 @@ get_header();
 						<picture class="card-video__media light-overlay">
 							<source srcset="<?php echo site_url(); ?>/media/video-img.webp" type="image/webp">
 							<source srcset="<?php echo site_url(); ?>/media/video-img.jpg" type="image/jpg">
-							<img srcset="<?php echo site_url(); ?>/media/video-img.jpg" width="500" height="299" loading="lazzy" alt="Video thumblain">
+							<img srcset="<?php echo site_url(); ?>/media/video-img.jpg" width="500" height="299" loading="lazy" alt="Video thumblain">
 						</picture>
 						<div class="btn-wrap">
 							<a href="https://www.youtube.com/watch?v=xcJtL7QggTI&t=19s" data-fancybox><i class="icon-Play-Icon"></i></a>
@@ -77,7 +77,7 @@ get_header();
 			<div class="container">
 				<div class="col-lg-3 col-sm-6">
 					<div class="card-overlay bg-cover dark-overlay">
-						<img src="<?php echo site_url(); ?>/media/baby.jpg" width="300" height="400" loading="lazzy" alt="Video thumblain">
+						<img src="<?php echo site_url(); ?>/media/baby.jpg" width="300" height="400" loading="lazy" alt="Video thumblain">
 						<div class="card-overlay__content text-center">
 							<h5>For Kids</h5>
 						</div>

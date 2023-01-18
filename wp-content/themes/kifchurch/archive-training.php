@@ -19,7 +19,7 @@ $trainings = new WP_Query(array(
                 <div class="col-lg-4 col-sm-6 mb-1 mb-sm-2 mb-xxl-3">
                     <div class="card-overlay card-overlay--alt bg-cover light-gradient light-gradient--alt">
                         <?php if(!empty($img)) { ?>
-                            <img src="<?php echo $img['url']; ?>" width="<?php echo $img['width']; ?>" height="<?php echo $img['height']; ?>" loading="lazzy" alt="<?php echo $img['alt']; ?>">
+                            <img src="<?php echo $img['url']; ?>" width="<?php echo $img['width']; ?>" height="<?php echo $img['height']; ?>" loading="lazy" alt="<?php echo $img['alt']; ?>">
                         <?php } ?>
 
                         <?php if(!empty($tname)) { ?>
