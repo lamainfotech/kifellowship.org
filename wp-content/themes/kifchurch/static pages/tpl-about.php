@@ -45,12 +45,12 @@ get_header();
                         <picture class="media-offset__under">
                             <source srcset="<?php echo site_url(); ?>/media/speaker.webp" type="image/webp">
                             <source srcset="<?php echo site_url(); ?>/media/speaker.jpg" type="image/jpg">
-                            <img src="<?php echo site_url(); ?>/media/speaker.jpg" width="355" height="417" loading="lazzy" alt="Video thumblain">
+                            <img src="<?php echo site_url(); ?>/media/speaker.jpg" width="355" height="417" loading="lazy" alt="Video thumblain">
                         </picture>
                         <picture class="media-offset__over">
                             <source srcset="<?php echo site_url(); ?>/media/hands.webp" type="image/webp">
                             <source srcset="<?php echo site_url(); ?>/media/hands.jpg" type="image/jpg">
-                            <img src="<?php echo site_url(); ?>/media/hands.jpg" width="437" height="506" loading="lazzy" alt="Video thumblain">
+                            <img src="<?php echo site_url(); ?>/media/hands.jpg" width="437" height="506" loading="lazy" alt="Video thumblain">
                         </picture>
 
                     </div>
@@ -76,12 +76,12 @@ get_header();
                         <picture class="media-offset__under">
                             <source srcset="<?php echo site_url(); ?>/media/speaker.webp" type="image/webp">
                             <source srcset="<?php echo site_url(); ?>/media/speaker.jpg" type="image/jpg">
-                            <img src="<?php echo site_url(); ?>/media/speaker.jpg" width="355" height="417" loading="lazzy" alt="Video thumblain">
+                            <img src="<?php echo site_url(); ?>/media/speaker.jpg" width="355" height="417" loading="lazy" alt="Video thumblain">
                         </picture>
                         <picture class="media-offset__over">
                             <source srcset="<?php echo site_url(); ?>/media/hands.webp" type="image/webp">
                             <source srcset="<?php echo site_url(); ?>/media/hands.jpg" type="image/jpg">
-                            <img src="<?php echo site_url(); ?>/media/hands.jpg" width="437" height="506" loading="lazzy" alt="Video thumblain">
+                            <img src="<?php echo site_url(); ?>/media/hands.jpg" width="437" height="506" loading="lazy" alt="Video thumblain">
                         </picture>
 
                     </div>
