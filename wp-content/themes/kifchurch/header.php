@@ -106,7 +106,7 @@
                         </div>
                     </div>
                 </section><!-- /.banner -->
-            <?php } elseif (is_single() && 'post' == get_post_type() || is_single() && 'event' == get_post_type() || is_page('gallery') || is_page_template('template-pages/tpl-coming-soon.php') || is_404() || is_page('our-team') || is_single() && 'training' == get_post_type()) {
+            <?php } elseif (is_single() && 'post' == get_post_type() || is_single() && 'event' == get_post_type() || is_page('prayer-request') || is_page_template('template-pages/tpl-coming-soon.php') || is_404() || is_page('our-team') || is_single() && 'training' == get_post_type()) {
             } elseif (is_post_type_archive('event')) { ?>
                 <section class="banner-inner bg-cover banner-overlay">
                     <img src="<?php echo site_url(); ?>/media/breadcrumb-banner.png" width="1440" height="285" alt="Default Banner">

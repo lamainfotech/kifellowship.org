@@ -212,6 +212,12 @@
                 text-align: center;
                 resize: none;
                 pointer-events: none;
+                line-height: 26px;
+                overflow: hidden !important;
+
+                @include media-breakpoint-up(lg) {
+                    height: auto !important;
+                }
             }
         }
     }
