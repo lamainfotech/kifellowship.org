@@ -19,7 +19,7 @@ $categories = get_terms(array(
         <h2 class="d-none">title</h2>
 
         <?php if(!empty($categories)) { ?>
-            <div class="d-flex justify-content-center pb-3">
+            <div class="d-flex justify-content-center pb-3 flex-wrap">
                 <?php foreach($categories as $category) {
                     $filter = get_field('lit_pc_enable_filter', $category);
                     $cat_link = get_term_link($category);

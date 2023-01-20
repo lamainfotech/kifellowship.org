@@ -204,5 +204,21 @@
                 }
             }
         }
+
+        .footnote{
+            textarea {
+                border: none !important;
+                background-color: transparent !important;
+                text-align: center;
+                resize: none;
+                pointer-events: none;
+                line-height: 26px;
+                overflow: hidden !important;
+
+                @include media-breakpoint-up(lg) {
+                    height: auto !important;
+                }
+            }
+        }
     }
 }

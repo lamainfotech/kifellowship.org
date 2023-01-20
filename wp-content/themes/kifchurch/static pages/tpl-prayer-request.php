@@ -3,7 +3,7 @@
 get_header();
 ?>
 
-<section class="section py-lg-4 py-sm-3 py-2">
+<section class="section py-lg-4 py-sm-3 py-2 mt-xl-6 mt-lg-5 mt-4">
     <div class="container form-holder">
         <header class="block-title block-width-85 mx-auto text-center mb-sm-2 mb-1">
             <h2><span>Send Your</span>Prayer Request</h2>
