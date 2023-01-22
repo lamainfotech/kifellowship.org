@@ -137,15 +137,20 @@
                 </section><!-- /.banner-inner -->
             <?php } elseif (is_page('podcasts')) { ?>
                 <h1>Podcasts</h1>
-            <?php } elseif (is_page('plan-a-visit')) { ?>
+            <?php } elseif (is_page('plan-a-visit')) {
+                $banner_img = get_field('lit_page_banner_image');
+                $banner_title = get_field('lit_global_page_title');
+            ?>
                 <section class="banner-inner banner-inner--alt bg-cover overlay">
-                    <img src="<?php echo site_url(); ?>/media/saturday-sermon.jpg" width="1440" height="501" loading="lazy" alt="Banner Image">
+                    <img src="<?php echo $banner_img['url']; ?>" width="<?php echo $banner_img['width']; ?>" height="<?php echo $banner_img['height']; ?>" loading="lazy" alt="<?php echo $banner_img['alt']; ?>">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <div class="banner-content block-title text-center pt-xxl-3 pt-xl-3 pt-lg-1 pt-0">
-                                    <h1 class="h2"><span>You Are Welcome</span>Planning to Visit Us?</h1>
-                                </div>
+                                <?php if(!empty($banner_title)) { ?>
+                                    <div class="banner-content block-title text-center pt-xxl-3 pt-xl-3 pt-lg-1 pt-0">
+                                        <h1 class="h2"><?php echo $banner_title; ?></h1>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
