@@ -148,7 +148,7 @@ class Hustle_Notifications {
 	public function dismiss_notification() {
 
 		Opt_In_Utils::validate_ajax_call( 'hustle_dismiss_notification' );
-		$notification_name = filter_input( INPUT_POST, 'name' );
+		$notification_name = filter_input( INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		if ( Hustle_Dashboard_Admin::MIGRATE_NOTICE_NAME !== $notification_name ) {
 			self::add_dismissed_notification( $notification_name );
@@ -449,7 +449,8 @@ class Hustle_Notifications {
 
 		// For Pro.
 		if ( get_site_option( 'hustle_free_deactivated' ) ) {
-			$message = '<p>' . esc_html__( 'Congratulations! You have activated Hustle Pro! We have automatically deactivated the free version.', 'hustle' ) . '</p>';
+			/* translators: Plugin name */
+			$message = '<p>' . esc_html( sprintf( __( 'Congratulations! You have activated %s! We have automatically deactivated the free version.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ) . '</p>';
 			$this->show_notice( $message, false, 'success', true );
 
 			delete_site_option( 'hustle_free_deactivated' );
@@ -457,7 +458,8 @@ class Hustle_Notifications {
 
 		// For Free.
 		if ( get_site_option( 'hustle_free_activated' ) ) {
-			$message = '<p>' . esc_html__( 'You already have Hustle Pro activated. If you really wish to go back to the free version of Hustle, please deactivate the Pro version first', 'hustle' ) . '</p>';
+			/* translators: Plugin name */
+			$message = '<p>' . esc_html( sprintf( __( 'You already have %1$s activated. If you really wish to go back to the free version of %1$s, please deactivate the Pro version first', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ) . '</p>';
 			$this->show_notice( $message, false, 'error', true );
 
 			delete_site_option( 'hustle_free_activated' );
@@ -487,8 +489,8 @@ class Hustle_Notifications {
 		$name    = ! empty( $profile ) ? $profile['profile']['name'] : __( 'Hey', 'hustle' );
 
 		$message = '<p>';
-		/* translators: user's name */
-		$message .= sprintf( esc_html__( '%s, it appears you have an active WPMU DEV membership but haven\'t upgraded Hustle to the pro version. You won\'t lose an any settings upgrading, go for it!', 'hustle' ), $name );
+		/* translators: 1. user's name 2. Plugin name */
+		$message .= sprintf( esc_html__( '%1$s, it appears you have an active WPMU DEV membership but haven\'t upgraded %2$s to the pro version. You won\'t lose an any settings upgrading, go for it!', 'hustle' ), $name, Opt_In_Utils::get_plugin_name() );
 		$message .= '</p>';
 		$message .= '<p>' . $link . '</p>';
 
@@ -520,8 +522,8 @@ class Hustle_Notifications {
 		$username     = ! empty( $current_user->user_firstname ) ? $current_user->user_firstname : $current_user->user_login;
 
 		$message = '<p>';
-		/* translators: user's name */
-		$message .= sprintf( esc_html__( 'Hey %s, nice work on updating the Hustle! However, you need to migrate the data of your existing modules such as tracking data and email list manually.', 'hustle' ), esc_html( $username ) );
+		/* translators: 1. user's name 2. Plugin name */
+		$message .= esc_html( sprintf( __( 'Hey %1$s, nice work on updating the %2$s! However, you need to migrate the data of your existing modules such as tracking data and email list manually.', 'hustle' ), $username, Opt_In_Utils::get_plugin_name() ) );
 		$message .= '</p>';
 		$message .= '<p><a href="' . esc_url( $migrate_url ) . '" class="button-primary">' . esc_html__( 'Migrate Data', 'hustle' ) . '</a><a href="#" class="hustle-notice-dismiss" style="margin-left:20px;">' . esc_html__( 'Dismiss', 'hustle' ) . '</a></p>';
 
@@ -635,23 +637,21 @@ class Hustle_Notifications {
 		);
 		$url        = add_query_arg( $url_params, 'admin.php' );
 
-		$link = '<a class="button-primary" href="' . esc_url( $url ) . '" target="_self" >' . esc_html__( 'Check conditions', 'hustle' ) . '</a>';
-
 		$version = $this->is_free ? '7.1' : '4.1';
 
 		ob_start();
 		?>
 		<p>
-			<b><?php esc_html_e( 'Hustle - Module visibility behaviour update', 'hustle' ); ?></b>
+			<b><?php /* translators: Plugin name */ echo esc_html( sprintf( __( '%s - Module visibility behaviour update', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></b>
 		</p>
 
 		<p>
-			<?php /* translators: 4.1 version pro or free */ ?>
-			<?php printf( esc_html__( 'Hustle %s fixes a visibility bug which may affect the visibility behavior of your popups and other modules. Please review the visibility conditions of each of your modules to ensure they will appear as you expect.', 'hustle' ), esc_attr( $version ) ); ?>
+			<?php /* translators: 1. Plugin name 2. 4.1 version pro or free */ ?>
+			<?php echo esc_html( sprintf( __( '%1$s %2$s fixes a visibility bug which may affect the visibility behavior of your popups and other modules. Please review the visibility conditions of each of your modules to ensure they will appear as you expect.', 'hustle' ), Opt_In_Utils::get_plugin_name(), $version ) ); ?>
 		</p>
 
 		<p>
-			<?php echo $link; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo '<a class="button-primary" href="' . esc_url( $url ) . '" target="_self" >' . esc_html__( 'Check conditions', 'hustle' ) . '</a>'; ?>
 			<a href="#" class="dismiss-notice" style="margin-left:14px;"><?php esc_html_e( 'Dismiss', 'hustle' ); ?></a>
 		</p>
 		<?php

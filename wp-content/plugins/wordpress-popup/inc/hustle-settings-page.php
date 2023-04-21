@@ -24,7 +24,8 @@ class Hustle_Settings_Page extends Hustle_Admin_Page_Abstract {
 
 		$this->page = 'hustle_settings';
 
-		$this->page_title = __( 'Hustle Settings', 'hustle' );
+		/* translators: Plugin name */
+		$this->page_title = sprintf( __( '%s Settings', 'hustle' ), Opt_In_Utils::get_plugin_name() );
 
 		$this->page_menu_title = __( 'Settings', 'hustle' );
 
@@ -92,31 +93,31 @@ class Hustle_Settings_Page extends Hustle_Admin_Page_Abstract {
 		$current_array = parent::get_vars_to_localize();
 
 		// Error messages for 4.0.x restoring.
-		$current_array['messages']['restricted_access']  = __( "You can't perform this action", 'hustle' );
-		$current_array['messages']['restore_40x_failed'] = __( "The restore failed. It could be that there's no data to restore. Please check the logs.", 'hustle' );
+		$current_array['messages']['restricted_access']  = esc_html__( "You can't perform this action", 'hustle' );
+		$current_array['messages']['restore_40x_failed'] = esc_html__( "The restore failed. It could be that there's no data to restore. Please check the logs.", 'hustle' );
 
 		$current_array['settings_palettes_action_nonce'] = wp_create_nonce( 'hustle_palette_action' );
 
 		$current_array['palettes'] = Hustle_Palettes_Helper::get_all_palettes();
 
-		$saved_id = filter_input( INPUT_GET, 'saved-id' );
+		$saved_id = filter_input( INPUT_GET, 'saved-id', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( $saved_id ) {
 
 			$saved_palettes = Hustle_Palettes_Helper::get_all_palettes_slug_and_name();
 			if ( ! empty( $saved_palettes[ $saved_id ] ) ) {
 
-				$saved_name = '<span style="color:#333;"><strong>' . $saved_palettes[ $saved_id ] . '</strong></span>';
+				$saved_name = '<span style="color:#333;"><strong>' . esc_html( $saved_palettes[ $saved_id ] ) . '</strong></span>';
 				/* translators: %s: palette name */
-				$current_array['messages']['palette_saved'] = sprintf( __( '%s - Palette saved successfully.', 'hustle' ), $saved_name );
+				$current_array['messages']['palette_saved'] = sprintf( esc_html__( '%s - Palette saved successfully.', 'hustle' ), $saved_name );
 			}
 		}
 
-		$deleted_name = filter_input( INPUT_GET, 'deleted-name' );
+		$deleted_name = filter_input( INPUT_GET, 'deleted-name', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( $deleted_name ) {
 
-			$deleted_name = '<span style="color:#333;"><strong>' . $deleted_name . '</strong></span>';
+			$deleted_name = '<span style="color:#333;"><strong>' . esc_html( $deleted_name ) . '</strong></span>';
 			/* translators: %s: palette name */
-			$current_array['messages']['palette_deleted'] = sprintf( __( '%s - Palette deleted successfully.', 'hustle' ), $deleted_name );
+			$current_array['messages']['palette_deleted'] = esc_html( sprintf( __( '%s - Palette deleted successfully.', 'hustle' ), $deleted_name ) );
 		}
 
 		$palettes = array();
@@ -124,14 +125,14 @@ class Hustle_Settings_Page extends Hustle_Admin_Page_Abstract {
 		$modules  = Hustle_Module_Collection::instance()->get_all( null, $args );
 
 		foreach ( $modules as $module ) {
-			$palettes[ $module->module_type ][ $module->module_id ] = $module->module_name;
+			$palettes[ $module->module_type ][ $module->module_id ] = esc_html( $module->module_name );
 		}
 		$current_array['current']                        = $palettes;
 		$current_array['current']['save_settings_nonce'] = wp_create_nonce( 'hustle_settings_save' );
 
-		$current_array['messages']['generic_ajax_error'] = __( 'Something went wrong with the request. Please reload the page and try again.', 'hustle' );
-		$current_array['messages']['settings_saved']     = __( 'Settings saved.', 'hustle' );
-		$current_array['messages']['settings_was_reset'] = '<label class="wpmudev-label--notice"><span>' . __( 'Plugin was successfully reset.', 'hustle' ) . '</span></label>';
+		$current_array['messages']['generic_ajax_error'] = esc_html__( 'Something went wrong with the request. Please reload the page and try again.', 'hustle' );
+		$current_array['messages']['settings_saved']     = esc_html__( 'Settings saved.', 'hustle' );
+		$current_array['messages']['settings_was_reset'] = '<label class="wpmudev-label--notice"><span>' . esc_html__( 'Plugin was successfully reset.', 'hustle' ) . '</span></label>';
 
 		return $current_array;
 	}

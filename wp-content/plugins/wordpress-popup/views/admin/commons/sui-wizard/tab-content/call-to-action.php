@@ -40,6 +40,7 @@
 								'key'     => 'cta_url',
 								'content' => $settings['cta_url'],
 							),
+							'whole_cta'   => empty( $settings['cta_whole'] ) ? '' : $settings['cta_whole'],
 							'module_name' => $smallcaps_singular,
 						),
 						true

@@ -125,8 +125,8 @@ abstract class Hustle_GHBlock_Abstract {
 				$this->check_dependencies( $module );
 
 				$module_list[] = array(
-					'value' => $shortcode_id,
-					'label' => $module->module_name,
+					'value' => esc_html( $shortcode_id ),
+					'label' => esc_html( $module->module_name ),
 				);
 			}
 		}

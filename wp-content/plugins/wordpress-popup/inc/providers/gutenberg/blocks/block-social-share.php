@@ -43,7 +43,7 @@ class Hustle_GHBlock_Social_Share extends Hustle_GHBlock_Abstract {
 		$css_class = isset( $properties['css_class'] ) ? $properties['css_class'] : '';
 
 		if ( isset( $properties['id'] ) ) {
-			return '[wd_hustle id="' . $properties['id'] . '" type="social_sharing" css_class="' . $css_class . '"/]';
+			return '[wd_hustle id="' . esc_attr( $properties['id'] ) . '" type="social_sharing" css_class="' . esc_attr( $css_class ) . '"/]';
 		}
 	}
 
@@ -119,7 +119,8 @@ class Hustle_GHBlock_Social_Share extends Hustle_GHBlock_Abstract {
 			'customize_module'       => esc_html__( 'Customize Social Share', 'hustle' ),
 			'rendering'              => esc_html__( 'Rendering...', 'hustle' ),
 			'block_name'             => esc_html__( 'Social Share', 'hustle' ),
-			'block_description'      => esc_html__( 'Display your Hustle Social Share module in this block.', 'hustle' ),
+			/* translators: Plugin name */
+			'block_description'      => esc_html( sprintf( __( 'Display your %s Social Share module in this block.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ),
 		);
 	}
 

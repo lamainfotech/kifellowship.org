@@ -4,8 +4,6 @@
  *
  * @package Hustle
  * @since 4.3.0
- *
- * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
 $notice_class = 'sui-notice';
@@ -43,7 +41,7 @@ switch ( $notice_alert ) {
 			<div class="sui-notice-content">
 				<div class="sui-notice-message">
 					<span class="sui-notice-icon ' . esc_attr( $notice_icon ) . ' sui-md" aria-hidden="true"></span>
-					<p>' . $message . '</p>
+					<p>' . esc_html( $message ) . '</p>
 				</div>
 			</div>
 		</div>';

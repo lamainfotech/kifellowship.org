@@ -27,7 +27,7 @@ foreach ( $providers as $slug => $data ) {
 	<div class="sui-summary-image-space" aria-hidden="true" style="<?php echo esc_attr( $sui['summary']['style'] ); ?>"></div>
 	<div class="sui-summary-segment">
 		<div class="sui-summary-details">
-			<span class="sui-summary-large"><?php echo $emails_collected; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+			<span class="sui-summary-large"><?php echo esc_html( $emails_collected ); ?></span>
 			<span class="sui-summary-sub"><?php esc_html_e( 'Emails Collected', 'hustle' ); ?></span>
 			<?php if ( 0 === $emails_collected ) { ?>
 				<span class="sui-summary-detail"><?php esc_html_e( 'None', 'hustle' ); ?></span>

@@ -128,7 +128,7 @@ class Hustle_Module_Front_Ajax {
 		$avoid_static_cache = Opt_In_Utils::is_static_cache_enabled();
 		$passed_conditions  = true;
 		if ( $avoid_static_cache ) {
-			$sub_type         = filter_input( INPUT_POST, 'subType' );
+			$sub_type         = filter_input( INPUT_POST, 'subType', FILTER_SANITIZE_SPECIAL_CHARS );
 			$module->sub_type = $sub_type;
 			// Check visibility conditions.
 			$passed_conditions = $module->is_condition_allow();
@@ -339,6 +339,10 @@ class Hustle_Module_Front_Ajax {
 					$fields_to_validate[] = $field_name;
 				}
 
+				if ( 'hidden' === $field_data['type'] ) {
+					$form_data = self::update_hidden_value( $field_data, $form_data );
+				}
+
 				if ( isset( $form_data[ $field_name ] ) ) {
 					$value                             = sanitize_text_field( $form_data[ $field_name ] );
 					$field_data_array[]                = array(
@@ -508,6 +512,23 @@ class Hustle_Module_Front_Ajax {
 	}
 
 	/**
+	 * Update hidden value because it can be changed by user
+	 *
+	 * @param array $field_data Field settings.
+	 * @param array $form_data Form data.
+	 * @return array
+	 */
+	private static function update_hidden_value( $field_data, $form_data ) {
+		if ( ! empty( $field_data['name'] ) && ! empty( $field_data['default_value'] )
+				// skip some types because it returns wrong values on this state for them.
+				&& ! in_array( $field_data['default_value'], array( 'query_parameter', 'embed_url', 'refer_url' ), true ) ) {
+			$form_data[ $field_data['name'] ] = Hustle_Module_Renderer::get_hidden_value( $field_data );
+		}
+
+		return $form_data;
+	}
+
+	/**
 	 * Do recaptcha backend validation.
 	 *
 	 * @since 4.0
@@ -538,9 +559,9 @@ class Hustle_Module_Front_Ajax {
 					);
 				}
 
-				$remote_ip = filter_input( INPUT_SERVER, 'HTTP_X_FORWARDED_FOR' );
+				$remote_ip = filter_input( INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_SANITIZE_SPECIAL_CHARS );
 				if ( ! $remote_ip ) {
-					$remote_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
+					$remote_ip = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_SANITIZE_SPECIAL_CHARS );
 				}
 				$response = wp_remote_get(
 					add_query_arg(
@@ -867,11 +888,9 @@ class Hustle_Module_Front_Ajax {
 		parse_str( $_POST['data'], $submitted_data ); // phpcs:ignore
 		$sanitized_data = Opt_In_Utils::validate_and_sanitize_fields( $submitted_data );
 		$messages       = Hustle_Settings_Admin::get_unsubscribe_messages();
+		$email          = isset( $sanitized_data['email'] ) ? filter_var( $sanitized_data['email'], FILTER_VALIDATE_EMAIL ) : '';
 		// Check if we got the email address and if it's valid.
-		if ( isset( $sanitized_data['email'] ) && filter_var( $sanitized_data['email'], FILTER_VALIDATE_EMAIL ) ) {
-
-			$email = $sanitized_data['email'];
-
+		if ( $email ) {
 			$modules_id = self::get_module_ids( $email, $sanitized_data, $messages );
 
 			// Handle 'choose_list' form step.
@@ -912,7 +931,7 @@ class Hustle_Module_Front_Ajax {
 					'ajax_step'   => true,
 					'modules_id'  => $modules_id,
 					'module'      => $module,
-					'email'       => $sanitized_data['email'],
+					'email'       => $email,
 					'current_url' => $sanitized_data['current_url'],
 					'messages'    => $messages,
 				);
@@ -978,7 +997,7 @@ class Hustle_Module_Front_Ajax {
 	public function get_networks_native_shares() {
 
 		// TODO: check the networks are the ones that have APIs, and sanitize.
-		$networks = filter_input( INPUT_POST, 'networks', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$networks = filter_input( INPUT_POST, 'networks', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 		$post_id = filter_input( INPUT_POST, 'postId', FILTER_VALIDATE_INT );
 
@@ -1049,7 +1068,7 @@ class Hustle_Module_Front_Ajax {
 	 */
 	public function module_viewed() {
 		$data = json_decode( file_get_contents( 'php://input' ) );
-		$data = get_object_vars( $data );
+		$data = $data ? get_object_vars( $data ) : array();
 
 		if ( ! is_array( $data ) || empty( $data ) ) {
 			return;
@@ -1094,13 +1113,12 @@ class Hustle_Module_Front_Ajax {
 	 */
 	public function update_sshare_click_counter() {
 
-		$data = $_POST;// phpcs:ignore WordPress.Security.NonceVerification.Missing
-
-		$module = Hustle_Module_Collection::instance()->return_model_from_id( $data['moduleId'] );
+		$module_id = filter_input( INPUT_POST, 'moduleId', FILTER_VALIDATE_INT );
+		$module    = Hustle_Module_Collection::instance()->return_model_from_id( $module_id );
 
 		if ( ! is_wp_error( $module ) ) {
 
-			$network = $data['network'];
+			$network = filter_input( INPUT_POST, 'network', FILTER_SANITIZE_SPECIAL_CHARS );
 
 			$content = $module->get_content()->to_array();
 

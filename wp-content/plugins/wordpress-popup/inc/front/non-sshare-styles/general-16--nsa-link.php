@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $container = ( $is_optin ) ? '.hustle-layout .hustle-layout-footer' : '.hustle-nsa-link';
 $component = ( $is_optin ) ? '.hustle-layout .hustle-nsa-link' : '.hustle-nsa-link';
 

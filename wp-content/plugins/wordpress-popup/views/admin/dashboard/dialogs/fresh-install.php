@@ -6,12 +6,6 @@
  * @since 4.0.0
  */
 
-$slide_one_1x = self::$plugin_url . 'assets/images/onboard-welcome.png';
-$slide_one_2x = self::$plugin_url . 'assets/images/onboard-welcome@2x.png';
-
-$slide_two_1x = self::$plugin_url . 'assets/images/onboard-welcome.png';
-$slide_two_2x = self::$plugin_url . 'assets/images/onboard-welcome@2x.png';
-
 $user     = wp_get_current_user();
 $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->user_login;
 ?>
@@ -24,7 +18,7 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 		class="sui-modal-content"
 		aria-modal="true"
 		aria-live="polite"
-		aria-label="<?php esc_html_e( 'Welcome to Hustle.', 'hustle' ); ?>"
+		aria-label="<?php /* translators: Plugin name */ echo esc_attr( sprintf( __( 'Welcome to %s.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>"
 		data-nonce="<?php echo esc_attr( wp_create_nonce( 'hustle_dismiss_notification' ) ); ?>"
 	>
 
@@ -42,10 +36,21 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 
 						<?php
 						if ( ! $this->is_branding_hidden ) :
-							echo $this->render_image_markup( $slide_one_1x, $slide_one_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$image_attrs = array(
+								'path'        => self::$plugin_url . 'assets/images/onboard-welcome.png',
+								'retina_path' => self::$plugin_url . 'assets/images/onboard-welcome@2x.png',
+							);
 						else :
-							echo $this->render_image_markup( $this->branding_image, '', 'sui-image sui-image-center', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$image_attrs = array(
+								'path'   => $this->branding_image,
+								'width'  => 172,
+								'height' => 192,
+							);
 						endif;
+						$image_attrs['class'] = 'sui-image sui-image-center';
+
+						// Image markup.
+						$this->render( 'admin/image-markup', $image_attrs );
 						?>
 					</figure>
 
@@ -57,7 +62,7 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 					<?php /* translators: current user's name */ ?>
 					<h3 class="sui-box-title sui-lg"><?php printf( esc_html__( 'Hey, %s', 'hustle' ), esc_html( $username ) ); ?></h3>
 
-					<p class="sui-description"><?php esc_html_e( "Welcome to Hustle, the only plugin you'll ever need to turn your visitors into loyal subscribers, leads and customers.", 'hustle' ); ?></p>
+					<p class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( "Welcome to %s, the only plugin you'll ever need to turn your visitors into loyal subscribers, leads and customers.", 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></p>
 
 				</div>
 
@@ -92,11 +97,8 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 
 					<figure class="sui-box-banner" role="banner" aria-hidden="true">
 						<?php
-						if ( ! $this->is_branding_hidden ) :
-							echo $this->render_image_markup( $slide_two_1x, $slide_two_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						else :
-							echo $this->render_image_markup( $this->branding_image, '', 'sui-image sui-image-center', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-						endif;
+						// Image markup.
+						$this->render( 'admin/image-markup', $image_attrs );
 						?>
 					</figure>
 

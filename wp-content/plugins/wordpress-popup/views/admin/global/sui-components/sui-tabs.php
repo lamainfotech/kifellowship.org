@@ -24,7 +24,7 @@ $collapse_link = '<a class="hustle-expand-color-palettes" data-next-text="' . es
 
 <?php
 if ( 'module_type' === $name ) {
-	echo $collapse_link; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo wp_kses_post( $collapse_link );
 }
 ?>
 
@@ -160,7 +160,7 @@ if ( 'module_type' === $name ) {
 					>
 						<?php
 						if ( 'customize_colors' === $name && 'custom' === $key ) {
-							echo $collapse_link; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo wp_kses_post( $collapse_link );
 						}
 						?>
 						<?php echo $option['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

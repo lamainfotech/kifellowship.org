@@ -37,6 +37,20 @@ abstract class Hustle_Renderer_Abstract {
 	public static $is_preview = false;
 
 	/**
+	 * Is admin area?
+	 *
+	 * @var bool
+	 */
+	public $is_admin;
+
+	/**
+	 * Module object
+	 *
+	 * @var object
+	 */
+	public $module;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -68,6 +82,8 @@ abstract class Hustle_Renderer_Abstract {
 	 * @param string       $sub_type The sub_type for embedded and social sharing modules: widget, shortcode, etc.
 	 * @param string       $custom_classes Custom classes.
 	 * @param bool         $is_preview Is preview.
+	 *
+	 * @return string HTML code.
 	 */
 	public function display( Hustle_Model $module, $sub_type = null, $custom_classes = '', $is_preview = false ) {
 
@@ -91,13 +107,17 @@ abstract class Hustle_Renderer_Abstract {
 			$display_module = $this->module->active && $this->module->get_visibility()->is_allowed_to_display( $module->module_type, $sub_type );
 		}
 		if ( $is_preview || $display_module ) {
+			if ( did_action( 'wp_head' ) ) {
+				add_action( 'wp_footer', array( $this, 'print_styles' ), 9999 );
+			} else {
+				add_action( 'wp_head', array( $this, 'print_styles' ) );
+			}
 
 			// Render form.
-			echo $this->get_module( $sub_type, $custom_classes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-
-			add_action( 'wp_footer', array( $this, 'print_styles' ), 9999 );
+			return $this->get_module( $sub_type, $custom_classes );
 		}
 
+		return '';
 	}
 
 	/**
@@ -128,9 +148,9 @@ abstract class Hustle_Renderer_Abstract {
 
 		$html .= $this->get_wrapper_main( $sub_type, $custom_classes );
 
-			$html .= $this->get_overlay_mask();
+			$html .= wp_kses_post( $this->get_overlay_mask() );
 
-				$html .= $this->get_wrapper_content( $sub_type );
+				$html .= wp_kses_post( $this->get_wrapper_content( $sub_type ) );
 
 				$html .= $this->get_module_body( $sub_type );
 
@@ -170,14 +190,14 @@ abstract class Hustle_Renderer_Abstract {
 
 		if ( ! $disable_styles ) {
 			$render_id = self::$render_ids[ $this->module->module_id ];
-			$style     = $this->module->get_decorated()->get_module_styles( $this->module->module_type );
+			$style     = $this->module->get_decorated()->get_module_styles( $this->module->module_type ); // it's already escaped.
 
 			printf(
-				'<style type="text/css" id="hustle-module-%1$s-%2$s-styles" class="hustle-module-styles hustle-module-styles-%3$s">%4$s</style>',
+				'<style id="hustle-module-%1$s-%2$s-styles" class="hustle-module-styles hustle-module-styles-%3$s">%4$s</style>',
 				esc_attr( $this->module->module_id ),
 				esc_attr( $render_id ),
 				esc_attr( $this->module->module_id ),
-				wp_strip_all_tags( $style ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				$style // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
 
@@ -221,7 +241,7 @@ abstract class Hustle_Renderer_Abstract {
 		}
 
 		if ( empty( $module ) || is_wp_error( $module ) ) {
-			wp_send_json_error( __( 'Invalid module.' ), 'hustle' );
+			wp_send_json_error( esc_html__( 'Invalid module.' ), 'hustle' );
 		}
 
 		$view = $module->get_renderer();

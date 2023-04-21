@@ -12,7 +12,6 @@ $last_conversion_text = __( 'Last conversion', 'hustle' );
 $global_tracking  = Hustle_Settings_Admin::global_tracking();
 $module_tag_class = $module->active ? ' sui-tag-blue' : '';
 $tooltip_message  = '';
-$schedule_icon    = '';
 $is_scheduled     = false;
 
 // Let's handle the icons and messages for the Schedule settings.
@@ -26,8 +25,6 @@ if ( Hustle_Module_Model::SOCIAL_SHARING_MODULE !== $module->module_type ) {
 
 	// If a schedule isn't set for the module, no need to add schedule icons.
 	if ( $is_scheduled ) {
-
-		$schedule_icon = '<span class="sui-icon-clock sui-sm" aria-hidden="true"></span>';
 
 		/* translators: module type capitalized and in singular */
 		$tooltip_message = sprintf( __( "%s schedule has not started, so your visitors can't see it yet.", 'hustle' ), $capitalize_singular );
@@ -112,7 +109,9 @@ if ( Hustle_Module_Model::SOCIAL_SHARING_MODULE !== $module->module_type ) {
 
 				<span class="hustle-toggle-status-button-description<?php echo $module->active ? '' : ' sui-hidden'; ?>">
 					<?php esc_html_e( 'Published', 'hustle' ); ?>
-					<?php echo $schedule_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php if ( $is_scheduled ) { ?>
+						<span class="sui-icon-clock sui-sm" aria-hidden="true"></span>
+					<?php } ?>
 				</span>
 
 			</span>

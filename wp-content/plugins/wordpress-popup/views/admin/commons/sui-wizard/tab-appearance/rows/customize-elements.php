@@ -42,7 +42,7 @@ $customize_elements = array(
 		'row_name'    => 'optin_form',
 	),
 	array(
-		'show'        => true,
+		'show'        => 'embedded' !== $module_type,
 		'label'       => esc_html__( 'Close icon', 'hustle' ),
 		'file'        => 'close-icon',
 		'prop_prefix' => 'close_icon',

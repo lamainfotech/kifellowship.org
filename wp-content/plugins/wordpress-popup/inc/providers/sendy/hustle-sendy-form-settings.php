@@ -50,7 +50,8 @@ if ( ! class_exists( 'Hustle_Sendy_Form_Settings' ) ) :
 		 */
 		public function first_step_callback( $submitted_data ) {
 
-			$message   = sprintf( esc_html__( "Sendy is activated for this module.%1\$sRemember:%2\$s if you add new fields or change the default fields' names from the Hustle form, you must add them in your Sendy dashboard as well for them to be added.", 'hustle' ), '<br/><b>', '</b>' );
+			/* translators: 1. openning 'b' tag 2. closing 'b' tag 3. Plugin name */
+			$message   = sprintf( esc_html__( "Sendy is activated for this module.%1\$sRemember:%2\$s if you add new fields or change the default fields' names from the %3\$s form, you must add them in your Sendy dashboard as well for them to be added.", 'hustle' ), '<br/><b>', '</b>', esc_html( Opt_In_Utils::get_plugin_name() ) );
 			$step_html = Hustle_Provider_Utils::get_integration_modal_title_markup( __( 'Sendy', 'hustle' ), $message );
 
 			$buttons = array(

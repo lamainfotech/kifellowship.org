@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component       = '.hustle-select2 + .select2';
 $component_error = '.hustle-select2.hustle-field-error + .select2';
 

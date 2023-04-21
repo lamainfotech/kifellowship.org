@@ -79,7 +79,7 @@ if ( ! class_exists( 'Hustle_Infusion_Soft_Form_Settings' ) ) :
 			$is_submit                 = ! empty( $submitted_data['hustle_is_submit'] );
 
 			if ( $is_submit && empty( $submitted_data['list_id'] ) ) {
-				$error_message = __( 'The email list is required.', 'hustle' );
+				$error_message = esc_html__( 'The email list is required.', 'hustle' );
 			}
 
 			$options = $this->get_first_step_options( $current_data );

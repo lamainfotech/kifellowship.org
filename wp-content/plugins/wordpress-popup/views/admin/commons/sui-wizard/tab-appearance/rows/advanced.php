@@ -54,7 +54,7 @@ if ( $is_desktop_tab ) {
 $this->render(
 	'admin/global/sui-components/sui-settings-row',
 	array(
-		'label'        => esc_html__( 'Advanced', 'hustle' ),
+		'label'        => __( 'Advanced', 'hustle' ),
 		/* translators: module type in lowercase and singular */
 		'description'  => sprintf( esc_html__( 'Have granular control over the appearance of your %s with these advanced customization options.', 'hustle' ), esc_html( $smallcaps_singular ) ),
 		'content'      => $content,

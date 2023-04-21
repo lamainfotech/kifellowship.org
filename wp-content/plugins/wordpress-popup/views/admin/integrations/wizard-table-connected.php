@@ -10,7 +10,8 @@
 <?php
 if ( 0 === count( $providers ) ) :
 
-	$notice_message = esc_html__( "You need at least one active app to send your opt-in's submissions to. If you don't want to use any third-party app, you can always use the Local Hustle List to save the submissions.", 'hustle' );
+	/* translators: Plugin name */
+	$notice_message = esc_html( sprintf( __( "You need at least one active app to send your opt-in's submissions to. If you don't want to use any third-party app, you can always use the Local %s List to save the submissions.", 'hustle' ), Opt_In_Utils::get_plugin_name() ) );
 	$notice_options = array(
 		array(
 			'type'  => 'inline_notice',

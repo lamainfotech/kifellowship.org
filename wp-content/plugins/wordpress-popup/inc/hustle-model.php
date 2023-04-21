@@ -52,6 +52,27 @@ abstract class Hustle_Model {
 	const SUBSCRIPTION          = 'subscription';
 
 	/**
+	 * Intergation settings
+	 *
+	 * @var object
+	 */
+	public $integrations_settings;
+
+	/**
+	 * Emails fields and settings
+	 *
+	 * @var object
+	 */
+	public $emails;
+
+	/**
+	 * Display settings
+	 *
+	 * @var object
+	 */
+	public $display;
+
+	/**
 	 * Optin id
 	 *
 	 * @since 1.0.0
@@ -59,6 +80,76 @@ abstract class Hustle_Model {
 	 * @var $id int
 	 */
 	public $id;
+
+	/**
+	 * Optin id
+	 *
+	 * @var int
+	 */
+	public $module_id;
+
+	/**
+	 * Blog id
+	 *
+	 * @var int
+	 */
+	public $blog_id;
+
+	/**
+	 * Module name
+	 *
+	 * @var string
+	 */
+	public $module_name;
+
+	/**
+	 * Module type
+	 *
+	 * @var string
+	 */
+	public $module_type;
+
+	/**
+	 * Module mode
+	 *
+	 * @var string
+	 */
+	public $module_mode;
+
+	/**
+	 * Content settings
+	 *
+	 * @var array
+	 */
+	public $content;
+
+	/**
+	 * Design settings
+	 *
+	 * @var array
+	 */
+	public $design;
+
+	/**
+	 * Visibility settings
+	 *
+	 * @var array
+	 */
+	public $visibility;
+
+	/**
+	 * Settings options
+	 *
+	 * @var array
+	 */
+	public $settings;
+
+	/**
+	 * Is module active?
+	 *
+	 * @var bool
+	 */
+	public $active;
 
 	/**
 	 * Track types
@@ -101,6 +192,13 @@ abstract class Hustle_Model {
 	public static $use_count_cookie;
 
 	/**
+	 * Expiration time for count cookie
+	 *
+	 * @var int
+	 */
+	public static $count_cookie_expiration = 30;
+
+	/**
 	 * Opt_In_Data constructor.
 	 *
 	 * @param int $id Module ID.
@@ -141,6 +239,7 @@ abstract class Hustle_Model {
 	 * @return Hustle_Model|WP_Error
 	 */
 	public static function get_module( $id ) {
+		$id          = (int) $id;
 		$module_type = self::get_module_type_by_module_id( $id );
 		if ( empty( $module_type ) ) {
 			$module = new WP_Error( '404', 'Module not found' );
@@ -534,6 +633,13 @@ abstract class Hustle_Model {
 			$data['avoidStaticCache'] = true;
 		}
 
+		if ( self::$use_count_cookie ) {
+			self::$use_count_cookie = null;
+			$data['useCountCookie'] = true;
+
+			$data['countCookieExpiration'] = self::$count_cookie_expiration;
+		}
+
 		return $data;
 	}
 
@@ -729,12 +835,10 @@ abstract class Hustle_Model {
 		$module_type = wp_cache_get( $module_id, $cache_group );
 		if ( false === $module_type ) {
 			global $wpdb;
-			$query = $wpdb->prepare(
-				'SELECT module_type FROM `' . Hustle_Db::modules_table() . '` WHERE `module_id`=%s', // phpcs:ignore
-				$module_id
-			);
 
-			$module_type = $wpdb->get_var( $query );// phpcs:ignore
+			$module_type = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$wpdb->prepare( 'SELECT module_type FROM `' . esc_sql( Hustle_Db::modules_table() ) . '` WHERE `module_id`=%d', $module_id )
+			);
 			wp_cache_set( $module_id, $module_type, $cache_group );
 		}
 
@@ -886,6 +990,9 @@ abstract class Hustle_Model {
 		if ( $settings_json ) {
 			$settings = json_decode( $settings_json, true );
 
+			if ( empty( $settings ) ) {
+				$settings = json_decode( stripslashes_deep( $settings_json ), true );
+			}
 			if ( ! empty( $settings ) ) {
 				return $settings;
 			}

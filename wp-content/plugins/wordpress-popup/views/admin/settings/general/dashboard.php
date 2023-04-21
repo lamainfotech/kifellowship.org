@@ -34,13 +34,13 @@ $types = array(
 
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label"><?php esc_html_e( 'Dashboard', 'hustle' ); ?></span>
-		<span class="sui-description"><?php esc_html_e( 'Customize the Hustle dashboard as per your liking.', 'hustle' ); ?></span>
+		<span class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Customize the %s dashboard as per your liking.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 	</div>
 
 	<div class="sui-box-settings-col-2">
 
 		<label id="" class="sui-settings-label"><?php esc_html_e( 'Modules Listing', 'hustle' ); ?></label>
-		<span id="" class="sui-description"><?php esc_html_e( 'Choose the number of modules and the preferred status you want to see on your Hustle dashboard for each module type.', 'hustle' ); ?></span>
+		<span id="" class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Choose the number of modules and the preferred status you want to see on your %s dashboard for each module type.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 
 		<div class="sui-tabs sui-tabs-overflow" style="margin-top: 10px;">
 

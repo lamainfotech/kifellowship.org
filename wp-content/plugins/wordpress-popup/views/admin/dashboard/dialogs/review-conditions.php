@@ -6,10 +6,6 @@
  * @since 4.0.0
  */
 
-$banner_1x    = esc_url( self::$plugin_url . 'assets/images/review-condition.png' );
-$banner_2x    = esc_url( self::$plugin_url . 'assets/images/review-condition@2x.png' );
-$banner_class = 'sui-image sui-image-center';
-
 $version     = Opt_In_Utils::is_free() ? '7.1' : '4.1';
 $support_url = Opt_In_Utils::is_free() ? 'https://wordpress.org/support/plugin/wordpress-popup/' : 'https://wpmudev.com/hub/support/#wpmud-chat-pre-survey-modal';
 ?>
@@ -35,13 +31,21 @@ $support_url = Opt_In_Utils::is_free() ? 'https://wordpress.org/support/plugin/w
 				</button>
 
 				<figure class="sui-box-banner" role="banner" aria-hidden="true">
-					<?php echo $this->render_image_markup( $banner_1x, $banner_2x, $banner_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php
+					$image_attrs = array(
+						'path'        => self::$plugin_url . 'assets/images/review-condition.png',
+						'retina_path' => self::$plugin_url . 'assets/images/review-condition@2x.png',
+						'class'       => 'sui-image sui-image-center',
+					);
+
+					$this->render( 'admin/image-markup', $image_attrs );
+					?>
 				</figure>
 
 				<h3 id="hustle-dialog--review_conditions-title" class="sui-box-title sui-lg"><?php esc_html_e( "We've fixed visibility conditions!", 'hustle' ); ?></h3>
 
-				<?php /* translators: current version */ ?>
-				<p id="hustle-dialog--review_conditions-description" class="sui-description"><?php printf( esc_html__( "Prior to Hustle 4.1, the visibility engine would require you to set rules for each and every post type your theme used, not just the ones you specified. We've updated this behaviour to only display modules based on the post types explicitly defined in your conditions.", 'hustle' ), esc_attr( $version ) ); ?></p>
+				<?php /* translators: Plugin name */ ?>
+				<p id="hustle-dialog--review_conditions-description" class="sui-description"><?php printf( esc_html__( "Prior to %s 4.1, the visibility engine would require you to set rules for each and every post type your theme used, not just the ones you specified. We've updated this behaviour to only display modules based on the post types explicitly defined in your conditions.", 'hustle' ), esc_html( Opt_In_Utils::get_plugin_name() ) ); ?></p>
 
 			</div>
 
@@ -88,8 +92,8 @@ $support_url = Opt_In_Utils::is_free() ? 'https://wordpress.org/support/plugin/w
 				<?php /* translators: 1. opening 'a' tag to support, 2. closing 'a' tag to support */ ?>
 				<p class="sui-description" style="margin: 0 0 5px;"><?php printf( esc_html__( '2. Unable to make the visibility conditions work correctly? %1$sContact Support%2$s.' ), '<a href="' . esc_url( $support_url ) . '" target="_blank">', '</a>' ); ?></p>
 
-				<?php /* translators: 1. opening 'strong' tag, 2. closing 'strong' tag, 3. v4.0.4 or v7.0.4 */ ?>
-				<p class="sui-description" style="margin: 0;"><?php printf( esc_html__( '3. Not yet ready for the new visibility behavior? Go to the Plugins page and use the "%1$sRollback to %3$s%2$s" link below Hustle to downgrade Hustle to %3$s', 'hustle' ), '<strong color="#666666">', '</strong>', Opt_In_Utils::is_free() ? 'v7.0.4' : 'v4.0.4' ); ?></p>
+				<?php /* translators: 1. opening 'strong' tag, 2. closing 'strong' tag, 3. v4.0.4 or v7.0.4 4. Plugin name */ ?>
+				<p class="sui-description" style="margin: 0;"><?php printf( esc_html__( '3. Not yet ready for the new visibility behavior? Go to the Plugins page and use the "%1$sRollback to %3$s%2$s" link below %4$s to downgrade %4$s to %3$s', 'hustle' ), '<strong color="#666666">', '</strong>', Opt_In_Utils::is_free() ? 'v7.0.4' : 'v4.0.4', esc_html( Opt_In_Utils::get_plugin_name() ) ); ?></p>
 
 			</div>
 

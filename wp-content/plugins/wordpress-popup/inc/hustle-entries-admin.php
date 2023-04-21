@@ -62,6 +62,13 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 	protected $page_number = 1;
 
 	/**
+	 * Get pagination limit
+	 *
+	 * @var int
+	 */
+	protected $per_page;
+
+	/**
 	 * Total Entries
 	 *
 	 * @since 4.0
@@ -122,7 +129,8 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 
 		$this->page = 'hustle_entries';
 
-		$this->page_title = __( 'Hustle Email Lists', 'hustle' );
+		/* translators: Plugin name */
+		$this->page_title = sprintf( __( '%s Email Lists', 'hustle' ), Opt_In_Utils::get_plugin_name() );
 
 		$this->page_menu_title = __( 'Email Lists', 'hustle' );
 
@@ -178,7 +186,7 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 
 		$is_filtered = false;
 		foreach ( $filter_types as $type ) {
-			$is_filtered = $is_filtered || filter_input( INPUT_GET, $type );
+			$is_filtered = $is_filtered || filter_input( INPUT_GET, $type, FILTER_SANITIZE_SPECIAL_CHARS );
 		}
 		if ( $module && $module->active ) {
 			$integrations  = $module->get_integrations_settings()->to_array();
@@ -335,37 +343,6 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 	}
 
 	/**
-	 * Return the html for the module switcher.
-	 *
-	 * @since 4.0
-	 *
-	 * @return string
-	 */
-	public function render_module_switcher() {
-
-		$modules = $this->get_modules();
-
-		// TODO: get the module types from the right place.
-		$module_types = $this->get_module_types();
-		$current_type = $this->get_current_module_type();
-		$empty_option = isset( $module_types[ $current_type ] ) ? $module_types[ $current_type ] : $module_types['popup'];
-
-		$html = '<select name="module_id" class="sui-select sui-select-sm sui-select-inline" data-width="250" data-search="true" data-placeholder="' . __( 'Choose', 'hustle' ) . ' ' . $empty_option . '">';
-
-		$html .= '<option></option>';
-
-		foreach ( $modules as $module ) {
-
-			$title = ! empty( $module->module_name ) ? $module->module_name : $module->module_id;
-			$html .= '<option value="' . $module->module_id . '" ' . selected( $module->module_id, $this->get_current_module_id(), false ) . '>' . $title . '</option>';
-		}
-
-		$html .= '</select>';
-
-		return $html;
-	}
-
-	/**
 	 * Return the modules of the current type.
 	 *
 	 * @since 4.0
@@ -514,13 +491,7 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 	 * @since 4.0
 	 */
 	private function process_request() {
-
-		// Start modifying data.
-		if ( ! isset( $_REQUEST['hustle_nonce'] ) ) {
-			return;
-		}
-
-		$nonce = $_REQUEST['hustle_nonce'];// phpcs:ignore
+		$nonce = filter_input( INPUT_POST, 'hustle_nonce', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( ! wp_verify_nonce( $nonce, 'hustle_entries_request' ) ) {
 			return;
 		}
@@ -529,14 +500,14 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 			return;
 		}
 
-		$action = filter_input( INPUT_POST, 'hustle_action' );
+		$action = filter_input( INPUT_POST, 'hustle_action', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( empty( $action ) ) {
-			$action = filter_input( INPUT_POST, 'hustle_action_bottom' );
+			$action = filter_input( INPUT_POST, 'hustle_action_bottom', FILTER_SANITIZE_SPECIAL_CHARS );
 		}
 
 		switch ( $action ) {
 			case 'delete':
-				$entry_id = filter_var( $_REQUEST['id'], FILTER_VALIDATE_INT );// phpcs:ignore
+				$entry_id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
 
 				if ( ! $entry_id ) {
 					return;
@@ -545,7 +516,7 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 				break;
 
 			case 'delete-all':
-				$entries = filter_input( INPUT_POST, 'ids' );
+				$entries = filter_input( INPUT_POST, 'ids', FILTER_SANITIZE_SPECIAL_CHARS );
 				if ( ! empty( $entries ) ) {
 					$entries = explode( ',', $entries );
 					Hustle_Entry_Model::delete_by_entries( $this->module_id, $entries );
@@ -1088,11 +1059,11 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 	 */
 	private function export() {
 
-		$action = filter_input( INPUT_POST, 'hustle_action' );
+		$action = filter_input( INPUT_POST, 'hustle_action', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( 'export_listing' !== $action ) {
 			return;
 		}
-		$nonce = filter_input( INPUT_POST, '_wpnonce' );
+		$nonce = filter_input( INPUT_POST, '_wpnonce', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( ! wp_verify_nonce( $nonce, 'hustle_module_export_listing' ) ) {
 			return;
 		}
@@ -1110,7 +1081,7 @@ class Hustle_Entries_Admin extends Hustle_Admin_Page_Abstract {
 		$filename = sprintf(
 			'hustle-%s-%s-%s-%s-emails.csv',
 			$module->module_type,
-			date( 'Ymd-his' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+			gmdate( 'Ymd-his' ),
 			get_bloginfo( 'name' ),
 			$module->module_name
 		);

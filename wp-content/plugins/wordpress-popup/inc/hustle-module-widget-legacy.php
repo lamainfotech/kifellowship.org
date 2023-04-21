@@ -24,7 +24,8 @@ class Hustle_Module_Widget_Legacy extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			self::WIDGET_ID,
-			__( 'Hustle Legacy', 'hustle' ),
+			/* translators: Plugin name */
+			sprintf( __( '%s Legacy', 'hustle' ), Opt_In_Utils::get_plugin_name() ),
 			array( 'description' => __( 'A legacy widget to add Opt-ins', 'hustle' ) )
 		);
 	}
@@ -54,59 +55,41 @@ class Hustle_Module_Widget_Legacy extends WP_Widget {
 	 *
 	 * @param array $args     Args.
 	 * @param array $instance Previously saved values from database.
-	 * @return string
 	 */
 	public function widget( $args, $instance ) {
-		if ( isset( $instance['optin_id'] ) && ! empty( $instance['optin_id'] ) ) {
+		if ( ! empty( $instance['optin_id'] ) ) {
 			$instance['module_id'] = $this->get_module_id( $instance['optin_id'] );
 		}
 		$show_select = false;
 
-		// phpcs:disable
 		if ( empty( $instance['module_id'] ) ) {
 			$show_select = true;
-		}
-		if ( ! $show_select ) {
+		} else {
 			$module = new Hustle_Module_Model( $instance['module_id'] );
 			if ( is_wp_error( $module ) ) {
 				$show_select = true;
 			}
 		}
-		if ( $show_select ) {
-			echo $args['before_widget'];
-			if ( ! empty( $instance['title'] ) ) {
-				echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
-			}
-			esc_attr_e( 'Select Module', 'hustle' );
-			echo $args['after_widget'];
-			return;
-		}
 
-		// if( !$module->settings->widget->show_in_front() ){
-			// echo $args['before_widget'];
-			// echo $args['after_widget'];
-			// return;
-		// }
-
-		echo $args['before_widget'];
+		echo wp_kses_post( $args['before_widget'] );
 
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
+			echo wp_kses_post( $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'] );
 		}
 
-		$widget_css_class = ( 'social_sharing' === $module->module_type )
-			? 'hustle_sshare_module_widget_wrap'
-			: 'hustle_module_widget_wrap';
+		if ( $show_select ) {
+			esc_attr_e( 'Select Module', 'hustle' );
+		} else {
+			$widget_css_class = ( 'social_sharing' === $module->module_type )
+				? 'hustle_sshare_module_widget_wrap'
+				: 'hustle_module_widget_wrap';
+			?>
+			<div class="<?php echo esc_attr( $widget_css_class ); ?> module_id_<?php echo esc_attr( $instance['module_id'] ); ?>" data-type="widget" data-id="<?php echo esc_attr( $instance['module_id'] ); ?>"></div>
+			<?php
+		}
 
-		?>
-
-		<div class="<?php echo esc_attr( $widget_css_class ); ?> module_id_<?php echo esc_attr( $instance['module_id'] ); ?>" data-type="widget" data-id="<?php echo esc_attr( $instance['module_id'] ); ?>"></div>
-		<?php
-
-		echo $args['after_widget'];
-		// phpcs:enable
+		echo wp_kses_post( $args['after_widget'] );
 	}
-
 
 	/**
 	 *
@@ -150,7 +133,6 @@ class Hustle_Module_Widget_Legacy extends WP_Widget {
 		</p>
 		<?php
 	}
-
 
 	/**
 	 * Sanitize widget form values as they are saved.

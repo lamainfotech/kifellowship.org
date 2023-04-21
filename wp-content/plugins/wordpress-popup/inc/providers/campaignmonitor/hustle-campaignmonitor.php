@@ -275,7 +275,7 @@ if ( ! class_exists( 'Hustle_Campaignmonitor' ) ) :
 							'type'  => 'label',
 							'for'   => 'client_id',
 							'value' => __( 'Client ID', 'hustle' ),
-							'note'  => esc_html__( 'Required for Agency accounts only', 'hustle' ),
+							'note'  => __( 'Required for Agency accounts only', 'hustle' ),
 						),
 						'client_id'      => array(
 							'type'        => 'text',

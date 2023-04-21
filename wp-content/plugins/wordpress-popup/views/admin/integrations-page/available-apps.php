@@ -17,7 +17,7 @@
 
 	<div class="sui-box-body">
 
-		<p><?php esc_html_e( "Hustle integrates with your favorite email and data collection apps. Here's a list of all the available apps that you can connect to.", 'hustle' ); ?></p>
+		<p><?php /* translators: Plugin name */ echo esc_html( sprintf( __( "%s integrates with your favorite email and data collection apps. Here's a list of all the available apps that you can connect to.", 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></p>
 
 		<div id="hustle-not-connected-providers-section">
 			<div class="hustle-integrations-display"></div>

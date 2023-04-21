@@ -14,8 +14,8 @@ $settings = $settings[ $name ];
 
 	<h4 class="sui-settings-label"><?php esc_html_e( 'Vanilla theme', 'hustle' ); ?></h4>
 
-	<?php /* translators: module type in lowercase and singular. */ ?>
-	<p class="sui-description" style="margin-bottom: 10px;"><?php printf( esc_html__( "Enable this option if you don't want to use the styling Hustle adds to your %s.", 'hustle' ), esc_html( $smallcaps_singular ) ); ?></p>
+	<?php /* translators: 1. Plugin name 2. Module type in lowercase and singular. */ ?>
+	<p class="sui-description" style="margin-bottom: 10px;"><?php echo esc_html( sprintf( __( "Enable this option if you don't want to use the styling %1\$s adds to your %2\$s.", 'hustle' ), Opt_In_Utils::get_plugin_name(), $smallcaps_singular ) ); ?></p>
 
 	<div class="sui-tabs sui-side-tabs">
 		<input

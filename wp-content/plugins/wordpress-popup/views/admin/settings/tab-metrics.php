@@ -15,7 +15,7 @@
 
 	<form id="hustle-top-metrics-settings-form" class="sui-box-body">
 
-		<p><?php esc_html_e( 'Choose the top metrics which are most relevant to your goals. These metrics will be visible on the Hustle’s main dashboard area.', 'hustle' ); ?></p>
+		<p><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Choose the top metrics which are most relevant to your goals. These metrics will be visible on the %s’s main dashboard area.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></p>
 
 		<?php if ( Hustle_Settings_Admin::global_tracking() ) { ?>
 

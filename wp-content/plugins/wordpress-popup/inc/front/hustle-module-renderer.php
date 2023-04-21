@@ -53,6 +53,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 		$module_subtype = $subtype ? $subtype : $module_type;
 
 		$id              = $this->module->module_id;
+		$module_id       = sprintf( 'hustle-%s-id-%d', $module_type, $id );
 		$module_id_class = sprintf(
 			'hustle_module_id_%d module_id_%d',
 			$id,
@@ -61,17 +62,16 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$module_palette = str_replace( '.', '_', $design->color_palette );
 
-		$module_data           = '';
 		$tracking_enabled_data = $this->module->is_tracking_enabled( $module_subtype ) ? 'enabled' : 'disabled';
 		$module_data           = sprintf(
 			'
-			data-id="%s"
+			data-id="%d"
 			data-render-id="%d"
 			data-tracking="%s"
 			',
 			$id,
 			self::$render_ids[ $id ],
-			$tracking_enabled_data
+			esc_attr( $tracking_enabled_data )
 		);
 
 		if ( Hustle_Module_Model::EMBEDDED_MODULE === $module_type ) {
@@ -84,7 +84,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				data-intro="%s"
 				data-sub-type="%s"
 				',
-				$animation_intro,
+				esc_attr( $animation_intro ),
 				esc_attr( $subtype )
 			);
 
@@ -112,10 +112,10 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				data-overlay-close="%s"
 				data-close-delay="%s"
 				',
-				$animation_intro,
-				$animation_outro,
-				$overlay_can_close,
-				$auto_close
+				esc_attr( $animation_intro ),
+				esc_attr( $animation_outro ),
+				esc_attr( $overlay_can_close ),
+				esc_attr( $auto_close )
 			);
 
 		} elseif ( Hustle_Module_Model::SLIDEIN_MODULE === $module_type ) {
@@ -129,8 +129,8 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				data-position="%s"
 				data-close-delay="%s"
 				',
-				$position,
-				$auto_close
+				esc_attr( $position ),
+				esc_attr( $auto_close )
 			);
 
 			if ( '1' === $design->customize_size ) {
@@ -159,14 +159,18 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$html = sprintf(
 			'<div
+				role="dialog"
+				aria-modal="true"
+				id="%s"
 				class="hustle-ui hustle-%s hustle-palette--%s %s %s %s"
 				%s
 				%s
 			>',
-			$module_type,
-			$module_palette,
-			$module_id_class,
-			$image_class,
+			esc_attr( $module_id ),
+			esc_attr( $module_type ),
+			esc_attr( $module_palette ),
+			esc_attr( $module_id_class ),
+			esc_attr( $image_class ),
 			esc_attr( $custom_classes ),
 			$module_data,
 			$inline_style
@@ -191,7 +195,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$html = sprintf(
 			'<div class="hustle-%s-content">',
-			$module_type
+			esc_attr( $module_type )
 		);
 
 		return $html;
@@ -265,7 +269,6 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 		$design      = $this->module->design;
 		$source      = esc_url( $this->module->content->feature_image );
 		$position    = '';
-		$overflow    = '';
 		$mobile_hide = '';
 
 		if ( 'custom' !== $design->feature_image_horizontal_position || 'custom' !== $design->feature_image_vertical_position ) {
@@ -289,8 +292,8 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 			// Not removing it in case users are using it for custom css.
 			$position .= sprintf(
 				' class="hustle-image-position--%s%s"',
-				$x_axis,
-				$y_axis
+				esc_attr( $x_axis ),
+				esc_attr( $y_axis )
 			);
 		}
 
@@ -300,21 +303,20 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$alt = $this->module->get_feature_image_alt();
 
-		$html     .= sprintf(
-			'<div class="hustle-image hustle-image-fit--%s%s"%s aria-hidden="true">',
-			$design->feature_image_fit,
-			$mobile_hide,
-			$overflow
+		$html .= sprintf(
+			'<div class="hustle-image hustle-image-fit--%s%s" aria-hidden="true">',
+			esc_attr( $design->feature_image_fit ),
+			esc_attr( $mobile_hide )
 		);
-			$html .= sprintf(
-				'<img src="%s" alt="%s"%s />',
-				$source,
-				esc_attr( $alt ),
-				$position
-			);
-			$html .= '</div>';
+		$html .= sprintf(
+			'<img src="%s" alt="%s"%s />',
+			esc_url( $source ),
+			esc_attr( $alt ),
+			$position
+		);
+		$html .= '</div>';
 
-			return $html;
+		return $html;
 	}
 
 	/**
@@ -369,17 +371,17 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 	 */
 	private function get_cta_button() {
 
-		$label  = $this->input_sanitize( $this->module->content->cta_label );
-		$target = $this->input_sanitize( $this->module->content->cta_target );
-		$link   = $this->input_sanitize( $this->module->content->cta_url );
+		$label  = $this->module->content->cta_label;
+		$target = $this->module->content->cta_target;
+		$link   = $this->module->content->cta_url;
 
 		$html  = '<div class="hustle-cta-container">';
 		$html .= $this->get_cta_markup( $label, $target, $link );
 
 		if ( '2' === $this->module->content->show_cta ) {
-			$label_two  = $this->input_sanitize( $this->module->content->cta_two_label );
-			$target_two = $this->input_sanitize( $this->module->content->cta_two_target );
-			$link_two   = $this->input_sanitize( $this->module->content->cta_two_url );
+			$label_two  = $this->module->content->cta_two_label;
+			$target_two = $this->module->content->cta_two_target;
+			$link_two   = $this->module->content->cta_two_url;
 			// CTA #2.
 			$html .= $this->get_cta_markup(
 				$label_two,
@@ -445,10 +447,13 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 		$extra_class = 'cta_2' === $cta_type ? 'hustle-last-button' : '';
 		$class       = 'hustle-cta-close hustle-button-close ' . $extra_class;
 		$data        = '';
+		$label       = $this->input_sanitize( $label );
 
 		if ( 'close' !== $target ) {
-			$data  = sprintf( 'href="%s" target="_%s"', esc_url( $url ), $target );
+			$data  = sprintf( 'href="%s" target="_%s"', esc_url( $url ), esc_attr( $target ) );
 			$class = $extra_class;
+		} else {
+			$data = 'href="#"';
 		}
 
 		/**
@@ -462,7 +467,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 		 */
 		$class     = apply_filters( 'hustle_cta_extra_classes', $class, $cta_type, $target );
 		$html      = '';
-		$html     .= sprintf( '<a class="hustle-button hustle-button-cta %1$s" %2$s %3$s>', $class, $data, 'data-cta-type="' . $cta_type . '"' );
+		$html     .= sprintf( '<a class="hustle-button hustle-button-cta %1$s" %2$s %3$s>', esc_attr( $class ), $data, 'data-cta-type="' . esc_attr( $cta_type ) . '"' );
 			$html .= stripcslashes( $label );
 		$html     .= '</a>';
 
@@ -493,7 +498,8 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 	 */
 	private function get_informational_body() {
 
-		$layout = $this->module->design->style;
+		$layout  = $this->module->design->style;
+		$content = $this->module->content;
 
 		$module_layout = 'default';
 
@@ -507,12 +513,14 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$html = sprintf(
 			'<div class="hustle-info hustle-info--%s">',
-			$module_layout
+			esc_attr( $module_layout )
 		);
 
 			$html .= '<div class="hustle-main-wrapper">';
 
-				$html .= '<div class="hustle-layout">';
+				$html .= '<div class="hustle-layout'
+						. ( ! empty( $content->show_cta ) && '1' === $content->show_cta && ! empty( $content->cta_whole )
+						? ' hustle-whole-module-cta' : '' ) . '">';
 
 					$html .= ( 'cabriolet' !== $layout ) ? $this->get_close_button() : '';
 
@@ -710,8 +718,6 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$content = $this->module->content;
 
-		$html .= '<div class="hustle-main-wrapper">';
-
 		$html .= $this->get_close_button();
 
 		// Header.
@@ -780,8 +786,6 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		}
 
-		$html .= '</div>';
-
 		return $html;
 	}
 
@@ -798,7 +802,8 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 	 */
 	public function get_optin_body() {
 
-		$layout = $this->module->design->form_layout;
+		$layout  = $this->module->design->form_layout;
+		$content = $this->module->content;
 
 		$module_layout = 'default';
 
@@ -825,7 +830,9 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 				$html .= $this->maybe_get_success_message();
 
-				$html .= '<div class="hustle-layout">';
+				$html .= '<div class="hustle-layout'
+						. ( ! empty( $content->show_cta ) && '1' === $content->show_cta && ! empty( $content->cta_whole )
+						? ' hustle-whole-module-cta' : '' ) . '">';
 
 					$html .= '<div class="hustle-main-wrapper">';
 
@@ -867,7 +874,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 			$html .= sprintf(
 				'<div class="hustle-success" data-close-delay="%s" style="display: none;">',
-				$auto_close
+				esc_attr( $auto_close )
 			);
 
 				$html .= '<span class="hustle-icon-check" aria-hidden="true"></span>';
@@ -877,7 +884,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				$html .= '<div class="hustle-success-content">';
 
 				if ( is_admin() ) {
-					$html .= do_shortcode( wp_kses_post( $success_message ) );
+					$html .= do_shortcode( $success_message );
 				}
 
 				$html .= '</div>';
@@ -936,7 +943,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 					$this->is_show_cta( $content )
 			) {
 
-			$html .= sprintf( '<div class="hustle-layout-content hustle-layout-position--%s">', $design->feature_image_position );
+			$html .= sprintf( '<div class="hustle-layout-content hustle-layout-position--%s">', esc_attr( $design->feature_image_position ) );
 
 			if ( '' !== $content->feature_image && ( 'left' === $design->feature_image_position || 'above' === $design->feature_image_position ) ) {
 				$html .= $this->get_feature_image();
@@ -1368,9 +1375,10 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 			'<div class="hustle-form-fields hustle-proximity-%s">',
 			( '0' === $this->module->design->customize_form_fields_proximity ? 'joined' : 'separated' )
 		);
+
+		$hidden_fields_markup = '';
 		if ( is_array( $fields ) ) {
 
-			$hidden_fields_markup = '';
 			foreach ( $fields as $name => $field ) {
 				if ( in_array( $field['type'], array( 'submit', 'gdpr', 'recaptcha' ), true ) ) {
 					continue;
@@ -1397,14 +1405,13 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 	 * @return string
 	 */
 	private function get_form_input( $field ) {
-		$type        = isset( $field['type'] ) ? $this->input_sanitize( $field['type'] ) : 'text';
-		$name        = isset( $field['name'] ) ? $this->input_sanitize( $field['name'] ) : 'first_name';
+		$type        = isset( $field['type'] ) ? $field['type'] : 'text';
+		$name        = isset( $field['name'] ) ? $field['name'] : 'first_name';
 		$label       = ( '' !== $field['placeholder'] ) ? $this->input_sanitize( $field['placeholder'] ) : $this->input_sanitize( $field['label'] );
 		$sr_label    = ( '' !== $field['label'] ) ? $this->input_sanitize( $field['label'] ) : '';
 		$required    = isset( $field['required'] ) && 'true' === $field['required'] ? true : false;
 		$to_validate = isset( $field['validate'] ) && 'true' === $field['validate'] ? true : false;
 
-		$module_type     = $this->module->module_type;
 		$module_id       = $this->module->module_id;
 		$icon            = $type;
 		$value           = '';
@@ -1412,13 +1419,13 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 		$class_icon      = '';
 		$class_input     = '';
 		$class_status    = $required ? ' hustle-field-required' : '';
-		$data_attributes = sprintf( 'data-validate="%s" ', $to_validate );
+		$data_attributes = sprintf( 'data-validate="%s" ', esc_attr( $to_validate ) );
 
 		if ( $required && ! empty( $field['required_error_message'] ) ) {
-			$data_attributes .= sprintf( 'data-required-error="%s" ', $this->input_sanitize( $field['required_error_message'] ) );
+			$data_attributes .= sprintf( 'data-required-error="%s" ', esc_attr( wp_kses_post( $field['required_error_message'] ) ) );
 		}
 		if ( $to_validate && ! empty( $field['validation_message'] ) ) {
-			$data_attributes .= sprintf( 'data-validation-error="%s" ', $this->input_sanitize( $field['validation_message'] ) );
+			$data_attributes .= sprintf( 'data-validation-error="%s" ', esc_attr( wp_kses_post( $field['validation_message'] ) ) );
 		}
 
 		switch ( $type ) {
@@ -1460,7 +1467,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 					$value          = $time_default;
 				}
 
-				$data_attributes .= 'data-time-format="' . $time_format . '" data-time-default="' . $time_default . '" data-time-interval="1" data-time-dropdown="true"';
+				$data_attributes .= 'data-time-format="' . esc_attr( $time_format ) . '" data-time-default="' . esc_attr( $time_default ) . '" data-time-interval="1" data-time-dropdown="true"';
 				break;
 
 			case 'datepicker':
@@ -1477,7 +1484,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				$min_year_range   = ! empty( $field['min_year_range'] ) ? $field['min_year_range'] : 'c-10';
 				$max_year_range   = ! empty( $field['max_year_range'] ) ? $field['max_year_range'] : 'c+10';
 				$year_range       = $min_year_range . ':' . $max_year_range;
-				$data_attributes .= 'data-min-date="null" data-rtl-support="false" data-change-year="' . $change_year . '" data-change-month="' . $change_month . '" data-year-range="' . $year_range . '" data-format="' . $date_format . '"';
+				$data_attributes .= 'data-min-date="null" data-rtl-support="false" data-change-year="' . esc_attr( $change_year ) . '" data-change-month="' . esc_attr( $change_month ) . '" data-year-range="' . esc_attr( $year_range ) . '" data-format="' . esc_attr( $date_format ) . '"';
 				break;
 
 			default:
@@ -1547,17 +1554,15 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 	}
 
 	/**
-	 * Get the markup for hidden fields.
+	 * Get hidden value.
 	 *
-	 * @since 4.0.4
-	 * @param array $field Current field data.
+	 * @param array $field_data Current field data.
 	 * @return string
 	 */
-	private function get_form_hidden_input( $field ) {
-		$embed_url = Opt_In_Utils::get_current_url();
-		$value     = '';
+	public static function get_hidden_value( $field_data ) {
+		$value = '';
 
-		switch ( $field['default_value'] ) {
+		switch ( $field_data['default_value'] ) {
 
 			case 'user_ip':
 				$value = Opt_In_Geo::get_user_ip();
@@ -1575,15 +1580,15 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				$value = Opt_In_Utils::get_post_data( 'post_title' );
 				break;
 			case 'embed_url':
-				$value = $embed_url;
+				$value = Opt_In_Utils::get_current_url();
 				break;
 			case 'user_agent':
-				$value = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
+				$value = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS );
 				break;
 			case 'refer_url':
-				$value = filter_input( INPUT_SERVER, 'HTTP_REFERER' );
+				$value = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_SPECIAL_CHARS );
 				if ( ! $value ) {
-					$value = $embed_url;
+					$value = Opt_In_Utils::get_current_url();
 				}
 				break;
 			case 'user_id':
@@ -1599,15 +1604,28 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				$value = Opt_In_Utils::get_user_data( 'user_login' );
 				break;
 			case 'custom_value':
-				$value = $field['custom_value'];
+				$value = $field_data['custom_value'];
 				break;
 			case 'query_parameter':
-				$value = $field['query_parameter'] ? (string) filter_input( INPUT_GET, $field['query_parameter'] ) : '';
+				$value = $field_data['query_parameter'] ? (string) filter_input( INPUT_GET, $field_data['query_parameter'], FILTER_SANITIZE_SPECIAL_CHARS ) : '';
 				break;
 
 			default:
 				break;
 		}
+
+		return $value;
+	}
+
+	/**
+	 * Get the markup for hidden fields.
+	 *
+	 * @since 4.0.4
+	 * @param array $field Current field data.
+	 * @return string
+	 */
+	private function get_form_hidden_input( $field ) {
+		$value = self::get_hidden_value( $field );
 
 		/**
 		 * Edit the value of the hidden field.
@@ -1639,8 +1657,8 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 		$html = '';
 
-		$label   = esc_html__( 'Submit', 'hustle' );
-		$loading = esc_html__( 'Form is being submitted, please wait a bit.', 'hustle' );
+		$label   = __( 'Submit', 'hustle' );
+		$loading = __( 'Form is being submitted, please wait a bit.', 'hustle' );
 
 		$classes = isset( $fields['submit']['css_classes'] ) ? $fields['submit']['css_classes'] : '';
 
@@ -1648,9 +1666,9 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 			$label = $fields['submit']['label'];
 		}
 
-		$html .= sprintf( '<button class="hustle-button hustle-button-submit %s" aria-live="polite" data-loading-text="%s">', $classes, $loading );
+		$html .= sprintf( '<button class="hustle-button hustle-button-submit %s" aria-live="polite" data-loading-text="%s">', esc_attr( $classes ), esc_attr( $loading ) );
 
-			$html .= sprintf( '<span class="hustle-button-text">%s</span>', $label );
+			$html .= sprintf( '<span class="hustle-button-text">%s</span>', esc_html( $label ) );
 
 			$html .= '<span class="hustle-icon-loader hustle-loading-icon" aria-hidden="true"></span>';
 
@@ -1734,18 +1752,18 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 			$html .= sprintf(
 				'<label for="hustle-gdpr-module-%d-%d" class="hustle-checkbox hustle-gdpr %s">',
-				$module_id,
-				$render_id,
-				$classes
+				esc_attr( $module_id ),
+				esc_attr( $render_id ),
+				esc_attr( $classes )
 			);
 
 			$data_attributes = ! empty( $fields['gdpr']['required_error_message'] ) ?
-				sprintf( 'data-required-error="%s" ', $this->input_sanitize( $fields['gdpr']['required_error_message'] ) ) : '';
+				sprintf( 'data-required-error="%s" ', esc_attr( wp_kses_post( $fields['gdpr']['required_error_message'] ) ) ) : '';
 
 			$html .= sprintf(
 				'<input type="checkbox" name="gdpr" id="hustle-gdpr-module-%d-%d" %s />',
-				$module_id,
-				$render_id,
+				esc_attr( $module_id ),
+				esc_attr( $render_id ),
 				$data_attributes
 			);
 
@@ -1844,8 +1862,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 		 * @since 4.0.0.1
 		 */
 		$allowed_html = apply_filters( 'hustle_module_main_content_allowed_html', $allowed_html, $this->module );
-
-		$content = wpautop( wp_kses( $content->main_content, $allowed_html ) );
+		$content      = wpautop( wp_kses( $content->main_content, $allowed_html ) );
 
 		/**
 		 * Allows editing the escaped main content before doing the shortcodes.
@@ -1957,7 +1974,6 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 			$recaptcha_version = empty( $recaptcha['version'] ) ? 'v2_checkbox' : $recaptcha['version'];
 			$site_key_key      = $recaptcha_version . '_site_key';
-			$secret_key_key    = $recaptcha_version . '_secret_key';
 
 			if ( 'v2_checkbox' === $recaptcha_version ) {
 				$size       = $recaptcha['recaptcha_type'];
@@ -1982,19 +1998,19 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				'data-size="%s" data-theme="%s" data-badge="%3$s"',
 				esc_attr( $size ),
 				esc_attr( $recaptcha_theme ),
-				$badge
+				esc_attr( $badge )
 			);
 
 			$recaptcha_settings = Hustle_Settings_Admin::get_recaptcha_settings();
 			$render_id          = self::$render_ids[ $this->module->module_id ];
 			$html              .= sprintf(
 				'<div id="hustle-modal-recaptcha-%1$d-%2$d" class="hustle-recaptcha %3$s" data-required-error="%4$s" data-sitekey="%5$s" data-version=%6$s %7$s></div>',
-				$this->module->id,
-				$render_id,
-				$this->input_sanitize( $recaptcha_classes ),
-				$this->input_sanitize( $fields['recaptcha']['validation_message'] ),
-				$this->input_sanitize( $recaptcha_settings[ $site_key_key ] ),
-				$recaptcha_version,
+				esc_attr( $this->module->id ),
+				esc_attr( $render_id ),
+				esc_attr( $recaptcha_classes ),
+				esc_attr( wp_kses_post( $fields['recaptcha']['validation_message'] ) ),
+				esc_attr( $recaptcha_settings[ $site_key_key ] ),
+				esc_attr( $recaptcha_version ),
 				$extra_data
 			);
 
@@ -2003,7 +2019,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 
 				$html .= sprintf(
 					'<div class="hustle-recaptcha-copy">%s</div>',
-					$recaptcha[ $recaptcha_version . '_badge_replacement' ]
+					$this->input_sanitize( $recaptcha[ $recaptcha_version . '_badge_replacement' ] )
 				);
 			}
 
@@ -2103,7 +2119,7 @@ class Hustle_Module_Renderer extends Hustle_Renderer_Abstract {
 				$source    = Hustle_Module_Front::add_recaptcha_script( $recaptcha['recaptcha_language'], true, true );
 
 				// phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedScript
-				$response['script'] = '<script src="' . $source . '" async defer></script>';
+				$response['script'] = '<script src="' . esc_url( $source ) . '" async defer></script>';
 			}
 		}
 

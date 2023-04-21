@@ -79,9 +79,20 @@ abstract class Hustle_Meta {
 	public function to_array() {
 		$defaults = $this->get_defaults_for_merge();
 		if ( $defaults ) {
-			return array_replace_recursive( $defaults, $this->data );
+			$data = array_replace_recursive( $defaults, $this->data );
+		} else {
+			$data = $this->data;
 		}
 
-		return $this->data;
+		if ( ! empty( $data['schedule'] ) ) {
+			array_walk_recursive(
+				$data['schedule'],
+				function ( &$val ) {
+					$val = esc_attr( $val );
+				}
+			);
+		}
+
+		return $data;
 	}
 }

@@ -46,6 +46,10 @@
 				$fields_headers = array_slice( $fields_mappers, 1, 3 );
 
 				$fields_left = count( $fields_mappers ) - count( $fields_headers );
+				if ( 0 > $fields_left ) {
+					$fields_left = 0;
+				}
+				$fields_left = count( $fields_mappers ) - count( $fields_headers );
 
 				foreach ( $fields_headers as $header ) :
 					?>
@@ -54,7 +58,7 @@
 
 				<?php endforeach; ?>
 
-				<th data-num-hidden-fields="<?php echo ( $fields_left >= 0 ? $fields_left : 0 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"></th>
+				<th data-num-hidden-fields="<?php echo esc_attr( $fields_left ); ?>"></th>
 
 			</tr>
 
@@ -66,7 +70,7 @@
 				<tr><td role="alert" class="hui-entries-alert" colspan="5">
 					<p>
 						<span class="sui-icon-loader sui-loading" aria-hidden="true"></span>
-						<span class="sui-screen-reader-text"><?php echo $add_local_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<span class="sui-screen-reader-text"><?php echo wp_kses_post( $add_local_list ); ?></span>
 					</p>
 				</td></tr>
 			<?php } ?>
@@ -182,7 +186,7 @@
 														<?php if ( empty( $sub_entries ) ) { ?>
 															<span class="sui-list-detail"
 																style="margin-top: 0;">
-																<?php echo ( $detail_item['value'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+																<?php echo wp_kses_post( $detail_item['value'] ); ?>
 															</span>
 															<?php
 														} else {
@@ -190,7 +194,7 @@
 																?>
 																<div class="sui-form-field">
 																	<span class="sui-settings-label"><?php echo esc_html( $sub_entry['label'] ); ?></span>
-																	<span class="sui-list-detail"><?php echo ( $sub_entry['value'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+																	<span class="sui-list-detail"><?php echo wp_kses_post( $sub_entry['value'] ); ?></span>
 																</div>
 																<?php
 															}
@@ -245,7 +249,7 @@
 																<td class="hui-column-name sui-accordion-item-title" style="padding-bottom: 5px;">
 
 																	<img
-																		src="<?php echo esc_attr( $addon['summary']['icon'] ); ?>"
+																		src="<?php echo esc_url( $addon['summary']['icon'] ); ?>"
 																		aria-hidden="true"
 																	/>
 
@@ -292,8 +296,8 @@
 																				<?php foreach ( $addon['detail'] as $item ) : ?>
 
 																					<li>
-																						<strong><?php echo $item['label']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></strong>
-																						<span><?php echo $item['value']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+																						<strong><?php echo wp_kses_post( $item['label'] ); ?></strong>
+																						<span><?php echo wp_kses_post( $item['value'] ); ?></span>
 																					</li>
 
 																				<?php endforeach; ?>

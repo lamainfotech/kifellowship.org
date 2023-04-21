@@ -45,7 +45,7 @@ class Hustle_GHBlock_Slidein_Trigger extends Hustle_GHBlock_Abstract {
 		$css_class = isset( $properties['css_class'] ) ? $properties['css_class'] : '';
 
 		if ( isset( $properties['id'] ) ) {
-			return '[wd_hustle id="' . $properties['id'] . '" type="slidein" css_class="' . $css_class . '"]' . $content . '[/wd_hustle]';
+			return '[wd_hustle id="' . esc_attr( $properties['id'] ) . '" type="slidein" css_class="' . esc_attr( $css_class ) . '"]' . $content . '[/wd_hustle]';
 		}
 	}
 

@@ -723,7 +723,7 @@ class Hustle_Entry_Model {
 						if ( strlen( $email ) > $truncate ) {
 							$email = substr( $email, 0, $truncate ) . '...';
 						}
-						$string_value = '<a href="mailto:' . $email . '" target="_blank" title="' . __( 'Send Email', 'hustle' ) . '">' . $email . '</a>';
+						$string_value = '<a href="' . esc_url( 'mailto:' . $email ) . '" target="_blank" title="' . esc_attr__( 'Send Email', 'hustle' ) . '">' . esc_html( $email ) . '</a>';
 					} else {
 						// truncate url.
 						if ( strlen( $string_value ) > $truncate ) {
@@ -746,7 +746,7 @@ class Hustle_Entry_Model {
 						if ( strlen( $website ) > $truncate ) {
 							$website = substr( $website, 0, $truncate ) . '...';
 						}
-						$string_value = '<a href="' . esc_url( $website ) . '" target="_blank" title="' . __( 'View Website', 'hustle' ) . '">' . $website . '</a>';
+						$string_value = '<a href="' . esc_url( $website ) . '" target="_blank" title="' . esc_attr__( 'View Website', 'hustle' ) . '">' . esc_html( $website ) . '</a>';
 					} else {
 						// truncate url.
 						if ( strlen( $string_value ) > $truncate ) {

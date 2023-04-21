@@ -55,7 +55,7 @@ class Opt_In_Condition_On_Browser extends Opt_In_Condition_Abstract {
 	private function get_current_user_agent() {
 		$browser = 'other';
 		if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
-			$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
+			$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS );
 		} else {
 			$user_agent = false;
 		}

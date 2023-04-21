@@ -41,9 +41,9 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 			data-tracking="%s"
 			data-sub-type="%s"
 			',
-			$module_id,
+			esc_attr( $module_id ),
 			self::$render_ids[ $module_id ],
-			$tracking_enabled_data,
+			esc_attr( $tracking_enabled_data ),
 			esc_attr( $subtype )
 		);
 
@@ -71,7 +71,7 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 					data-desktop-positionX="%s"
 					data-desktop-positionY="%s"
 					',
-					$offset,
+					esc_attr( $offset ),
 					esc_attr( $selector ),
 					esc_attr( $position_x ),
 					esc_attr( $position_y )
@@ -96,7 +96,7 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 					data-mobiles-positionX="%s"
 					data-mobiles-positionY="%s"
 					',
-					$offset,
+					esc_attr( $offset ),
 					esc_attr( $selector ),
 					esc_attr( $position_x ),
 					esc_attr( $position_y )
@@ -119,7 +119,7 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 
 				$module_data .= sprintf(
 					'data-alignment="%s"',
-					$display->inline_align
+					esc_attr( $display->inline_align )
 				);
 			}
 		}
@@ -132,7 +132,7 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 
 		$html = sprintf(
 			'<div class="hustle-ui hustle-%s hustle_module_id_%d %s" %s %s>',
-			$module_type,
+			esc_attr( $module_type ),
 			$this->module->module_id,
 			esc_attr( $custom_classes ),
 			$module_data,
@@ -278,137 +278,135 @@ class Hustle_Renderer_Sshare extends Hustle_Renderer_Abstract {
 
 		$html .= sprintf(
 			'<div class="hustle-social hustle-social--%s" data-custom="%s" data-grid-desktop="%s" data-grid-mobiles="%s">',
-			$icons_design,
-			$icons_custom_color,
-			$icons_grid_desktop,
-			$icons_grid_mobiles
+			esc_attr( $icons_design ),
+			esc_attr( $icons_custom_color ),
+			esc_attr( $icons_grid_desktop ),
+			esc_attr( $icons_grid_mobiles )
 		);
 
-			$html .= sprintf(
-				'<ul class="hustle-counter--%s%s"%s>',
-				$icons_counter,
-				( true === $icons_animated ? ' hustle-animated' : '' ),
-				( true === $icons_animated ? ' data-animation="' . $icons_animation . '"' : '' )
-			);
+		$html .= sprintf(
+			'<ul class="hustle-counter--%s%s"%s>',
+			esc_attr( $icons_counter ),
+			( true === $icons_animated ? ' hustle-animated' : '' ),
+			( true === $icons_animated ? ' data-animation="' . esc_attr( $icons_animation ) . '"' : '' )
+		);
 
-				$social_icons = $content->social_icons;
+		$social_icons = $content->social_icons;
 
-				/**
-				 * Filters the icons to be shown.
-				 * Here you can add custom icons to be printed. It only works for networks
-				 * using custom links (non-native ones), and without counters.
-				 * The icon and visual attributes must be handled via custom CSS.
-				 *
-				 * @since 4.1.2
-				 *
-				 * @param array $social_icons {
-				 *     Selected social networks for the module.
-				 *     Contains an array for each platform. The platform's slug is the key of its array.
-				 *     The array for each platform must contain:
-				 *
-				 *     @type string 'platform' The network's slug. Same as the array key. Lowercase, no spaces nor special chars.
-				 *     @type string 'label'    The network's display name.
-				 *     @type string 'type'     click|native Whether the counter would be retrieved from clicks or an API. Use 'click'.
-				 *     @type string 'link'     The URL to which the user will go when clicking the icon. Required if a sharing
-				 *                             endpoint isn't especified in the filter @see hustle_native_share_enpoints.
-				 *     @type int    'counter'  The default number for the counter. This will be static, it won't increase for now.
-				 * }
-				 */
-				$social_icons = apply_filters( 'hustle_social_sharing_get_selected_networks', $social_icons, $this->module );
+		/**
+		 * Filters the icons to be shown.
+		 * Here you can add custom icons to be printed. It only works for networks
+		 * using custom links (non-native ones), and without counters.
+		 * The icon and visual attributes must be handled via custom CSS.
+		 *
+		 * @since 4.1.2
+		 *
+		 * @param array $social_icons {
+		 *     Selected social networks for the module.
+		 *     Contains an array for each platform. The platform's slug is the key of its array.
+		 *     The array for each platform must contain:
+		 *
+		 *     @type string 'platform' The network's slug. Same as the array key. Lowercase, no spaces nor special chars.
+		 *     @type string 'label'    The network's display name.
+		 *     @type string 'type'     click|native Whether the counter would be retrieved from clicks or an API. Use 'click'.
+		 *     @type string 'link'     The URL to which the user will go when clicking the icon. Required if a sharing
+		 *                             endpoint isn't especified in the filter @see hustle_native_share_enpoints.
+		 *     @type int    'counter'  The default number for the counter. This will be static, it won't increase for now.
+		 * }
+		 */
+		$social_icons = apply_filters( 'hustle_social_sharing_get_selected_networks', $social_icons, $this->module );
 
-				// phpcs:disable Generic.WhiteSpace.ScopeIndent.IncorrectExact
-				// Extra indentation to mimic html tree.
-				if ( ! empty( $social_icons ) ) {
+		// Extra indentation to mimic html tree.
+		if ( ! empty( $social_icons ) ) {
 
-					foreach ( $social_icons as $icon => $data ) {
+			foreach ( $social_icons as $icon => $data ) {
 
-						$type  = isset( $data['type'] ) ? $data['type'] : '';
-						$label = isset( $data['label'] ) ? $data['label'] : '';
-						$link  = isset( $data['link'] ) ? $data['link'] : '';
+				$type  = isset( $data['type'] ) ? $data['type'] : '';
+				$label = isset( $data['label'] ) ? $data['label'] : '';
+				$link  = isset( $data['link'] ) ? $data['link'] : '';
 
-						if ( 'facebook' === $data['platform'] ) {
-							$type = 'click';
-						}
-
-						if ( '' === $link && 'email' !== $icon ) {
-
-							$href_value = 'href="#"';
-							$link_type  = 'native';
-
-						} else {
-							// Check if is email to insert mailto.
-							if ( 'email' === $icon ) {
-
-								$query_args = array(
-									'subject' => rawurlencode( Opt_In_Utils::replace_global_placeholders( $data['title'] ) ),
-									'body'    => rawurlencode( Opt_In_Utils::replace_global_placeholders( $data['message'] ) ),
-								);
-								$mail_url   = add_query_arg( $query_args, 'mailto:' );
-								$href_value = 'href="' . esc_url( $mail_url ) . '"';
-								$title      = apply_filters( 'hustle_social_share_platform_title', rawurlencode( html_entity_decode( esc_html( get_the_title() ) ) ) );
-
-							} else {
-								$link       = apply_filters( 'hustle_social_share_custom_link', $link, $data, $this->module );
-								$href_value = 'href="' . esc_url( $link ) . '" target="_blank" rel="noopener"';
-							}
-
-							$link_type = 'custom';
-
-						}
-
-						if ( 'fivehundredpx' === $icon ) {
-							$icon    = '500px';
-							$network = 'fivehundredpx';
-						} else {
-							$network = $icon;
-						}
-
-						$html .= '<li>';
-
-							$html .= sprintf(
-								'<a %1$s class="hustle-share-icon hustle-share--%2$s" data-network="%3$s" data-counter="%4$s" data-link="%5$s" data-count="%6$s">',
-								$href_value,
-								esc_attr( $icon ),
-								esc_attr( $network ),
-								'0' === $content->counter_enabled ? 'none' : esc_attr( $type ),
-								$link_type,
-								esc_attr( $data['counter'] )
-							);
-
-								$html .= sprintf(
-									'<i class="hustle-icon-social-%s" aria-hidden="true"></i>',
-									esc_attr( $icon )
-								);
-
-								if ( '1' === $content->counter_enabled ) {
-
-									if ( 'native' === $type && ! self::$is_preview ) {
-										$counter_content = '<i class="hustle-icon-loader hustle-loading-icon" aria-hidden="true"></i>';
-
-									} else {
-										$counter_content = ( '' !== $data['counter'] ) ? esc_attr( $data['counter'] ) : '0';
-									}
-
-									$html .= sprintf(
-										'<span class="hustle-counter" aria-hidden="true">%s</span>',
-										$counter_content
-									);
-								}
-
-								$html .= sprintf(
-									'<span class="hustle-screen-reader">Share on %s</span>',
-									esc_html( $label )
-								);
-
-							$html .= '</a>';
-
-						$html .= '</li>';
-
-					}
+				if ( 'facebook' === $data['platform'] ) {
+					$type = 'click';
 				}
 
-			// phpcs:enable Generic.WhiteSpace.ScopeIndent.IncorrectExact
-			$html .= '</ul>';
+				if ( '' === $link && 'email' !== $icon ) {
+
+					$href_value = 'href="#"';
+					$link_type  = 'native';
+
+				} else {
+					// Check if is email to insert mailto.
+					if ( 'email' === $icon ) {
+
+						$query_args = array(
+							'subject' => rawurlencode( Opt_In_Utils::replace_global_placeholders( $data['title'] ) ),
+							'body'    => rawurlencode( Opt_In_Utils::replace_global_placeholders( $data['message'] ) ),
+						);
+						$mail_url   = add_query_arg( $query_args, 'mailto:' );
+						$href_value = 'href="' . esc_url( $mail_url ) . '"';
+						$title      = apply_filters( 'hustle_social_share_platform_title', rawurlencode( html_entity_decode( esc_html( get_the_title() ) ) ) );
+
+					} else {
+						$link       = apply_filters( 'hustle_social_share_custom_link', $link, $data, $this->module );
+						$href_value = 'href="' . esc_url( $link ) . '" target="_blank" rel="noopener"';
+					}
+
+					$link_type = 'custom';
+
+				}
+
+				if ( 'fivehundredpx' === $icon ) {
+					$icon    = '500px';
+					$network = 'fivehundredpx';
+				} else {
+					$network = $icon;
+				}
+
+				$html .= '<li>';
+
+				$html .= sprintf(
+					'<a %1$s class="hustle-share-icon hustle-share--%2$s" data-network="%3$s" data-counter="%4$s" data-link="%5$s" data-count="%6$s">',
+					$href_value,
+					esc_attr( $icon ),
+					esc_attr( $network ),
+					'0' === $content->counter_enabled ? 'none' : esc_attr( $type ),
+					esc_attr( $link_type ),
+					esc_attr( $data['counter'] )
+				);
+
+				$html .= sprintf(
+					'<i class="hustle-icon-social-%s" aria-hidden="true"></i>',
+					esc_attr( $icon )
+				);
+
+				if ( '1' === $content->counter_enabled ) {
+
+					if ( 'native' === $type && ! self::$is_preview ) {
+						$counter_content = '<i class="hustle-icon-loader hustle-loading-icon" aria-hidden="true"></i>';
+
+					} else {
+						$counter_content = ( '' !== $data['counter'] ) ? esc_attr( $data['counter'] ) : '0';
+					}
+
+					$html .= sprintf(
+						'<span class="hustle-counter" aria-hidden="true">%s</span>',
+						$counter_content
+					);
+				}
+
+				$html .= sprintf(
+					'<span class="hustle-screen-reader">Share on %s</span>',
+					esc_html( $label )
+				);
+
+				$html .= '</a>';
+
+				$html .= '</li>';
+
+			}
+		}
+
+		$html .= '</ul>';
 
 		$html .= '</div>';
 

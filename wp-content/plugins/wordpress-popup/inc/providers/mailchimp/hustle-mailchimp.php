@@ -120,10 +120,10 @@ if ( ! class_exists( 'Hustle_Mailchimp' ) ) :
 		public function ajax_group_interests() {
 			Opt_In_Utils::validate_ajax_call( 'hustle_mailchimp_interests' );
 			$html      = '';
-			$post_data = filter_input( INPUT_POST, 'data' );
+			$post_data = filter_input( INPUT_POST, 'data', FILTER_SANITIZE_SPECIAL_CHARS );
 			$data      = array();
 			wp_parse_str( $post_data, $data );
-			$module_id = isset( $data['module_id'] ) ? $data['module_id'] : '';
+			$module_id = isset( $data['module_id'] ) ? (int) $data['module_id'] : '';
 			if ( $module_id ) {
 				$class_name             = $this->form_settings;
 				$form_settings_instance = new $class_name( $this, $module_id );

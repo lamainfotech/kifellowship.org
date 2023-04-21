@@ -110,14 +110,14 @@ class Opt_In_Condition_On_Url extends Opt_In_Condition_Abstract {
 	private function get_current_actual_url( $with_protocol = false ) {
 		if ( wp_doing_ajax() ) {
 			if ( $with_protocol ) {
-				$url = filter_input( INPUT_POST, 'full_actual_url' );
+				$url = filter_input( INPUT_POST, 'full_actual_url', FILTER_SANITIZE_URL );
 			} else {
-				$url = filter_input( INPUT_POST, 'actual_url' );
+				$url = filter_input( INPUT_POST, 'actual_url', FILTER_SANITIZE_URL );
 			}
 		} else {
 			$url = Opt_In_Utils::get_current_actual_url( $with_protocol );
 		}
 
-		return $url;
+		return wp_strip_all_tags( $url );
 	}
 }

@@ -8,6 +8,7 @@
  * @since 4.0.0
  */
 
+$modules = $this->admin->get_modules();
 ?>
 <div class="sui-box">
 
@@ -32,7 +33,17 @@
 				<?php } ?>
 			</select>
 
-			<?php echo $this->admin->render_module_switcher(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<select name="module_id" class="sui-select sui-select-sm sui-select-inline" data-width="250" data-search="true" data-placeholder="<?php esc_attr_e( 'Choose module', 'hustle' ); ?>">
+
+				<option></option>
+
+				<?php foreach ( $modules as $module ) { ?>
+					<option value="<?php echo esc_attr( $module->module_id ); ?>" <?php selected( $module->module_id, $this->admin->get_current_module_id() ); ?>>
+						<?php echo esc_html( ! empty( $module->module_name ) ? $module->module_name : $module->module_id ); ?>
+					</option>
+				<?php } ?>
+
+			</select>
 
 			<button class="sui-button sui-button-blue" onclick="submit()">
 				<?php esc_html_e( 'Show Email List', 'hustle' ); ?>

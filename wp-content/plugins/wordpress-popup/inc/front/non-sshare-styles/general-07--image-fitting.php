@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $container = '.hustle-layout .hustle-image';
 $component = $container . ' img';
 

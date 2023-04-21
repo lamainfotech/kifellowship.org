@@ -43,7 +43,7 @@ class Opt_In_Geo {
 		}
 
 		$result = (object) array(
-			'ip'       => filter_input( INPUT_SERVER, 'REMOTE_ADDR' ),
+			'ip'       => filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_SANITIZE_SPECIAL_CHARS ),
 			'proxy'    => false,
 			'proxy_ip' => '',
 		);
@@ -90,7 +90,7 @@ class Opt_In_Geo {
 			$user_ip = 'UNKNOWN';
 		}
 
-		return apply_filters( 'hustle_user_ip', $user_ip );
+		return apply_filters( 'hustle_user_ip', esc_attr( $user_ip ) );
 	}
 
 	/**

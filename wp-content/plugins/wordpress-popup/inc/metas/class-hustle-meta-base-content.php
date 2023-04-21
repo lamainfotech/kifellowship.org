@@ -21,7 +21,7 @@ class Hustle_Meta_Base_Content extends Hustle_Meta {
 	 * @return array
 	 */
 	public function get_defaults() {
-		return array(
+		$data = array(
 			'module_name'         => '',
 			'title'               => '',
 			'sub_title'           => '',
@@ -40,6 +40,13 @@ class Hustle_Meta_Base_Content extends Hustle_Meta {
 			'cta_helper_show'     => '0',
 			'cta_helper_text'     => '',
 		);
+
+		if ( ! empty( $this->module->module_type ) && 'embedded' === $this->module->module_type ) {
+			$data['cta_two_label']  = '';
+			$data['cta_two_target'] = 'blank';
+		}
+
+		return $data;
 	}
 
 	/**

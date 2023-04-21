@@ -15,12 +15,12 @@ $device = 'mobile';
 $notice = array(
 	'alert'   => false,
 	'type'    => 'info',
-	'message' => esc_html__( 'Layout, Color Palette, Font Family from Typography settings, Vanilla Theme, and Custom CSS options are inherited from the Desktop settings.', 'hustle' ),
+	'message' => __( 'Layout, Color Palette, Font Family from Typography settings, Vanilla Theme, and Custom CSS options are inherited from the Desktop settings.', 'hustle' ),
 );
 
 $vanilla_notice = array(
 	'alert'   => false,
-	'message' => esc_html__( 'There are no mobile settings available as you have enabled the "Vanilla theme" option under the desktop settings.', 'hustle' ),
+	'message' => __( 'There are no mobile settings available as you have enabled the "Vanilla theme" option under the desktop settings.', 'hustle' ),
 );
 ?>
 
@@ -41,6 +41,7 @@ $vanilla_notice = array(
 		array(
 			'settings'           => $settings,
 			'is_optin'           => $is_optin,
+			'module_type'        => $module_type,
 			'device'             => $device,
 			'smallcaps_singular' => $smallcaps_singular,
 			'show_cta'           => $show_cta,

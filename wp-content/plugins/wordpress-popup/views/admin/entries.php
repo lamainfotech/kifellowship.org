@@ -7,8 +7,19 @@
  */
 
 // Email Lists: Images.
-$empty_image  = self::$plugin_url . 'assets/images/hustle-empty-message';
-$choose_image = self::$plugin_url . 'assets/images/hustle-email-lists';
+if ( ! $this->is_branding_hidden ) :
+	$image_attrs = array(
+		'path'        => self::$plugin_url . 'assets/images/hustle-empty-message.png',
+		'retina_path' => self::$plugin_url . 'assets/images/hustle-empty-message@2x.png',
+	);
+else :
+	$image_attrs = array(
+		'path'   => $this->branding_image,
+		'width'  => 172,
+		'height' => 192,
+		'class'  => 'sui-image',
+	);
+endif;
 ?>
 
 <div class="sui-header">
@@ -43,11 +54,12 @@ if ( $is_module_selected ) :
 	);
 
 	$add_local_list = sprintf(
-		/* translators: 1: module name, 2: opening 'a' tag with the module's edit integrations url, 3: closing 'a' tag */
-		esc_html__( 'Hustle\'s Local List is inactive for this %1$s. %2$sActivate Local List%3$s integration for this module to store the submissions in your database and see those submissions here.', 'hustle' ),
+		/* translators: 1: module name, 2: opening 'a' tag with the module's edit integrations url, 3: closing 'a' tag 4. Plugin name */
+		esc_html__( '%4$s\'s Local List is inactive for this %1$s. %2$sActivate Local List%3$s integration for this module to store the submissions in your database and see those submissions here.', 'hustle' ),
 		esc_html( $module_name ),
 		'<a href="' . esc_url( $integrations_url ) . '" target="_blank">',
-		'</a>'
+		'</a>',
+		Opt_In_Utils::get_plugin_name()
 	);
 
 	// If there are entries, show them. Show a placeholder message otherwise.
@@ -76,18 +88,12 @@ if ( $is_module_selected ) :
 	<?php elseif ( $no_local_list ) : ?>
 
 		<div class="sui-box sui-message">
-			<?php
-			if ( $this->is_branding_hidden ) :
-				echo $this->render_image_markup( $this->branding_image, '', 'sui-image', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			else :
-				$this->hustle_image( $empty_image, 'png', '', true );
-			endif;
-			?>
+			<?php $this->render( 'admin/image-markup', $image_attrs ); ?>
 			<div class="sui-message-content">
 
 				<h2><?php esc_html_e( 'Local List is Inactive!', 'hustle' ); ?></h2>
 
-				<p><?php echo $add_local_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+				<p><?php echo wp_kses_post( $add_local_list ); ?></p>
 
 			</div>
 
@@ -96,13 +102,7 @@ if ( $is_module_selected ) :
 	<?php else : ?>
 
 		<div class="sui-box sui-message">
-			<?php
-			if ( $this->is_branding_hidden ) :
-				echo $this->render_image_markup( $this->branding_image, '', 'sui-image', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			else :
-				$this->hustle_image( $empty_image, 'png', '', true );
-			endif;
-			?>
+			<?php $this->render( 'admin/image-markup', $image_attrs ); ?>
 			<div class="sui-message-content">
 
 				<h2><?php esc_html_e( 'No Emails Collected!', 'hustle' ); ?></h2>
@@ -121,13 +121,7 @@ if ( $is_module_selected ) :
 	<?php if ( 0 === $global_entries ) { ?>
 
 		<div class="sui-box sui-message">
-			<?php
-			if ( $this->is_branding_hidden ) :
-				echo $this->render_image_markup( $this->branding_image, '', 'sui-image', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			else :
-				$this->hustle_image( $empty_image, 'png', '', true );
-			endif;
-			?>
+			<?php $this->render( 'admin/image-markup', $image_attrs ); ?>
 			<div class="sui-message-content">
 
 				<h2><?php esc_html_e( 'Email Lists', 'hustle' ); ?></h2>
@@ -142,11 +136,13 @@ if ( $is_module_selected ) :
 
 		<div class="sui-box sui-message">
 			<?php
-			if ( $this->is_branding_hidden ) :
-				echo $this->render_image_markup( $this->branding_image, '', 'sui-image', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			else :
-				$this->hustle_image( $choose_image, 'png', '', true );
-			endif;
+			$close_image_attrs = $image_attrs;
+			if ( ! $this->is_branding_hidden ) {
+				$close_image_attrs['path']        = self::$plugin_url . 'assets/images/hustle-email-lists.png';
+				$close_image_attrs['retina_path'] = self::$plugin_url . 'assets/images/hustle-email-lists@2x.png';
+			}
+
+			$this->render( 'admin/image-markup', $close_image_attrs );
 			?>
 			<div class="sui-message-content">
 

@@ -18,8 +18,8 @@
 
 		<div class="sui-summary-details">
 
-			<?php /* translators: active modules total number */ ?>
-			<p class="sui-screen-reader-text"><?php printf( esc_html__( 'Hustle has %s active modules', 'hustle' ), esc_attr( $active_modules ) ); ?></p>
+			<?php /* translators: 1. Plugin name 2. Active modules total number */ ?>
+			<p class="sui-screen-reader-text"><?php echo esc_html( sprintf( __( '%1$s has %2$s active modules', 'hustle' ), Opt_In_Utils::get_plugin_name(), esc_attr( $active_modules ) ) ); ?></p>
 
 			<span class="sui-summary-large" aria-hidden="true"><?php echo esc_html( $active_modules ); ?></span>
 			<span class="sui-summary-sub" aria-hidden="true"><?php esc_html_e( 'Active Modules', 'hustle' ); ?></span>
@@ -46,7 +46,7 @@
 
 					<li class="hustle-<?php echo esc_attr( $key ); ?>">
 						<span class="sui-list-label"><?php echo esc_html( $data['label'] ); ?></span>
-						<span class="sui-list-detail"><?php echo $data['value']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<span class="sui-list-detail"><?php echo wp_kses_post( $data['value'] ); ?></span>
 					</li>
 
 				<?php endforeach; ?>

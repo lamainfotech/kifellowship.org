@@ -21,7 +21,7 @@ ob_start();
 
 	<?php
 	wp_editor(
-		$settings['success_message'],
+		wp_kses_post( $settings['success_message'] ),
 		'success_message',
 		array(
 			'media_buttons'    => false,

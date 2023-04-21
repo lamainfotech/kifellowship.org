@@ -79,6 +79,10 @@ class Hustle_410_Migration {
 
 		// If migration was already done, skip.
 		if ( Hustle_Migration::is_migrated( self::MIGRATION_FLAG ) ) {
+			$prev_version = Hustle_Migration::get_previous_installed_version();
+			if ( $prev_version && version_compare( $prev_version, '4.1', '>=' ) ) {
+				Hustle_Notifications::add_dismissed_notification( '41_visibility_behavior_update' );
+			}
 			return false;
 		}
 

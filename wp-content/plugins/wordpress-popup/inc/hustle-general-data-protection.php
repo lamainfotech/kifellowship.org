@@ -67,7 +67,8 @@ class Hustle_General_Data_Protection {
 	 */
 	public function register_eraser( $erasers = array() ) {
 		$erasers['hustle-module-submissions'] = array(
-			'eraser_friendly_name' => __( 'Hustle Module Submissions', 'hustle' ),
+			/* translators: Plugin name */
+			'eraser_friendly_name' => esc_html( sprintf( __( '%s Module Submissions', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ),
 			'callback'             => array( 'Hustle_General_Data_Protection', 'do_submissions_eraser' ),
 		);
 		return $erasers;
@@ -84,7 +85,7 @@ class Hustle_General_Data_Protection {
 	 */
 	public function register_exporter( $exporter = array() ) {
 		$exporter['hustle-module-submissions'] = array(
-			'exporter_friendly_name' => __( 'Hustle Module Submissions', 'hustle' ),
+			'exporter_friendly_name' => /* translators: Plugin name */ esc_html( sprintf( __( '%s Module Submissions', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ),
 			'callback'               => array( 'Hustle_General_Data_Protection', 'do_submissions_exporter' ),
 		);
 		return $exporter;
@@ -136,8 +137,8 @@ class Hustle_General_Data_Protection {
 		);
 
 		if ( true === $erasure_disabled ) {
-
-			$response['messages'][] = __( 'Hustle submissions were retained.', 'hustle' );
+			/* translators: Plugin name */
+			$response['messages'][] = esc_html( sprintf( __( '%s Module Submissions were retained.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) );
 			return $response;
 		}
 
@@ -150,14 +151,15 @@ class Hustle_General_Data_Protection {
 			foreach ( $entry_ids as $entry_id ) {
 				$entry_model = new Hustle_Entry_Model( $entry_id );
 				Hustle_Entry_Model::delete_by_entry( $entry_model->module_id, $entry_id );
-				/* translators: entry id */
-				$response['messages'][] = sprintf( __( 'Hustle submission #%d was deleted.', 'hustle' ), $entry_id );
+				/* translators: 1. Plugin name 2. entry id */
+				$response['messages'][] = esc_html( sprintf( __( '%1$ submission #%2$d was deleted.', 'hustle' ), Opt_In_Utils::get_plugin_name(), $entry_id ) );
 
 			}
 			$response['items_removed']  = true;
 			$response['items_retained'] = false;
 		} else {
-			$response['messages'][] = __( ' Hustle submissions not found.', 'hustle' );
+			/* translators: Plugin name */
+			$response['messages'][] = esc_html( sprintf( __( ' %s submissions not found.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) );
 		}
 
 		// using action instead of filter here to stop data manipulation.
@@ -192,7 +194,7 @@ class Hustle_General_Data_Protection {
 
 				$data_to_export[] = array(
 					'group_id'    => 'hustle_module_submissions',
-					'group_label' => __( 'Hustle Module Submissions', 'hustle' ),
+					'group_label' => /* translators: Plugin name */ esc_html( sprintf( __( '%s Module Submissions', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ),
 					'item_id'     => 'entry-' . $entry_id,
 					'data'        => $data,
 				);

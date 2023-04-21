@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 // Check if module has recaptcha and its badge is hidden.
 if ( ! empty( $form_fields['recaptcha'] ) ) {
 

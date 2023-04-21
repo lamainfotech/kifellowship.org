@@ -42,8 +42,8 @@ class Hustle_GHBlock_Embeds extends Hustle_GHBlock_Abstract {
 	public function render_block( $properties = array() ) {
 		$css_class = isset( $properties['css_class'] ) ? $properties['css_class'] : '';
 
-		if ( isset( $properties['module_id'] ) ) {
-			return '[wd_hustle id="' . $properties['module_id'] . '" type="embedded" css_class="' . $css_class . '"/]';
+		if ( isset( $properties['id'] ) ) {
+			return '[wd_hustle id="' . esc_attr( $properties['id'] ) . '" type="embedded" css_class="' . esc_attr( $css_class ) . '"/]';
 		}
 	}
 
@@ -135,7 +135,8 @@ class Hustle_GHBlock_Embeds extends Hustle_GHBlock_Abstract {
 			'customize_module'       => esc_html__( 'Customize embed', 'hustle' ),
 			'rendering'              => esc_html__( 'Rendering...', 'hustle' ),
 			'block_name'             => esc_html__( 'Embeds', 'hustle' ),
-			'block_description'      => esc_html__( 'Display your Hustle Embed module in this block.', 'hustle' ),
+			/* translators: Plugin name */
+			'block_description'      => esc_html( sprintf( __( 'Display your %s Embed module in this block.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ),
 		);
 	}
 

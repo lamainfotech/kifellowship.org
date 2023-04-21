@@ -116,7 +116,7 @@ class Hustle_Wp_Dashboard_Page {
 		$data = array(
 			'days_labels'         => $days_array,
 			'tracking_actions'    => $tracking_actions,
-			'active_module_types' => $this->settings['modules'],
+			'active_module_types' => array_map( 'esc_html', (array) $this->settings['modules'] ),
 			'loading'             => esc_html__( 'Loading...', 'hustle' ),
 			'last_updated_ago'    => esc_html__( 'Last Updated - {time} ago', 'hustle' ),
 		);
@@ -203,7 +203,7 @@ class Hustle_Wp_Dashboard_Page {
 		Opt_In_Utils::validate_ajax_call( 'hustle_update_wp_dashboard_chart' );
 
 		$days_range    = filter_input( INPUT_POST, 'days', FILTER_VALIDATE_INT );
-		$tracking_type = filter_input( INPUT_POST, 'trackingType' );
+		$tracking_type = filter_input( INPUT_POST, 'trackingType', FILTER_SANITIZE_SPECIAL_CHARS );
 		$delete_cache  = filter_input( INPUT_POST, 'delete_cache', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
 		$module_types_to_display = $this->settings['modules'];

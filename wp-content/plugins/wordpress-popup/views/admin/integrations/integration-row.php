@@ -217,7 +217,12 @@ if ( true === $advertising ) {
 
 				<?php
 				if ( ! empty( $provider['icon_2x'] ) ) {
-					echo $this->render_image_markup( $provider['icon_2x'], '', 'sui-image', '', '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$image_attrs = array(
+						'path'  => $provider['icon_2x'],
+						'class' => 'sui-image',
+					);
+
+					$this->render( 'admin/image-markup', $image_attrs );
 				} else {
 					echo '<span class="hui-noicon" aria-hidden="true">' . esc_html__( 'Icon', 'hustle' ) . '</span>';
 				}

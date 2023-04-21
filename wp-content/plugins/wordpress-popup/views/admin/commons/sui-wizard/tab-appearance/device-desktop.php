@@ -39,6 +39,7 @@
 			array(
 				'settings'           => $settings,
 				'is_optin'           => $is_optin,
+				'module_type'        => $module_type,
 				'device'             => '',
 				'smallcaps_singular' => $smallcaps_singular,
 				'show_cta'           => $show_cta,

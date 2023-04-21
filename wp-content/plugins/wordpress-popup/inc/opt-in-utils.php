@@ -32,6 +32,14 @@ class Opt_In_Utils {
 	private static $static_cache;
 
 	/**
+	 * Plugin name according White Label option
+	 * White Label -> WPMU DEV Plugin Labels
+	 *
+	 * @var string
+	 */
+	private static $plugin_name;
+
+	/**
 	 * Returns the referrer.
 	 *
 	 * @return string
@@ -39,11 +47,11 @@ class Opt_In_Utils {
 	public static function get_referrer() {
 		$referrer = '';
 
-		$po_method = filter_input( INPUT_POST, '_po_method_' );
+		$po_method = filter_input( INPUT_POST, '_po_method_', FILTER_SANITIZE_SPECIAL_CHARS );
 		$is_ajax   = defined( 'DOING_AJAX' ) && DOING_AJAX
 			|| 'raw' === $po_method;
 
-		$http_referer = filter_input( INPUT_SERVER, 'HTTP_REFERER' );
+		$http_referer = filter_input( INPUT_SERVER, 'HTTP_REFERER', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( isset( $_REQUEST['thereferrer'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$referrer = $_REQUEST['thereferrer'];// phpcs:ignore
 		} elseif ( ! $is_ajax && $http_referer ) {
@@ -51,7 +59,7 @@ class Opt_In_Utils {
 			$referrer = $http_referer;
 		}
 
-		return $referrer;
+		return esc_attr( $referrer );
 	}
 
 	/**
@@ -126,8 +134,8 @@ class Opt_In_Utils {
 			return '';
 		}
 
-		$host = filter_var( wp_unslash( $_SERVER['HTTP_HOST'] ) );
-		$uri  = filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$host = filter_var( wp_unslash( $_SERVER['HTTP_HOST'] ), FILTER_SANITIZE_SPECIAL_CHARS );
+		$uri  = filter_var( wp_unslash( $_SERVER['REQUEST_URI'] ), FILTER_SANITIZE_SPECIAL_CHARS );
 
 		$url = $host . $uri;
 
@@ -135,7 +143,7 @@ class Opt_In_Utils {
 			return $url;
 		}
 
-		return 'http' . ( isset( $_SERVER['HTTPS'] ) ? 's' : '' ) . '://' . $url;
+		return esc_url( 'http' . ( isset( $_SERVER['HTTPS'] ) ? 's' : '' ) . '://' . $url );
 	}
 
 	/**
@@ -458,13 +466,19 @@ class Opt_In_Utils {
 	 *
 	 * @since 3.0.5
 	 * @param array|string $value Value.
-	 * @param string       $key Key.
 	 * @return string
 	 */
-	public static function sanitize_text_input_deep( $value, $key = null ) {
-		$value = is_array( $value ) ?
-					array_map( array( 'Opt_In_Utils', 'sanitize_text_input_deep' ), $value, array_keys( $value ) ) :
-					sanitize_text_field( $value );
+	public static function sanitize_text_input_deep( $value ) {
+		if ( is_array( $value ) ) {
+			array_walk_recursive(
+				$value,
+				function ( &$val ) {
+					$val = sanitize_text_field( $val );
+				}
+			);
+		} else {
+			$value = sanitize_text_field( $value );
+		}
 
 		return $value;
 	}
@@ -1247,7 +1261,6 @@ class Opt_In_Utils {
 	 * Get HTML for notice about using cookies
 	 */
 	public static function get_cookie_saving_notice() {
-		ob_start();
 		?>
 		<div class="sui-notice">
 			<div class="sui-notice-content">
@@ -1260,9 +1273,6 @@ class Opt_In_Utils {
 			</div>
 		</div>
 		<?php
-		$html = ob_get_clean();
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -1350,5 +1360,47 @@ class Opt_In_Utils {
 		} catch ( Exception $e ) {
 			return false;
 		}
+	}
+
+	/**
+	 * Get branded plugin name
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_name() {
+		if ( is_null( self::$plugin_name ) ) {
+			$branding_plugin_name = self::get_branding_plugin_name();
+			if ( $branding_plugin_name ) {
+				$plugin_name = $branding_plugin_name;
+			} elseif ( self::is_free() ) {
+				$plugin_name = __( 'Hustle', 'hustle' );
+			} else {
+				$plugin_name = __( 'Hustle Pro', 'hustle' );
+			}
+
+			self::$plugin_name = $plugin_name;
+		}
+
+		return self::$plugin_name;
+	}
+
+	/**
+	 * Get branding plugin name
+	 *
+	 * @return null|string
+	 */
+	private static function get_branding_plugin_name() {
+		if ( ! class_exists( 'WPMUDEV_Dashboard' )
+				|| empty( WPMUDEV_Dashboard::$whitelabel )
+				|| ! method_exists( WPMUDEV_Dashboard::$whitelabel, 'get_settings' ) ) {
+			return;
+		}
+		$settings = WPMUDEV_Dashboard::$whitelabel->get_settings();
+		if ( empty( $settings['enabled'] ) || true !== $settings['enabled']
+				|| empty( $settings['labels_config'][1107020]['name'] ) ) {
+			return;
+		}
+
+		return $settings['labels_config'][1107020]['name'];
 	}
 }

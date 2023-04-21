@@ -11,7 +11,7 @@
 
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label"><?php esc_html_e( 'From Headers', 'hustle' ); ?></span>
-		<span class="sui-description"><?php esc_html_e( 'Choose the default sender name and sender email address for all of your outgoing emails from Hustle.', 'hustle' ); ?></span>
+		<span class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Choose the default sender name and sender email address for all of your outgoing emails from %s.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 	</div>
 
 	<div class="sui-box-settings-col-2">

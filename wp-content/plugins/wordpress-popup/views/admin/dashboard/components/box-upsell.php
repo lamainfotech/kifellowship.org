@@ -9,7 +9,7 @@
  */
 
 $header_args = array(
-	'title'   => esc_html__( 'Hustle Pro', 'hustle' ),
+	'title'   => __( 'Hustle Pro', 'hustle' ),
 	'icon'    => 'hustle',
 	'pro_tag' => true,
 );

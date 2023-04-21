@@ -50,7 +50,7 @@ ob_start();
 
 				<span class="sui-settings-label"><?php esc_html_e( 'Applications', 'hustle' ); ?></span>
 
-				<span class="sui-description"><?php echo $connect_msg; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+				<span class="sui-description"><?php echo wp_kses_post( $connect_msg ); ?></span>
 
 			</div>
 

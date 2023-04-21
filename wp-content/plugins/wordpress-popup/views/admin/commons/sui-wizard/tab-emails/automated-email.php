@@ -262,7 +262,7 @@ $options = array(
 
 						<?php
 						wp_editor(
-							$settings['email_body'],
+							wp_kses_post( $settings['email_body'] ),
 							'email_body',
 							array(
 								'media_buttons'    => false,

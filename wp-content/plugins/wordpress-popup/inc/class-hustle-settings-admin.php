@@ -573,6 +573,13 @@ class Hustle_Settings_Admin {
 
 		$custom_palettes = get_option( 'hustle_custom_palettes', array() );
 
+		array_walk_recursive(
+			$custom_palettes,
+			function ( &$val ) {
+				$val = esc_attr( $val );
+			}
+		);
+
 		return apply_filters( 'hustle_get_custom_color_palettes', $custom_palettes );
 	}
 

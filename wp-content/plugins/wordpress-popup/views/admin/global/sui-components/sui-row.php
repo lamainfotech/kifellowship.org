@@ -4,8 +4,6 @@
  *
  * @package Hustle
  * @since 4.3.0
- *
- * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
 $breakpoint = isset( $breakpoint ) ? $breakpoint : 'md';
@@ -48,7 +46,7 @@ $breakpoint = isset( $breakpoint ) ? $breakpoint : 'md';
 
 		<div class="<?php echo esc_attr( $class ); ?>">
 
-			<?php echo $column['content']; ?>
+			<?php echo $column['content']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 		</div>
 

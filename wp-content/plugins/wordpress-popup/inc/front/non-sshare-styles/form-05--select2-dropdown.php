@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $container = '.hustle-module-' . $this->module->module_id . '.hustle-dropdown';
 $component = $container . ' .select2-results .select2-results__options .select2-results__option';
 

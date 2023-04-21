@@ -20,9 +20,10 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 
 		$this->page = 'hustle_integrations';
 
-		$this->page_title = __( 'Hustle Integrations', 'hustle' );
+		/* translators: Plugin name */
+		$this->page_title = sprintf( __( '%s Integrations', 'hustle' ), Opt_In_Utils::get_plugin_name() );
 
-		$this->page_menu_title = __( 'Integrations', 'hustle' );
+		$this->page_menu_title = esc_html__( 'Integrations', 'hustle' );
 
 		$this->page_capability = 'hustle_edit_integrations';
 
@@ -61,7 +62,7 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 
 		// Also defined wizards.
 		$current_array['providers_action_nonce'] = wp_create_nonce( 'hustle_provider_action' );
-		$current_array['fetching_list']          = __( 'Fetching integration list…', 'hustle' );
+		$current_array['fetching_list']          = esc_html__( 'Fetching integration list…', 'hustle' );
 
 		return $current_array;
 	}
@@ -77,7 +78,7 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 	private function grab_integration_external_redirect() {
 
 		$response  = array();
-		$action    = filter_input( INPUT_GET, 'action' );
+		$action    = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS );
 		$migration = filter_input( INPUT_GET, 'migration', FILTER_VALIDATE_BOOLEAN );
 
 		// handle migration elsewhere.
@@ -87,7 +88,7 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 
 			if ( $nonce && wp_verify_nonce( $nonce, 'hustle_provider_external_redirect' ) ) {
 
-				$slug = filter_input( INPUT_GET, 'slug' );
+				$slug = filter_input( INPUT_GET, 'slug', FILTER_SANITIZE_SPECIAL_CHARS );
 
 				$provider = Hustle_Provider_Utils::get_provider_by_slug( $slug );
 
@@ -103,7 +104,7 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 				$response = array(
 					'action'  => 'notification',
 					'status'  => 'error',
-					'message' => __( "You're not allowed to do this request.", 'hustle' ),
+					'message' => esc_html__( "You're not allowed to do this request.", 'hustle' ),
 				);
 			}
 		}
@@ -122,12 +123,12 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 	private function grab_integration_external_redirect_migration() {
 
 		$response  = array();
-		$action    = filter_input( INPUT_GET, 'action' );
+		$action    = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS );
 		$migration = filter_input( INPUT_GET, 'migration', FILTER_VALIDATE_BOOLEAN );
-		$provider  = filter_input( INPUT_GET, 'show_provider_migration' );
-		$multi_id  = filter_input( INPUT_GET, 'integration_id' );
+		$provider  = esc_html( filter_input( INPUT_GET, 'show_provider_migration', FILTER_SANITIZE_SPECIAL_CHARS ) );
+		$multi_id  = esc_html( filter_input( INPUT_GET, 'integration_id', FILTER_SANITIZE_SPECIAL_CHARS ) );
 
-		if ( isset( $provider ) && ! empty( $provider ) ) {
+		if ( ! empty( $provider ) ) {
 			$response['provider_modal'] = $provider;
 		}
 
@@ -141,7 +142,7 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 
 			if ( $nonce && wp_verify_nonce( $nonce, 'hustle_provider_external_redirect' ) ) {
 
-				$slug = filter_input( INPUT_GET, 'slug' );
+				$slug = esc_html( filter_input( INPUT_GET, 'slug', FILTER_SANITIZE_SPECIAL_CHARS ) );
 
 				$response['migration_notificaiton'] = array(
 					'action' => 'notification',
@@ -163,7 +164,7 @@ class Hustle_Providers_Admin extends Hustle_Admin_Page_Abstract {
 				$response = array(
 					'action'  => 'notification',
 					'status'  => 'error',
-					'message' => __( "You're not allowed to do this request.", 'hustle' ),
+					'message' => esc_html__( "You're not allowed to do this request.", 'hustle' ),
 				);
 			}
 		}

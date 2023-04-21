@@ -38,7 +38,7 @@ class Hustle_GHBlock_Unsubscribe extends Hustle_GHBlock_Abstract {
 
 		$skip = ! empty( $properties['skipConfirmation'] ) ? ' skip_confirmation="true"' : '';
 
-		return '[wd_hustle_unsubscribe id="' . $ids . '"' . $skip . ' /]';
+		return '[wd_hustle_unsubscribe id="' . esc_attr( $ids ) . '"' . $skip . ' /]';
 	}
 
 	/**
@@ -132,7 +132,8 @@ class Hustle_GHBlock_Unsubscribe extends Hustle_GHBlock_Abstract {
 			'customize_settings' => esc_html__( 'Customize Settings', 'hustle' ),
 			'rendering'          => esc_html__( 'Rendering...', 'hustle' ),
 			'block_name'         => esc_html__( 'Unsubscribe', 'hustle' ),
-			'block_description'  => esc_html__( 'Display Hustle Unsubscribe form.', 'hustle' ),
+			/* translators: Plugin name */
+			'block_description'  => esc_html( sprintf( __( 'Display %s Unsubscribe form.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ),
 			'skip_confirmation'  => esc_html__( 'Skip confirmation step', 'hustle' ),
 			'block_instruction'  => esc_html__( 'By default, the Unsubscribe form allows users to unsubscribe from all modules, but you can specify the modules you want to enable the unsubscribe option for.', 'hustle' ),
 		);

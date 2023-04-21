@@ -93,7 +93,7 @@
 		?>
 	</p>
 	<p class="privacy-policy-tutorial">
-		<?php esc_html_e( 'By default Hustle optionally use these third-party integrations:', 'hustle' ); ?>
+		<?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'By default %s optionally use these third-party integrations:', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>
 	</p>
 	<ul class="privacy-policy-tutorial">
 		<li><?php esc_html_e( 'ActiveCampaign. Enabled when you activate and setup ActiveCampaign on Email Collection settings.', 'hustle' ); ?></li>

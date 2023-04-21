@@ -59,5 +59,21 @@
 				data-attribute="<?php echo esc_attr( $url['key'] ); ?>" />
 			<span class="sui-error" style="display: none;"><?php esc_html_e( "That's not a valid URL. Please, try again.", 'hustle' ); ?></span>
 		</div>
+		<div class="sui-form-field <?php echo ! isset( $whole_cta ) ? 'sui-hidden' : ''; ?>">
+			<label for="hustle-whole-cta" class="sui-toggle">
+				<input type="checkbox"
+					name="cta_whole"
+					data-attribute="cta_whole"
+					id="hustle-whole-cta"
+					aria-labelledby="hustle-whole-cta-label"
+					aria-describedby="hustle-whole-cta-description"
+					<?php isset( $whole_cta ) && checked( $whole_cta, '1' ); ?>
+					/>
+				<span class="sui-toggle-slider" aria-hidden="true"></span>
+
+				<span id="hustle-whole-cta-label" class="sui-toggle-label"><?php esc_html_e( 'Make whole module a clickable CTA', 'hustle' ); ?></span>
+				<span id="hustle-whole-cta-description" class="sui-description"><?php esc_html_e( 'With this option enabled, your visitors can click anywhere in the module to trigger your call to action.', 'hustle' ); ?></span>
+			</label>
+		</div>
 	</div>
 </div>

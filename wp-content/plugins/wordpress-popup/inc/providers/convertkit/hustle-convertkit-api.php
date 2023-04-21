@@ -139,6 +139,9 @@ class Hustle_ConvertKit_Api {
 		if ( is_wp_error( $forms ) ) {
 			return $forms;
 		}
+		if ( ! isset( $forms->forms ) ) {
+			return new WP_Error( 'forms_not_found', __( 'Not found forms with this api key.', 'hustle' ) );
+		}
 		return $forms->forms;
 	}
 

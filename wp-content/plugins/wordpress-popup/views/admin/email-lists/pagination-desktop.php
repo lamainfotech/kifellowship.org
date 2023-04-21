@@ -181,10 +181,10 @@ if ( isset( $actions_class ) ) {
 	</div>
 
 	<?php
-	$get_order_by = filter_input( INPUT_GET, 'order_by' );
+	$get_order_by = filter_input( INPUT_GET, 'order_by', FILTER_SANITIZE_SPECIAL_CHARS );
 	$ordered      = ! is_null( $get_order_by ) && key_exists( $get_order_by, $order_by_array );
 
-	$order_direction = filter_input( INPUT_GET, 'order' );
+	$order_direction = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_SPECIAL_CHARS );
 	if ( 'DESC' === $order_direction ) {
 		$direction = __( 'Descending', 'forminator' );
 	} else {

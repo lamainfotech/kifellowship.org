@@ -228,11 +228,6 @@ class Hustle_Module_Model extends Hustle_Model {
 		$settings = array( 'settings' => $this->get_settings()->to_array() );
 		$data     = array_merge( $settings, $this->get_data() );
 
-		if ( self::$use_count_cookie ) {
-			self::$use_count_cookie = null;
-			$data['useCountCookie'] = true;
-		}
-
 		return $data;
 	}
 
@@ -278,6 +273,8 @@ class Hustle_Module_Model extends Hustle_Model {
 
 		// Save to modules table.
 		$this->save();
+
+		$data = $this->sanitize_module( $data );
 
 		// Save the new module's meta.
 		$this->store_new_module_meta( $data );
@@ -475,11 +472,7 @@ class Hustle_Module_Model extends Hustle_Model {
 
 		// Emails tab.
 		if ( isset( $data['emails'] ) ) {
-			$emails = $data['emails'];
-			if ( isset( $emails['form_elements'] ) ) {
-				$emails['form_elements'] = $this->sanitize_form_elements( $emails['form_elements'] );
-			}
-			$this->update_meta( self::KEY_EMAILS, $emails );
+			$this->update_meta( self::KEY_EMAILS, $data['emails'] );
 		}
 
 		// Settings tab.
@@ -536,6 +529,57 @@ class Hustle_Module_Model extends Hustle_Model {
 
 		if ( ! empty( $data['module']['module_name'] ) ) {
 			$data['module']['module_name'] = sanitize_text_field( $data['module']['module_name'] );
+		}
+
+		if ( ! empty( $data['settings'] ) && ! is_array( $data['settings'] ) ) {
+			$setting_json     = true;
+			$data['settings'] = json_decode( $data['settings'], true );
+		}
+
+		array_walk_recursive(
+			$data,
+			function ( &$value, $key ) {
+				$consist_html = apply_filters(
+					'hustle_fields_with_html',
+					array(
+						'main_content',
+						'title',
+						'sub_title',
+						'email_body',
+						'success_message',
+						'emailmessage',
+						'email_message',
+						'gdpr_message',
+						'required_error_message',
+					)
+				);
+				if ( in_array( $key, array( 'refs', 'urls' ), true ) ) {
+					// Handle Visibility -> URL textarea.
+					$urls  = preg_split( '/\r\n|\r|\n/', $value );
+					$urls  = array_map(
+						function( $v ) {
+							return filter_var( wp_strip_all_tags( $v ), FILTER_SANITIZE_URL );
+						},
+						(array) $urls
+					);
+					$value = implode( "\n", $urls );
+				} elseif ( in_array( $key, $consist_html, true ) ) {
+					$value = wp_unslash( apply_filters( 'content_save_pre', wp_slash( $value ) ) );
+					if ( ! in_array( $key, array( 'main_content', 'emailmessage', 'email_message', 'success_message' ), true ) ) {
+						$value = wp_kses_post( $value );
+					}
+				} elseif ( ! is_int( $value ) ) {
+					$value = sanitize_text_field( $value );
+				}
+			}
+		);
+
+		if ( ! empty( $setting_json ) ) {
+			$data['settings'] = wp_json_encode( $data['settings'] );
+		}
+
+		if ( isset( $data['emails']['form_elements'] ) ) {
+			$data['emails']['form_elements'] = $this->sanitize_form_elements( $data['emails']['form_elements'] );
 		}
 
 		return $data;

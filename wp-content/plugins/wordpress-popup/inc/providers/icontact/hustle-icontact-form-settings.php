@@ -84,7 +84,7 @@ if ( ! class_exists( 'Hustle_Icontact_Form_Settings' ) ) :
 			$is_submit                 = ! empty( $submitted_data['hustle_is_submit'] );
 
 			if ( $is_submit && empty( $submitted_data['list_id'] ) ) {
-				$error_message = __( 'The list is required.', 'hustle' );
+				$error_message = esc_html__( 'The list is required.', 'hustle' );
 			}
 
 			$options = $this->get_first_step_options( $current_data );
@@ -275,7 +275,7 @@ if ( ! class_exists( 'Hustle_Icontact_Form_Settings' ) ) :
 			$is_submit    = ! empty( $submitted_data['hustle_is_submit'] );
 
 			if ( $is_submit && empty( $submitted_data['confirmation_message_id'] ) ) {
-				$error_message = __( 'The confirmation message is required when double opt-in is enabled.', 'hustle' );
+				$error_message = esc_html__( 'The confirmation message is required when double opt-in is enabled.', 'hustle' );
 			}
 
 			$options = $this->get_second_step_options( $current_data );

@@ -20,13 +20,6 @@ $chart_sub_type      = empty( $module_sub_type ) ? 'overall' : $module_sub_type;
 $is_tracking_enabled = ! empty( $tracking_types );
 $smallcaps_singular  = Opt_In_Utils::get_module_type_display_name( $module->module_type );
 
-$canvas_content = sprintf(
-	'<canvas id="hustle-%1$s-%2$s-stats--%3$s"></canvas>',
-	esc_attr( $module->module_type ),
-	esc_attr( $module->id ),
-	esc_attr( $chart_sub_type )
-);
-
 // For embeds and ssharing, check if the sub type (inline, shortcode, etc.) this chart.
 if ( ! empty( $module_sub_type ) ) {
 
@@ -43,21 +36,20 @@ if ( ! $module->active ) {
 	if ( 0 === $total_module_views && 0 === $total_module_conversions ) {
 
 		/* translators: 1: module type display name */
-		$chart_message       = sprintf( esc_html__( "This %1\$s is still in draft state. You can test your %1\$s, but we won't start collecting conversion data until you publish it live.", 'hustle' ), esc_html( $smallcaps_singular ) );
+		$chart_message       = sprintf( __( "This %1\$s is still in draft state. You can test your %1\$s, but we won't start collecting conversion data until you publish it live.", 'hustle' ), $smallcaps_singular );
 		$chart_message_class = ' sui-chartjs-message--empty';
-		$canvas_content      = '';
 
 	} else {
 
 		/* translators: 1: module type display name */
-		$chart_message = sprintf( esc_html__( "This %1\$s is in draft state, so we've paused collecting data until you publish it live.", 'hustle' ), esc_html( $smallcaps_singular ) );
+		$chart_message = sprintf( __( "This %1\$s is in draft state, so we've paused collecting data until you publish it live.", 'hustle' ), $smallcaps_singular );
 	}
 } else {
 
 	if ( ! $is_tracking_enabled ) {
 
 		/* translators: 1: module type display name */
-		$chart_message = sprintf( esc_html__( 'This %1$s has tracking disabled. Enable tracking from the settings dropdown to start collecting data.', 'hustle' ), esc_html( $smallcaps_singular ) );
+		$chart_message = sprintf( __( 'This %1$s has tracking disabled. Enable tracking from the settings dropdown to start collecting data.', 'hustle' ), $smallcaps_singular );
 	}
 }
 
@@ -135,16 +127,14 @@ if ( Hustle_Module_Model::SOCIAL_SHARING_MODULE === $module->module_type ) {
 
 		<div class="sui-chartjs-message<?php echo esc_attr( $chart_message_class ); ?>">
 
-			<p><span class="sui-icon-info" aria-hidden="true"></span><?php echo $chart_message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+			<p><span class="sui-icon-info" aria-hidden="true"></span><?php echo esc_html( $chart_message ); ?></p>
 
 		</div>
 
 	<?php endif; ?>
 
 	<div class="sui-chartjs-canvas">
-
-		<?php echo $canvas_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-
+		<canvas id="hustle-<?php echo esc_attr( $module->module_type . '-' . $module->id . '-stats--' . $chart_sub_type ); ?>"></canvas>
 	</div>
 
 </div>

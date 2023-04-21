@@ -28,6 +28,9 @@ class Opt_In_Condition_Shown_Less_Than extends Opt_In_Condition_Abstract {
 
 		$module::$use_count_cookie = true;
 
+		$module::$count_cookie_expiration = ! empty( $this->args->less_than_expiration ) && is_numeric( $this->args->less_than_expiration )
+				? intval( $this->args->less_than_expiration ) : 30;
+
 		$cookie_key = $this->get_cookie_key( $module->module_type ) . $module->id;
 
 		$show_count = isset( $_COOKIE[ $cookie_key ] ) ? (int) $_COOKIE[ $cookie_key ] : 0;

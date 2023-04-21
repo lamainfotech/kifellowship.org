@@ -32,11 +32,14 @@
 					for="hustle-position-<?php echo esc_html( $prefix ); ?>-<?php echo esc_html( $pkey ); ?>"
 					class="sui-radio-image"
 				>
-
 					<?php
-					$image_path        = self::$plugin_url . 'assets/images/' . $position['image1x'];
-					$image_retina_path = self::$plugin_url . 'assets/images/' . $position['image2x'];
-					echo $this->render_image_markup( $image_path, $image_retina_path ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$image_attrs = array(
+						'path'        => self::$plugin_url . 'assets/images/' . $position['image1x'],
+						'retina_path' => self::$plugin_url . 'assets/images/' . $position['image2x'],
+					);
+
+					// Image markup.
+					$this->render( 'admin/image-markup', $image_attrs );
 					?>
 
 					<span class="sui-radio">

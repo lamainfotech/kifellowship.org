@@ -45,7 +45,7 @@ if ( $section && 'analytics' !== $section ) {
 
 	<form id="hustle-analytics-settings-form" class="sui-box-body">
 
-		<p><?php esc_html_e( "Add analytics tracking for your Hustle modules that doesn't require any third-party integration, and display the data in the WordPress Admin Dashboard area.", 'hustle' ); ?>
+		<p><?php /* translators: Plugin name */ echo esc_html( sprintf( __( "Add analytics tracking for your %s modules that doesn't require any third-party integration, and display the data in the WordPress Admin Dashboard area.", 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>
 
 		<?php if ( $is_enabled ) { ?>
 

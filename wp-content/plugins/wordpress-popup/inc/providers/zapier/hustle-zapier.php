@@ -106,16 +106,17 @@ if ( ! class_exists( 'Hustle_Zapier' ) ) :
 			$this->banner_2x         = plugin_dir_url( __FILE__ ) . 'images/banner@2x.png';
 			$this->documentation_url = Opt_In_Utils::get_link( 'docs' ) . '#zapier';
 			$this->short_description = sprintf(
-				/* translators: 1. openning 'a' tag 2. closing 'a' tag */
-				esc_html__( 'Zapier connects Hustle with %1$s1000+ apps%2$s. You can use it to send your leads to third-party apps not natively supported in Hustle and automate your after-submission workflows. %3$sHappy automating!', 'hustle' ),
+				/* translators: 1. openning 'a' tag 2. closing 'a' tag 3. Documentation link 4. Plugin name */
+				esc_html__( 'Zapier connects %4$s with %1$s1000+ apps%2$s. You can use it to send your leads to third-party apps not natively supported in %4$s and automate your after-submission workflows. %3$sHappy automating!', 'hustle' ),
 				'<a href="https://zapier.com/apps" target="_blank">',
 				'</a>',
 				( ! $hide ? sprintf(
 					/* translators: 1. openning 'a' tag 2. closing 'a' tag */
 					esc_html__( 'Refer to this %1$sarticle%2$s for tips and tricks on using Zapier integration and creating automated workflows.', 'hustle' ),
-					'<a href="' . Opt_In_Utils::get_link( 'blog' ) . 'zapier-wordpress-form-integrations/" target="_blank">',
+					'<a href="' . esc_url( Opt_In_Utils::get_link( 'blog' ) ) . 'zapier-wordpress-form-integrations/" target="_blank">',
 					'</a>'
-				) : '' )
+				) : '' ),
+				Opt_In_Utils::get_plugin_name()
 			);
 		}
 
