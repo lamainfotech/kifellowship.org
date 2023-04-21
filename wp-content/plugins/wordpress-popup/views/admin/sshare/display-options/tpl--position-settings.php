@@ -26,7 +26,7 @@
 
 	<div class="sui-toggle-content" data-toggle-content="<?php echo esc_attr( $prefix ); ?>-enabled">
 
-		<span class="sui-description"><?php echo $description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+		<span class="sui-description"><?php echo wp_kses_post( $description ); ?></span>
 
 		<div class="sui-border-frame">
 

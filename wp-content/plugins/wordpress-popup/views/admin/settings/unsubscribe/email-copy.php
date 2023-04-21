@@ -80,7 +80,7 @@ $email_body    = isset( $email['email_body'] ) ? $email['email_body'] : '';
 
 					<?php
 					wp_editor(
-						$email_body,
+						wp_kses_post( $email_body ),
 						'emailmessage',
 						array(
 							'media_buttons'    => false,

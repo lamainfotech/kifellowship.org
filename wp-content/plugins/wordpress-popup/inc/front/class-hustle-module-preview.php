@@ -127,7 +127,8 @@ class Hustle_Module_Preview {
 		if ( ! in_the_loop() ) {
 			return $title;
 		}
-		return esc_html__( 'Hustle Preview', 'hustle' );
+		/* translators: Plugin name */
+		return esc_html( sprintf( __( '%s Preview', 'hustle' ), Opt_In_Utils::get_plugin_name() ) );
 	}
 
 	/**

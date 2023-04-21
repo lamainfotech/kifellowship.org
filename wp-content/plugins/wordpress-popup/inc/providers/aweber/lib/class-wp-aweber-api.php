@@ -61,6 +61,18 @@ class Hustle_Addon_Aweber_Wp_Api extends Opt_In_WPMUDEV_API {
 	 */
 	private $oauth_token_secret = '';
 	/**
+	 * OAuth2 token
+	 *
+	 * @var string
+	 */
+	private $oauth2_token_access_token = '';
+	/**
+	 * OAuth2 refresh token
+	 *
+	 * @var string
+	 */
+	private $oauth2_token_refresh_token = '';
+	/**
 	 * Instances
 	 *
 	 * @var array
@@ -86,12 +98,12 @@ class Hustle_Addon_Aweber_Wp_Api extends Opt_In_WPMUDEV_API {
 	 * @param array $creds Creds.
 	 */
 	public function __construct( $creds = null ) {
-		$this->application_key             = isset( $creds['consumer_key'] ) ? $creds['consumer_key'] : '';
-		$this->application_secret          = isset( $creds['consumer_secret'] ) ? $creds['consumer_secret'] : '';
-		$this->oauth_token                 = isset( $creds['access_token'] ) ? $creds['access_token'] : '';
-		$this->oauth_token_secret          = isset( $creds['access_secret'] ) ? $creds['access_secret'] : '';
-		$this->_oauth2_token_access_token  = isset( $creds['access_oauth2_token'] ) ? $creds['access_oauth2_token'] : '';
-		$this->_oauth2_token_refresh_token = isset( $creds['access_oauth2_refresh'] ) ? $creds['access_oauth2_refresh'] : '';
+		$this->application_key            = isset( $creds['consumer_key'] ) ? $creds['consumer_key'] : '';
+		$this->application_secret         = isset( $creds['consumer_secret'] ) ? $creds['consumer_secret'] : '';
+		$this->oauth_token                = isset( $creds['access_token'] ) ? $creds['access_token'] : '';
+		$this->oauth_token_secret         = isset( $creds['access_secret'] ) ? $creds['access_secret'] : '';
+		$this->oauth2_token_access_token  = isset( $creds['access_oauth2_token'] ) ? $creds['access_oauth2_token'] : '';
+		$this->oauth2_token_refresh_token = isset( $creds['access_oauth2_refresh'] ) ? $creds['access_oauth2_refresh'] : '';
 	}
 
 	/**
@@ -166,9 +178,9 @@ class Hustle_Addon_Aweber_Wp_Api extends Opt_In_WPMUDEV_API {
 		 */
 		$url = apply_filters( 'hustle_addon_aweber_api_url', $url, $verb, $args );
 
-		if ( $this->_oauth2_token_access_token ) {
+		if ( $this->oauth2_token_access_token ) {
 			$headers = array(
-				'Authorization' => 'Bearer ' . $this->_oauth2_token_access_token,
+				'Authorization' => 'Bearer ' . $this->oauth2_token_access_token,
 				'Accept'        => 'application/json',
 				'Content-Type'  => 'application/json',
 			);
@@ -205,7 +217,7 @@ class Hustle_Addon_Aweber_Wp_Api extends Opt_In_WPMUDEV_API {
 		 */
 		$args = apply_filters( 'hustle_addon_aweber_api_request_data', $request_data, $verb, $url );
 
-		if ( ! $this->_oauth2_token_access_token ) {
+		if ( ! $this->oauth2_token_access_token ) {
 			if ( 'PATCH' === $verb ) {
 				$oauth_url_params = $this->get_prepared_request( $verb, $url, array() );
 				$url             .= ( '?' . http_build_query( $oauth_url_params ) );

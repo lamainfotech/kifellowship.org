@@ -18,9 +18,9 @@ if ( 'label' === $element_type ) { ?>
 		class="<?php echo isset( $class ) ? esc_attr( $class ) : 'sui-label'; ?>"
 		<?php $this->render_attributes( isset( $attributes ) ? $attributes : array() ); ?>
 	>
-		<?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo wp_kses_post( $value ); ?>
 		<?php if ( isset( $note ) && ! empty( $note ) ) { ?>
-			<span class="sui-label-note"><?php echo $note; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+			<span class="sui-label-note"><?php echo esc_html( $note ); ?></span>
 		<?php } ?>
 	</label>
 
@@ -28,7 +28,7 @@ if ( 'label' === $element_type ) { ?>
 	// FIELD TYPE: Description.
 } elseif ( 'description' === $element_type ) {
 	?>
-	<span class="sui-description"><?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+	<span class="sui-description"><?php echo wp_kses_post( $value ); ?></span>
 
 	<?php
 	// FIELD TYPE: Notice.
@@ -48,7 +48,7 @@ if ( 'label' === $element_type ) { ?>
 				<?php if ( ! empty( $icon ) ) : ?>
 					<span class="sui-notice-icon sui-icon-<?php echo esc_attr( $icon ); ?> sui-md" aria-hidden="true"></span>
 				<?php endif; ?>
-				<p><?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, Make sure $value is properly escaped! We're not escaping it in here. ?></p>
+				<p><?php echo wp_kses_post( $value ); ?></p>
 
 			</div>
 
@@ -178,7 +178,7 @@ if ( 'label' === $element_type ) { ?>
 				type="radio"
 				<?php echo isset( $name ) ? 'name="' . esc_attr( $name ) . '"' : ''; ?>
 				<?php echo 'value="' . esc_attr( $value ) . '"'; ?>
-				<?php echo isset( $field_id ) ? 'id="' . esc_attr( $field_id ) . '-' . esc_attr( str_replace( ' ', '-', strtolower( $value ) ) ) . '"' : ''; ?>
+				<?php echo isset( $field_id ) ? 'id="' . esc_attr( $field_id . '-' . str_replace( ' ', '-', strtolower( $value ) ) ) . '"' : ''; ?>
 				<?php $this->render_attributes( isset( $item_attributes ) ? $item_attributes : array() ); ?>
 				<?php selected( $_selected, $value ); ?>
 			/>
@@ -344,7 +344,7 @@ if ( 'label' === $element_type ) { ?>
 } elseif ( 'small' === $element_type ) {
 	?>
 	<p><small <?php $this->render_attributes( isset( $attributes ) ? $attributes : array() ); ?> for="<?php echo esc_attr( $for ); ?>">
-		<?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo esc_html( $value ); ?>
 	</small></p>
 
 	<?php
@@ -358,7 +358,7 @@ if ( 'label' === $element_type ) { ?>
 		role="alert"
 		class="sui-error-message<?php echo isset( $class ) ? ' ' . esc_attr( $class ) : ''; ?>"
 	>
-		<?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo wp_kses_post( $value ); ?>
 	</span>
 
 	<?php
@@ -372,7 +372,7 @@ if ( 'label' === $element_type ) { ?>
 		class="sui-button sui-button-ghost <?php echo esc_attr( $type_class ); ?> <?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>"
 		<?php $this->render_attributes( isset( $attributes ) ? $attributes : array() ); ?>
 	>
-		<?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo esc_html( $value ); ?>
 	</button>
 
 	<?php
@@ -389,7 +389,7 @@ if ( 'label' === $element_type ) { ?>
 } elseif ( 'submit_button' === $element_type ) {
 	?>
 	<button type="submit"<?php $this->render_attributes( isset( $attributes ) ? $attributes : array() ); ?> <?php echo ( isset( $id ) ? 'id="' . esc_attr( $id ) . '"' : '' ); ?> class="sui-button <?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>">
-		<?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php echo esc_html( $value ); ?>
 	</button>
 
 	<?php
@@ -419,7 +419,7 @@ if ( 'label' === $element_type ) { ?>
 	// FIELD TYPE: Raw.
 } elseif ( 'raw' === $element_type ) {
 	?>
-	<?php echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+	<?php echo wp_kses_post( $value ); ?>
 <?php } else { ?>
 	<?php echo isset( $icon ) ? '<div class="sui-control-with-icon">' : ''; ?>
 		<?php if ( empty( $describedby ) && ! empty( $id ) ) { ?>

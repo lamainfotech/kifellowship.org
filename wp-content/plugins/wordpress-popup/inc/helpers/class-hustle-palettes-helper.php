@@ -42,12 +42,12 @@ class Hustle_Palettes_Helper {
 	 */
 	public static function get_palettes_names( $get_display_name = false ) {
 		$palettes = array(
-			'gray_slate' => __( 'Gray Slate', 'hustle' ),
-			'coffee'     => __( 'Coffee', 'hustle' ),
-			'ectoplasm'  => __( 'Ectoplasm', 'hustle' ),
-			'blue'       => __( 'Blue', 'hustle' ),
-			'sunrise'    => __( 'Sunrise', 'hustle' ),
-			'midnight'   => __( 'Midnight', 'hustle' ),
+			'gray_slate' => esc_html__( 'Gray Slate', 'hustle' ),
+			'coffee'     => esc_html__( 'Coffee', 'hustle' ),
+			'ectoplasm'  => esc_html__( 'Ectoplasm', 'hustle' ),
+			'blue'       => esc_html__( 'Blue', 'hustle' ),
+			'sunrise'    => esc_html__( 'Sunrise', 'hustle' ),
+			'midnight'   => esc_html__( 'Midnight', 'hustle' ),
 		);
 
 		if ( ! $get_display_name ) {

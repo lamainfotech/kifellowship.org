@@ -10,8 +10,6 @@ global $wp_locale;
 
 $is_rtl = $wp_locale->is_rtl();
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component = ( ! $is_optin && ( 'cabriolet' !== $layout_info ) ) ? '.hustle-layout' : '.hustle-layout .hustle-layout-body';
 
 // SETTINGS: Margin.

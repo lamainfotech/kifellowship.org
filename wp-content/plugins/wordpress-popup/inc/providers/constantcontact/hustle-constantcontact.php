@@ -221,8 +221,8 @@ if ( ! class_exists( 'Hustle_ConstantContact' ) ) :
 				);
 
 			} else {
-
-				$description = __( 'Connect the Constant Contact integration by authenticating it using the button below. Note that you’ll be taken to the Constant Contact website to grant access to Hustle and then redirected back.', 'hustle' );
+				/* translators: Plugin name */
+				$description = sprintf( __( 'Connect the Constant Contact integration by authenticating it using the button below. Note that you’ll be taken to the Constant Contact website to grant access to %s and then redirected back.', 'hustle' ), Opt_In_Utils::get_plugin_name() );
 
 				$buttons = array(
 					'auth' => array(
@@ -335,7 +335,7 @@ if ( ! class_exists( 'Hustle_ConstantContact' ) ) :
 
 			$response = array();
 
-			$status = filter_input( INPUT_GET, 'status' );
+			$status = filter_input( INPUT_GET, 'status', FILTER_SANITIZE_SPECIAL_CHARS );
 
 			$api           = $this->api();
 			$is_authorized = (bool) $api->get_token( 'access_token' );
@@ -355,7 +355,7 @@ if ( ! class_exists( 'Hustle_ConstantContact' ) ) :
 							'action'  => 'notification',
 							'status'  => 'success',
 							/* translators: integration name */
-							'message' => sprintf( esc_html__( '%s successfully connected.', 'hustle' ), '<strong>' . $this->title . '</strong>' ),
+							'message' => sprintf( esc_html__( '%s successfully connected.', 'hustle' ), '<strong>' . esc_html( $this->title ) . '</strong>' ),
 						);
 
 						$this->save_account_email();
@@ -365,7 +365,7 @@ if ( ! class_exists( 'Hustle_ConstantContact' ) ) :
 						$response = array(
 							'action'  => 'notification',
 							'status'  => 'error',
-							'message' => $providers_instance->get_last_error_message(),
+							'message' => wp_kses_post( $providers_instance->get_last_error_message() ),
 						);
 					}
 				}
@@ -375,7 +375,7 @@ if ( ! class_exists( 'Hustle_ConstantContact' ) ) :
 					'action'  => 'notification',
 					'status'  => 'error',
 					/* translators: integration name */
-					'message' => sprintf( esc_html__( 'Authentication failed! Please check your %s credentials and try again.', 'hustle' ), $this->title ),
+					'message' => sprintf( esc_html__( 'Authentication failed! Please check your %s credentials and try again.', 'hustle' ), esc_html( $this->title ) ),
 				);
 
 			}

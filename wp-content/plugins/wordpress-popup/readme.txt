@@ -1,14 +1,14 @@
 === Hustle - Email Marketing, Lead Generation, Optins, Popups ===
 Plugin Name: Hustle - Email Marketing, Lead Generation, Opt-ins, Popups
-Version: 7.6.4
+Version: 7.7.0
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
 Tags: marketing, popup, optin, newsletter, subscription form, email, advertise, signup, mailing list, wordpress popup plugin, popup maker, pop-up, opt-in
 Requires at least: 5.2
-Tested up to: 6.1
+Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 7.6.4
+Stable tag: 7.7.0
 
 Setup email optin forms, popups, newsletter forms & subscription forms to generate email leads with the best marketing popup builder
 
@@ -185,6 +185,34 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 
 == Changelog ==
 
+= 7.7.0 ( 2023-04-10 ) =
+
+- New: Ability to display modules N times per day/week/month/year
+- New: Make whole module a clickable CTA
+- Enhance: White Labeling plugin name
+- Enhance: Module accessibility
+- Enhance: Conditional visibility for modules with CTA when 2 buttons are used
+- Enhance: Allow customizing Close Button size
+- Enhance: Compatibility with PHP 8.2
+- Fix: W3C issue with style sheets
+- Fix: Compatibility issue with ACF Pro plugin
+- Fix: Divi theme issue - Triggering module using link ID does not work
+
+
+= 7.6.6 ( 2023-03-30 ) =
+
+- Enhance: Security improvements.
+- Fix: Helper Text font style cannot be reset
+- Fix: Title and Subtitle alignments are not working after reset
+- Fix: Embed Title is being cut off when you use Halloween Template
+- Fix: Redirect URL input field for CTA 2 doesn't show by default in Embed when starting from scratch
+
+
+= 7.6.5 ( 2023-02-20 ) =
+
+- Enhance: Security improvements.
+
+
 = 7.6.4 ( 2023-02-01 ) =
 
 - Enhance: Security improvements.
@@ -259,18 +287,6 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 - Fix: Fatal error with a huge amount of posts
 - Fix: Divi theme conflict with color picker
 - Fix: Unable to Save Palette when editing Color Palettes
-
-
-= 7.4.13.1 ( 2022-03-16 ) =
-
-- Fix: it's not possible to close the promo opt-in
-
-
-= 7.4.13 ( 2022-02-22 ) =
-
-- Enhance: Update integration with WPMU DEV Dashboard plugin
-- Fix: Social sharing icons are always vertical
-- Fix: Offset settings don't work in social share
 
 [Changelog for previous versions](https://wpmudev.com/project/hustle/#view-changelog).
 

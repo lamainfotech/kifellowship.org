@@ -10,8 +10,6 @@ global $wp_locale;
 
 $is_rtl = $wp_locale->is_rtl();
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component              = '.hustle-layout .hustle-layout-content';
 $component_main_wrapper = '.hustle-main-wrapper';
 
@@ -84,12 +82,14 @@ $mobile_box_shadow = ( ! $is_mobile_enabled || ( $is_mobile_enabled && $default_
 $background_color = $colors['layout_content_bg'];
 
 // SETTINGS: Close icon.
-$position           = $design['close_icon_position'];
-$position_mobile    = ( '' !== $design['close_icon_position_mobile'] && $is_mobile_enabled ) ? $design['close_icon_position_mobile'] : $design['close_icon_position'];
-$alignment_y        = $design['close_icon_alignment_y'];
-$alignment_y_mobile = ( '' !== $design['close_icon_alignment_y_mobile'] && $is_mobile_enabled ) ? $design['close_icon_alignment_y_mobile'] : $design['close_icon_alignment_y'];
-$icon_style         = $design['close_icon_style'];
-$icon_style_mobile  = ( '' !== $design['close_icon_style_mobile'] && $is_mobile_enabled ) ? $design['close_icon_style_mobile'] : $design['close_icon_style'];
+$position               = $design['close_icon_position'];
+$position_mobile        = ( '' !== $design['close_icon_position_mobile'] && $is_mobile_enabled ) ? $design['close_icon_position_mobile'] : $design['close_icon_position'];
+$alignment_y            = $design['close_icon_alignment_y'];
+$alignment_y_mobile     = ( '' !== $design['close_icon_alignment_y_mobile'] && $is_mobile_enabled ) ? $design['close_icon_alignment_y_mobile'] : $design['close_icon_alignment_y'];
+$icon_style             = $design['close_icon_style'];
+$icon_style_mobile      = ( '' !== $design['close_icon_style_mobile'] && $is_mobile_enabled ) ? $design['close_icon_style_mobile'] : $design['close_icon_style'];
+$close_icon_size        = $design['close_icon_size'];
+$close_icon_size_mobile = ( '' !== $design['close_icon_size_mobile'] && $is_mobile_enabled ) ? $design['close_icon_size_mobile'] : $design['close_icon_size'];
 
 // ==================================================
 // Mobile styles.
@@ -112,7 +112,7 @@ if ( 'outside' === $position_mobile ) {
 	if ( 'center' === $alignment_y_mobile ) {
 		$style .= 'padding: 0;';
 	} else {
-		$style .= ( 'top' === $alignment_y_mobile ) ? 'padding: 30px 0 0;' : 'padding: 0 0 30px;';
+		$style .= ( 'top' === $alignment_y_mobile ) ? 'padding:' . ( $close_icon_size_mobile + 20 ) . 'px 0 0;' : 'padding: 0 0 ' . ( $close_icon_size_mobile + 20 ) . 'px';
 	}
 } else {
 	$style .= 'padding: 0;';
@@ -139,7 +139,7 @@ if ( $is_mobile_enabled ) {
 		if ( 'center' === $alignment_y ) {
 			$style .= 'padding: 0;';
 		} else {
-			$style .= ( 'top' === $alignment_y ) ? 'padding: 30px 0 0;' : 'padding: 0 0 30px;';
+			$style .= ( 'top' === $alignment_y ) ? 'padding:' . ( $close_icon_size + 20 ) . 'px 0 0;' : 'padding: 0 0 ' . ( $close_icon_size + 20 ) . 'px';
 		}
 	} else {
 		$style .= 'padding: 0;';

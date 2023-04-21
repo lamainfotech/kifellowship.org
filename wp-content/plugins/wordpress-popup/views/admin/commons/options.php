@@ -42,7 +42,6 @@
  *
  * @package Hustle
  * @since 4.2.0
- * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
 // Flag for when the option is used in underscore template files.
@@ -111,7 +110,7 @@ switch ( $type ) :
 
 				foreach ( $options as $value => $label ) :
 					?>
-					<option value="<?php echo esc_attr( $value ); ?>" {{ _.selected( <?php echo $name; ?>, '<?php echo $value; ?>' ) }}>
+					<option value="<?php echo esc_attr( $value ); ?>" {{ _.selected( <?php echo esc_attr( $name ); ?>, '<?php echo esc_attr( $value ); ?>' ) }}>
 						<?php echo esc_html( $label ); ?>
 					</option>
 					<?php
@@ -171,7 +170,7 @@ switch ( $type ) :
 						value="<?php echo esc_attr( $value ); ?>"
 						<?php echo isset( $id ) ? 'id="' . esc_attr( $id . '-' . $value ) . '"' : ''; ?>
 						<?php $this->render_attributes( $attributes ); ?>
-						{{ _.checked( <?php echo $name; ?>.includes( '<?php echo $value; ?>' ), true ) }}
+						{{ _.checked( <?php echo esc_attr( $name ); ?>.includes( '<?php echo esc_attr( $value ); ?>' ), true ) }}
 					/>
 
 					<span aria-hidden="true"></span>
@@ -187,12 +186,7 @@ switch ( $type ) :
 
 	// ELEMENT: Checkbox.
 	case 'checkbox':
-		// If $value is not set, this is an on/off checkbox.
-		if ( ! isset( $value ) ) {
-			$_checked = ! $is_template ? checked( '1', $selected, false ) : '{{ _.checked( "1", ' . $name . ' ) }}';
-		} else {
-			$_checked = ! $is_template ? checked( $value, $selected, false ) : '{{ _.checked( "' . $value . '", ' . $name . ' ) }}';
-		}
+		$selected_value = isset( $value ) ? $value : '1';
 		?>
 
 		<label class="sui-checkbox <?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>" <?php $this->render_attributes( $label_attributes ); ?>>
@@ -205,7 +199,14 @@ switch ( $type ) :
 				aria-labelledby="hustle-checkbox-<?php echo esc_attr( $name ); ?>-label"
 				<?php echo empty( $description ) ? '' : 'aria-describedby="hustle-checkbox-' . esc_attr( $name ) . '-description"'; ?>
 				<?php $this->render_attributes( $attributes ); ?>
-				<?php echo $_checked; ?>
+				<?php
+				// If $value is not set, this is an on/off checkbox.
+				if ( ! $is_template ) {
+					checked( $selected_value, $selected );
+				} else {
+					echo '{{ _.checked( "' . esc_attr( $value ) . '", ' . esc_attr( $name ) . ' ) }}';
+				}
+				?>
 			/>
 			<span aria-hidden="true"></span>
 			<span id="hustle-checkbox-<?php echo esc_attr( $name ); ?>-label"><?php echo wp_kses_post( $label ); ?></span>
@@ -221,11 +222,6 @@ switch ( $type ) :
 
 	// ELEMENT: Toggle checkbox.
 	case 'checkbox_toggle':
-		if ( is_array( $selected ) ) {
-			$_checked = checked( in_array( $value, $selected, true ), true, false );
-		} else {
-			$_checked = ! $is_template ? checked( $value, $selected, false ) : '{{ _.checked( "' . $value . '", ' . $name . ' ) }}';
-		}
 		?>
 
 		<label
@@ -240,7 +236,17 @@ switch ( $type ) :
 				<?php echo empty( $value ) ? '' : 'value="' . esc_attr( $value ) . '"'; ?>
 				<?php echo empty( $description ) ? '' : 'aria-describedby="hustle-toggle-' . esc_attr( $name ) . '-description"'; ?>
 				<?php $this->render_attributes( $attributes ); ?>
-				<?php echo $_checked; ?>
+				<?php
+				if ( is_array( $selected ) ) {
+					checked( in_array( $value, $selected, true ) );
+				} else {
+					if ( ! $is_template ) {
+						checked( $value, $selected );
+					} else {
+						echo '{{ _.checked( "' . esc_attr( $value ) . '", ' . esc_attr( $name ) . ' ) }}';
+					}
+				}
+				?>
 			/>
 			<span class="sui-toggle-slider" aria-hidden="true"></span>
 
@@ -273,8 +279,6 @@ switch ( $type ) :
 		<div class="sui-tabs sui-side-tabs <?php echo empty( $class ) ? '' : esc_attr( $class ); ?>">
 
 			<?php foreach ( $options as $data ) { ?>
-				<?php $_checked = ! $is_template ? checked( $data['value'], $selected, false ) : '{{ _.checked( "' . $data['value'] . '", ' . $name . ' ) }}'; ?>
-
 				<input
 					type="radio"
 					name="<?php echo esc_attr( $name ); ?>"
@@ -284,7 +288,13 @@ switch ( $type ) :
 					aria-hidden="true"
 					tabindex="-1"
 					<?php $this->render_attributes( $attributes ); ?>
-					<?php echo $_checked; ?>
+					<?php
+					if ( ! $is_template ) {
+						checked( $data['value'], $selected );
+					} else {
+						echo '{{ _.checked( "' . esc_attr( $data['value'] ) . '", ' . esc_attr( $name ) . ' ) }}';
+					}
+					?>
 				/>
 
 			<?php } ?>
@@ -332,7 +342,7 @@ switch ( $type ) :
 						aria-label="<?php echo esc_attr( $data['content_label'] ); ?>"
 						<?php $this->render_attributes( $tabs_attributes ); ?>
 					>
-						<?php echo $data['content_html']; ?>
+						<?php echo wp_kses_post( $data['content_html'] ); ?>
 					</div>
 
 				<?php endforeach; ?>
@@ -379,7 +389,7 @@ switch ( $type ) :
 						<?php if ( ! empty( $icon ) ) : ?>
 							<span class="sui-notice-icon sui-icon-<?php echo esc_attr( $icon ); ?> sui-md" aria-hidden="true"></span>
 						<?php endif; ?>
-						<p><?php echo $value; // Make sure $value is properly escaped! We're not escaping it in here. ?></p>
+						<p><?php echo wp_kses_post( $value ); ?></p>
 
 					</div>
 

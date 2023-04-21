@@ -43,7 +43,7 @@ $content .= $this->render(
 $this->render(
 	'admin/global/sui-components/sui-settings-row',
 	array(
-		'label'             => esc_html__( 'Colors', 'hustle' ),
+		'label'             => __( 'Colors', 'hustle' ),
 		'vanilla_hide'      => true,
 		'multi_description' => array(
 			sprintf(

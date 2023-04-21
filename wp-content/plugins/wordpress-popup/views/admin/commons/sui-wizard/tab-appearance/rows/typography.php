@@ -54,7 +54,7 @@ $content = $this->render(
 $this->render(
 	'admin/global/sui-components/sui-settings-row',
 	array(
-		'label'        => esc_html__( 'Typography', 'hustle' ),
+		'label'        => __( 'Typography', 'hustle' ),
 		'vanilla_hide' => true,
 		'description'  => sprintf(
 			/* translators: 1. module type in lowercase and singular. 2. Open a tag. 3. Close a tag. */

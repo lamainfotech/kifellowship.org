@@ -10,8 +10,6 @@ global $wp_locale;
 
 $is_rtl = $wp_locale->is_rtl();
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component = '.hustle-field .hustle-input';
 
 // SETTINGS: Padding.

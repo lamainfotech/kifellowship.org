@@ -18,7 +18,6 @@ $modal_claxx .= in_array( $modal_size, array( 'sm', 'md', 'lg', 'xl' ), true ) ?
 $modal_claxx .= ! empty( $modal_class ) ? ' ' . $modal_class : '';
 
 $sui_box_tag  = empty( $sui_box_tag ) ? 'div' : $sui_box_tag;
-$sui_box_id   = ! empty( $sui_box_id ) ? ' id="' . esc_attr( $sui_box_id ) . '"' : '';
 $sui_box_attr = ! empty( $sui_box_attr ) ? $sui_box_attr : false;
 
 $header_classes       = ! empty( $header['classes'] ) ? ' ' . $header['classes'] : '';
@@ -53,11 +52,11 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 
 		<?php if ( $is_unwrapped ) { ?>
 
-			<?php echo $body_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php $this->render_html( $body_content ); ?>
 
 		<?php } else { ?>
 
-			<<?php echo esc_attr( $sui_box_tag ) . $sui_box_id; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<<?php echo esc_attr( $sui_box_tag ) . ( ! empty( $sui_box_id ) ? ' id="' . esc_attr( $sui_box_id ) . '"' : '' ); ?>
 				<?php
 				if ( $sui_box_attr ) :
 					$this->render_attributes( $sui_box_attr );
@@ -85,7 +84,7 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 
 					<?php
 					if ( $header_content ) :
-						echo $header_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						echo wp_kses_post( $header_content );
 					endif;
 					?>
 
@@ -104,7 +103,7 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 						<?php
 						if ( $body_content ) :
 
-							echo $body_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							$this->render_html( $body_content );
 
 						endif;
 						?>
@@ -116,7 +115,7 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 				<?php
 				if ( $after_body_content ) :
 
-					echo $after_body_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$this->render_html( $after_body_content );
 
 				endif;
 				?>
@@ -127,7 +126,7 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 
 						<?php
 						if ( $footer_content ) :
-							echo $footer_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							echo wp_kses_post( $footer_content );
 
 						endif;
 
@@ -136,9 +135,6 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 							foreach ( $footer_buttons as $button ) :
 
 								$button_classes = ! empty( $button['classes'] ) ? ' ' . $button['classes'] : '';
-								$button_id      = ! empty( $button['id'] ) ? ' id="' . esc_attr( $button['id'] ) . '"' : '';
-								$button_type    = ! empty( $button['is_submit'] ) ? '' : ' type="button"';
-								$close_data     = ! empty( $button['is_close'] ) ? ' data-modal-close' : '';
 								$has_load       = ! empty( $button['has_load'] ) ? true : false;
 								$button_attrs   = ! empty( $button['attributes'] ) ? $button['attributes'] : false;
 								$button_icon    = ! empty( $button['icon'] ) ? $button['icon'] : false;
@@ -147,7 +143,15 @@ $footer_buttons = ! empty( $footer['buttons'] ) ? $footer['buttons'] : false;
 
 								<button
 									class="sui-button<?php echo esc_attr( $button_classes ); ?>"
-									<?php echo $button_id . $button_type . $close_data; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									<?php if ( ! empty( $button['id'] ) ) { ?>
+										id="<?php echo esc_attr( $button['id'] ); ?>"
+									<?php } ?>
+									<?php if ( empty( $button['is_submit'] ) ) { ?>
+										type="button"
+									<?php } ?>
+									<?php if ( ! empty( $button['is_close'] ) ) { ?>
+										data-modal-close
+									<?php } ?>
 									<?php
 									if ( $button_attrs ) :
 										$this->render_attributes( $button_attrs );

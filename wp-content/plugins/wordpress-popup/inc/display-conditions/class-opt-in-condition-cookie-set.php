@@ -45,10 +45,9 @@ class Opt_In_Condition_Cookie_Set extends Opt_In_Condition_Abstract {
 		}
 
 		$this->cookie_keys = array_keys( $_COOKIE );
-		// phpcs:disable WordPress
 		// Value is only used for bool operations.
-		$this->browser_cookie_value = isset( $_COOKIE[ $this->args->cookie_name ] ) ? $_COOKIE[ $this->args->cookie_name ] : '';
-		// phpcs:enable
+		$this->browser_cookie_value = isset( $_COOKIE[ $this->args->cookie_name ] )
+				? sanitize_text_field( wp_unslash( $_COOKIE[ $this->args->cookie_name ] ) ) : '';
 		return $this->is_cookie_set();
 	}
 

@@ -495,7 +495,7 @@ $this->render_modal( $attributes );
 
 						<?php else : ?>
 
-							<?php echo $unavailable_message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo wp_kses_post( $unavailable_message ); ?>
 
 						<?php endif; ?>
 
@@ -589,7 +589,7 @@ $this->render_modal( $attributes );
 
 						<?php else : ?>
 
-							<?php echo $unavailable_message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo wp_kses_post( $unavailable_message ); ?>
 
 						<?php endif; ?>
 
@@ -691,7 +691,7 @@ $this->render_modal( $attributes );
 
 						<?php else : ?>
 
-							<?php echo $unavailable_message; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php echo wp_kses_post( $unavailable_message ); ?>
 
 						<?php endif; ?>
 

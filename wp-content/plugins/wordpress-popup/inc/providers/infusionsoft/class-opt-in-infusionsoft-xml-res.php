@@ -28,7 +28,8 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement {
 	 * @return mixed
 	 */
 	public function get_value( $xml_structure = '' ) {
-		$value = reset( $this->params->param->value );
+		$temp_array = (array) $this->params->param->value;
+		$value      = reset( $temp_array );
 
 		if ( ! empty( $xml_structure ) ) {
 			$xml = explode( '.', $xml_structure );
@@ -57,7 +58,9 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement {
 			$list  = $this->get_value()->data->value[ $i ];
 			$label = (string) $list->struct->member[0]->value;
 			if ( ! empty( $label ) ) {
-				$id           = (int) reset( $list->struct->member[1]->value );
+
+				$temp_array   = (array) $list->struct->member[1]->value;
+				$id           = (int) reset( $temp_array );
 				$lists[ $id ] = $label;
 			}
 		}
@@ -78,7 +81,8 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement {
 				if ( 'Name' === (string) $info->name ) {
 					$label = (string) $info->value;
 				} elseif ( 'Id' === (string) $info->name ) {
-					$id = (int) reset( $info->value );
+					$temp_array = (array) $info->value;
+					$id         = (int) reset( $temp_array );
 				}
 				if ( isset( $label ) && isset( $id ) ) {
 					$array[ $id ] = $label;

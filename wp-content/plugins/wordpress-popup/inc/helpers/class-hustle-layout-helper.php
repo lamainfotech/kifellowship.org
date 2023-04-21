@@ -170,6 +170,68 @@ class Hustle_Layout_Helper {
 	}
 
 	/**
+	 * Renders html.
+	 *
+	 * @param string $content Content - HTML.
+	 */
+	public function render_html( $content ) {
+		$common_arrts = array(
+			'id'               => true,
+			'data-*'           => true,
+			'title'            => true,
+			'sandbox'          => true,
+			'class'            => true,
+			'aria-hidden'      => true,
+			'aria-labelledby'  => true,
+			'aria-describedby' => true,
+			'role'             => true,
+			'xmlns'            => true,
+			'xmlns:xlink'      => true,
+			'width'            => true,
+			'height'           => true,
+			'viewbox'          => true,
+			'type'             => true,
+			'name'             => true,
+			'value'            => true,
+			'checked'          => true,
+			'selected'         => true,
+			'placeholder'      => true,
+			'disabled'         => true,
+			'method'           => true,
+
+		);
+		$allowed_html = wp_kses_allowed_html( 'post' );
+		$allowed_tags = array_merge(
+			$allowed_html,
+			array(
+				'iframe' => $common_arrts,
+				'form'   => $common_arrts,
+				'svg'    => $common_arrts,
+				'defs'   => true,
+				'g'      => array(
+					'fill'      => true,
+					'fill-rule' => true,
+					'clip-rule' => true,
+					'd'         => true,
+				),
+				'path'   => array(
+					'd'         => true,
+					'id'        => true,
+					'fill'      => true,
+					'fill-rule' => true,
+				),
+				'input'  => $common_arrts,
+				'select' => $common_arrts,
+				'option' => $common_arrts,
+			)
+		);
+
+		$allowed_tags = apply_filters( 'hustle_content_allowed_tags', $allowed_tags );
+
+		echo wp_kses( $content, $allowed_tags );
+	}
+
+	/**
 	 * Renders custom attributes within views templates.
 	 *
 	 * @since 1.0.0
@@ -214,24 +276,15 @@ class Hustle_Layout_Helper {
 			'typemustmatch',
 		);
 
-		$html = '';
-		if ( isset( $html_options['encode'] ) ) {
-			$raw = ! $html_options['encode'];
-			unset( $html_options['encode'] );
-		} else {
-			$raw = false;
-		}
 		foreach ( $html_options as $name => $value ) {
 			if ( in_array( $name, $special_attributes, true ) ) {
 				if ( $value ) {
-					$html .= ' ' . $name;
-					$html .= '="' . $name . '"';
+					echo ' ' . esc_attr( $name ) . '="' . esc_attr( $name ) . '"';
 				}
 			} elseif ( null !== $value ) {
-				$html .= ' ' . esc_attr( $name ) . '="' . ( $raw ? $value : esc_attr( $value ) ) . '"'; }
+				echo ' ' . esc_attr( $name ) . '="' . esc_attr( $value ) . '"';
+			}
 		}
-
-		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -256,92 +309,17 @@ class Hustle_Layout_Helper {
 	 * @param string|bool $support Whether the image has retina support.
 	 */
 	private function hustle_image( $image_path, $image_suffix, $image_class, $support ) {
-		$image = '';
+		/* translators: Plugin name */
+		$image_name = esc_html( sprintf( __( '%s image', 'hustle' ), Opt_In_Utils::get_plugin_name() ) );
 
-		$image_name = esc_html__( 'Hustle image', 'hustle' );
-		if ( ( true === $support ) || ( '2x' === $support ) ) {
-			if ( '' !== $image_class ) {
-				$image = '<img src="' . $image_path . '.' . $image_suffix . '" srcset="' . $image_path . '.' . $image_suffix . ' 1x, ' . $image_path . '@2x.' . $image_suffix . ' 2x" alt="' . $image_name . '" class="' . $image_class . '" aria-hidden="true">';
-			} else {
-				$image = '<img src="' . $image_path . '.' . $image_suffix . '" srcset="' . $image_path . '.' . $image_suffix . ' 1x, ' . $image_path . '@2x.' . $image_suffix . ' 2x" alt="' . $image_name . '" aria-hidden="true">';
-			}
-		} else {
-			if ( '' !== $image_class ) {
-				$image = '<img src="' . $image_path . '.' . $image_suffix . '" alt="' . $image_name . '" class="' . $image_class . '" aria-hidden="true">';
-			} else {
-				$image = '<img src="' . $image_path . '.' . $image_suffix . '" alt="' . $image_name . '" aria-hidden="true">';
-			}
+		echo '<img src="' . esc_url( $image_path . '.' . $image_suffix ) . '" alt="' . esc_attr( $image_name ) . '"';
+		if ( true === $support || '2x' === $support ) {
+			echo ' srcset="' . esc_attr( $image_path . '.' . $image_suffix ) . ' 1x, ' . esc_attr( $image_path . '@2x.' . $image_suffix ) . ' 2x"';
 		}
-		echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	}
-
-	/**
-	 * Return the image markup for retina and no retina images
-	 *
-	 * @since 4.3.1
-	 *
-	 * @param string $image_path URL for the given image.
-	 * @param string $image_retina_path URL for the given image for retina.
-	 * @param string $image_class Class for the image HTML element.
-	 * @param string $image_width Image max width.
-	 * @param string $image_height Image max height.
-	 *
-	 * @return string
-	 */
-	private function render_image_markup( $image_path, $image_retina_path = '', $image_class = '', $image_width = '', $image_height = '' ) {
-
-		$image        = '';
-		$image_path   = esc_url( $image_path );
-		$image_srcset = '';
-		$image_styles = '';
-
-		// If image is not set return empty string.
-		if ( empty( $image_path ) ) {
-			return '';
+		if ( '' !== $image_class ) {
+			echo ' class="' . esc_attr( $image_class ) . '"';
 		}
-		if ( ! empty( $image_retina_path ) || '' !== $image_retina_path ) {
-			$image_srcset = $image_path . ' 1x, ' . esc_url( $image_retina_path ) . ' 2x';
-		}
-
-		if ( '' !== $image_width || '' !== $image_height ) {
-
-			$image_styles .= ' style="';
-
-			if ( '' !== $image_width ) {
-				$image_styles .= 'max-width: ' . $image_width . 'px;';
-			}
-
-			if ( '' !== $image_height ) {
-				$image_styles .= 'max-height: ' . $image_height . 'px;';
-			}
-
-			$image_styles .= '"';
-
-		}
-
-		$image .= '<img';
-
-		$image .= ' src="' . $image_path . '"';
-
-		if ( '' !== $image_srcset ) {
-			$image .= ' srcset="' . $image_srcset . '"';
-		}
-
-		$image .= ' title="' . esc_attr__( 'Hustle image', 'hustle' ) . '"';
-		$image .= ' alt="' . esc_attr__( 'Hustle image commonly Hustle-Man doing something fun', 'hustle' ) . '"';
-
-		if ( ! empty( $image_class ) || '' !== $image_class ) {
-			$image .= ' class="' . $image_class . '"';
-		}
-
-		// Add styles to image.
-		$image .= $image_styles;
-
-		$image .= ' aria-hidden="true"';
-
-		$image .= '/>';
-
-		return $image;
+		echo ' aria-hidden="true">';
 	}
 
 	/**

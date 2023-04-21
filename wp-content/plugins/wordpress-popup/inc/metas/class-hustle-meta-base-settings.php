@@ -70,7 +70,9 @@ class Hustle_Meta_Base_Settings extends Hustle_Meta {
 			'after_optin_expiration'      => 365,
 			'after_optin_expiration_unit' => 'days',
 			'after_cta_expiration'        => 365,
+			'after_cta2_expiration'       => 365,
 			'after_cta_expiration_unit'   => 'days',
+			'after_cta2_expiration_unit'  => 'days',
 			'on_submit'                   => 'nothing', // close | default |nothing | redirect.
 			'on_submit_delay'             => '5',
 			'on_submit_delay_unit'        => 'seconds',
@@ -78,6 +80,7 @@ class Hustle_Meta_Base_Settings extends Hustle_Meta {
 			'close_cta_time'              => '0',
 			'close_cta_unit'              => 'seconds',
 			'hide_after_cta'              => 'keep_show', // keep_show | no_show_on_post | no_show_all.
+			'hide_after_cta2'             => 'keep_show', // keep_show | no_show_on_post | no_show_all.
 			'hide_after_subscription'     => 'keep_show', // keep_show | no_show_on_post | no_show_all.
 
 			'is_schedule'                 => '0',

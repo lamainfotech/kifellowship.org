@@ -38,7 +38,7 @@ class Hustle_Campaignmonitor_API {
 	 *
 	 * @var self|null
 	 */
-	protected static $instances = false;
+	protected static $instances;
 
 	/**
 	 * Hustle_Campaignmonitor constructor.

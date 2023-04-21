@@ -103,6 +103,22 @@ class Hustle_Meta_Base_Visibility extends Hustle_Meta {
 	 * @return bool
 	 */
 	public function is_allowed_to_display( $module_type, $sub_type = null ) {
+		$module_id = $this->module->id;
+
+		$allow = $this->allowed_to_display( $module_type, $sub_type );
+		$allow = apply_filters( 'hustle_module_is_allowed_to_display', $allow, $module_id, $module_type, $sub_type );
+
+		return $allow;
+	}
+
+	/**
+	 * Checks if this module is allowed to be displayed. It's internal method. Use is_allowed_to_display() instead.
+	 *
+	 * @param string $module_type Type of the current module.
+	 * @param string $sub_type    Display type for embeddeds and ssharing.
+	 * @return boolean
+	 */
+	private function allowed_to_display( $module_type, $sub_type ) {
 		$global_behavior = false;
 
 		$all_conditions = $this->get_conditions( $sub_type );

@@ -10,36 +10,7 @@ $is_ssharing     = Hustle_Module_Model::SOCIAL_SHARING_MODULE === $this->admin->
 $module_instance = new Hustle_Module_Model();
 
 if ( ! $is_ssharing ) {
-
 	$smallcaps_singular = Opt_In_Utils::get_module_type_display_name( $this->admin->module_type );
-
-	$optin_settings_markup = $this->render(
-		'admin/commons/sui-listing/dialogs/import-module-settings-section',
-		array(
-			'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, Hustle_Module_Model::OPTIN_MODE, true ),
-			'id'    => 'optin',
-		),
-		true
-	);
-
-	$info_settings_markup = $this->render(
-		'admin/commons/sui-listing/dialogs/import-module-settings-section',
-		array(
-			'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, Hustle_Module_Model::INFORMATIONAL_MODE, true ),
-			'id'    => 'info',
-		),
-		true
-	);
-
-} else {
-	$ssharing_settings_markup = $this->render(
-		'admin/commons/sui-listing/dialogs/import-module-settings-section',
-		array(
-			'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, '', true ),
-			'id'    => 'ssharing',
-		),
-		true
-	);
 }
 
 ob_start();
@@ -213,7 +184,15 @@ if ( ! $is_ssharing ) :
 					aria-labelledby="hustle-import-options--optin-tab"
 				>
 
-					<?php echo $optin_settings_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php
+					$this->render(
+						'admin/commons/sui-listing/dialogs/import-module-settings-section',
+						array(
+							'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, Hustle_Module_Model::OPTIN_MODE, true ),
+							'id'    => 'optin',
+						)
+					);
+					?>
 
 				</div>
 
@@ -226,7 +205,15 @@ if ( ! $is_ssharing ) :
 					hidden
 				>
 
-					<?php echo $info_settings_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php
+					$this->render(
+						'admin/commons/sui-listing/dialogs/import-module-settings-section',
+						array(
+							'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, Hustle_Module_Model::INFORMATIONAL_MODE, true ),
+							'id'    => 'info',
+						)
+					);
+					?>
 
 				</div>
 
@@ -240,16 +227,40 @@ if ( ! $is_ssharing ) :
 	<# } else { #>
 
 		<# if ( isOptin ) { #>
-			<?php echo $optin_settings_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php
+			$this->render(
+				'admin/commons/sui-listing/dialogs/import-module-settings-section',
+				array(
+					'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, Hustle_Module_Model::OPTIN_MODE, true ),
+					'id'    => 'optin',
+				)
+			);
+			?>
 		<# } else { #>
-			<?php echo $info_settings_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php
+			$this->render(
+				'admin/commons/sui-listing/dialogs/import-module-settings-section',
+				array(
+					'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, Hustle_Module_Model::INFORMATIONAL_MODE, true ),
+					'id'    => 'info',
+				)
+			);
+			?>
 		<# } #>
 
 	<# } #>
 
 <?php else : ?>
 
-	<?php echo $ssharing_settings_markup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+	<?php
+	$this->render(
+		'admin/commons/sui-listing/dialogs/import-module-settings-section',
+		array(
+			'metas' => $module_instance->get_module_meta_names( $this->admin->module_type, '', true ),
+			'id'    => 'ssharing',
+		)
+	)
+	?>
 
 <?php endif; ?>
 

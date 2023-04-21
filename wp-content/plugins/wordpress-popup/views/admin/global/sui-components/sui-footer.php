@@ -25,7 +25,7 @@ if ( $is_free && ! empty( $is_large ) && ! $hide_footer ) :
 endif;
 ?>
 
-<div class="sui-footer"><?php echo $footer_text; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+<div class="sui-footer"><?php echo wp_kses_post( $footer_text ); ?></div>
 
 <?php
 if ( ! $hide_footer ) {

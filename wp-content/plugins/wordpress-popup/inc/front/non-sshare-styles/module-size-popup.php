@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component = '.hustle-popup-content';
 
 $is_desktop_custom = ( '1' === $design['customize_size'] );

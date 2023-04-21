@@ -19,6 +19,20 @@ class Hustle_SShare_Model extends Hustle_Model {
 	const FLOAT_MODULE       = 'floating';
 
 	/**
+	 * Display settings
+	 *
+	 * @var array
+	 */
+	public $display;
+
+	/**
+	 * Module sub_type.
+	 *
+	 * @var string
+	 */
+	protected $sub_type;
+
+	/**
 	 * Get the sub-types for this module.
 	 *
 	 * @since 4.2.0
@@ -144,6 +158,7 @@ class Hustle_SShare_Model extends Hustle_Model {
 	 * @return array Sanitized data.
 	 */
 	public function sanitize_module( $data ) {
+		$data = Opt_In_Utils::validate_and_sanitize_fields( $data );
 		return $data;
 	}
 
@@ -355,7 +370,7 @@ class Hustle_SShare_Model extends Hustle_Model {
 		}
 
 		// Do use stored values if traffic is a crawler/bot.
-		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
+		$user_agent = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( $user_agent && preg_match( '/bot|crawler|ia_archiver|mediapartners-google|80legs|wget|voyager|baiduspider|curl|yahoo!|slurp/i', $user_agent ) ) {
 			return true;
 		}

@@ -23,9 +23,9 @@ class Hustle_Upsell_Page extends Hustle_Admin_Page_Abstract {
 
 		$this->page = 'hustle_pro';
 
-		$this->page_title = __( 'Hustle Pro', 'hustle' );
+		$this->page_title = Opt_In_Utils::get_plugin_name();
 
-		$this->page_menu_title = __( 'Hustle Pro', 'hustle' );
+		$this->page_menu_title = Opt_In_Utils::get_plugin_name();
 
 		$this->page_capability = 'hustle_menu';
 

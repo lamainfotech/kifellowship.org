@@ -63,7 +63,7 @@ if ( ! class_exists( 'Hustle_HubSpot_Api' ) ) :
 		public function process_callback_request() {
 			if ( $this->validate_callback_request( 'hubspot' ) ) {
 
-				$code   = filter_input( INPUT_GET, 'code' );
+				$code   = filter_input( INPUT_GET, 'code', FILTER_SANITIZE_SPECIAL_CHARS );
 				$status = 'error';
 
 				// Get the referer page that sent the request.
@@ -84,7 +84,7 @@ if ( ! class_exists( 'Hustle_HubSpot_Api' ) ) :
 				// Allow retry but don't log referrer.
 				$authorization_uri = $this->get_authorization_uri( false, false, $current_page );
 
-				$this->api_die( esc_attr__( 'HubSpot integration failed!', 'hustle' ), esc_url( $authorization_uri ), esc_url( $referer ) );
+				$this->api_die( __( 'HubSpot integration failed!', 'hustle' ), $authorization_uri, $referer );
 			}
 		}
 

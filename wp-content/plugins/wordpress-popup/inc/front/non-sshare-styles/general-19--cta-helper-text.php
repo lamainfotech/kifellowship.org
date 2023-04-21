@@ -6,8 +6,6 @@
  * @since 6.2.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component = '.hustle-layout p.hustle-cta-helper-text';
 
 // Component States.

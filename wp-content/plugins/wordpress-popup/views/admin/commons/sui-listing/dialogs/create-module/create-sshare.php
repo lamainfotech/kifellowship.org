@@ -74,7 +74,16 @@ $image_2x = self::$plugin_url . 'assets/images/hustle-create@2x.png';
 		/>
 		<?php
 	} else {
-		echo $this->render_image_markup( $this->branding_image, '', 'sui-image sui-image-center', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// Image markup.
+		$this->render(
+			'admin/image-markup',
+			array(
+				'path'   => $this->branding_image,
+				'class'  => 'sui-image sui-image-center',
+				'width'  => 172,
+				'height' => 192,
+			)
+		);
 	}
 	?>
 

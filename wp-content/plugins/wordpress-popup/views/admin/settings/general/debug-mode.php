@@ -11,7 +11,7 @@
 
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label"><?php esc_html_e( 'Debug Mode', 'hustle' ); ?></span>
-		<span class="sui-description"><?php esc_html_e( 'Debug mode can help you troubleshoot any issues with your Hustle modules.', 'hustle' ); ?></span>
+		<span class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Debug mode can help you troubleshoot any issues with your %s modules.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 	</div>
 
 	<div class="sui-box-settings-col-2">
@@ -37,9 +37,9 @@
 
 				<span class="sui-toggle-slider" aria-hidden="true"></span>
 
-				<span id="hustle-debug-enabled-label" class="sui-toggle-label"><?php esc_html_e( 'Enable Hustle debug mode', 'hustle' ); ?></span>
+				<span id="hustle-debug-enabled-label" class="sui-toggle-label"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Enable %s debug mode', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 
-				<span id="hustle-debug-enabled-description" class="sui-description"><?php esc_html_e( 'Choose whether you want to enable the debug mode or not. It’s recommended to keep it enabled while troubleshooting any issues. When enabled, Hustle will write all the logs in the debug.log file.', 'hustle' ); ?></span>
+				<span id="hustle-debug-enabled-description" class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Choose whether you want to enable the debug mode or not. It’s recommended to keep it enabled while troubleshooting any issues. When enabled, %s will write all the logs in the debug.log file.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 
 			</label>
 
@@ -51,8 +51,8 @@
 						array(
 							'type'  => 'inline_notice',
 							'icon'  => 'info',
-							/* translators: 1: opening 'strong' tag, 2: closing 'strong' tag. */
-							'value' => sprintf( esc_html__( 'Hustle debug mode requires WordPress debugging to be enabled. So, make sure you have the %1$sWP_DEBUG%2$s, and %1$sWP_DEBUG_LOG%2$s defines set to %1$strue%2$s in your wp-config file.', 'hustle' ), '<strong>', '</strong>' ),
+							/* translators: 1: opening 'strong' tag, 2: closing 'strong' tag. 3. Plugin name */
+							'value' => sprintf( esc_html__( '%3$s debug mode requires WordPress debugging to be enabled. So, make sure you have the %1$sWP_DEBUG%2$s, and %1$sWP_DEBUG_LOG%2$s defines set to %1$strue%2$s in your wp-config file.', 'hustle' ), '<strong>', '</strong>', esc_html( Opt_In_Utils::get_plugin_name() ) ),
 						),
 					)
 				);

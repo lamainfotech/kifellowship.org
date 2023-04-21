@@ -82,9 +82,9 @@ class Opt_In_WPMUDEV_API {
 	 * @return bool
 	 */
 	public function validate_callback_request( $provider ) {
-		$wpnonce        = filter_input( INPUT_GET, 'wpnonce' );
+		$wpnonce        = filter_input( INPUT_GET, 'wpnonce', FILTER_SANITIZE_SPECIAL_CHARS );
 		$domain         = filter_input( INPUT_GET, 'domain', FILTER_VALIDATE_URL );
-		$provider_input = filter_input( INPUT_GET, 'provider' );
+		$provider_input = filter_input( INPUT_GET, 'provider', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		return ! empty( $wpnonce ) && $this->verify_nonce( $wpnonce )
 			&& self::DOMAIN === $domain && $provider === $provider_input;
@@ -98,17 +98,18 @@ class Opt_In_WPMUDEV_API {
 	 * @param string $cancel_url Cancel URL.
 	 */
 	public function api_die( $message, $retry_url = '', $cancel_url = '' ) {
-		$html  = sprintf( '<p><img src="%s" /></p>', Opt_In::$plugin_url . 'assets/img/hustle.png' );
-		$html .= sprintf( '<p>%s</p>', $message );
+		$html  = sprintf( '<p><img src="%s" /></p>', esc_url( Opt_In::$plugin_url . 'assets/img/hustle.png' ) );
+		$html .= sprintf( '<p>%s</p>', esc_html( $message ) );
 
 		if ( ! empty( $retry_url ) ) {
-			$html .= sprintf( '<a href="%s" class="button button-large">%s</a>', esc_url( $retry_url ), __( 'Retry', 'hustle' ) ); }
+			$html .= sprintf( '<a href="%s" class="button button-large">%s</a>', esc_url( $retry_url ), esc_html__( 'Retry', 'hustle' ) ); }
 
 		if ( ! empty( $cancel_url ) ) {
-			$html .= sprintf( ' <a href="%s" class="button button-large">%s</a>', esc_url( $cancel_url ), __( 'Cancel', 'hustle' ) ); }
+			$html .= sprintf( ' <a href="%s" class="button button-large">%s</a>', esc_url( $cancel_url ), esc_html__( 'Cancel', 'hustle' ) ); }
 
 		$html = sprintf( '<div style="text-align: center;">%s</div>', $html );
 
-		wp_die( esc_html( $html ), esc_html__( 'Hustle failure notice.', 'hustle' ), 403 );
+		/* translators: Plugin name */
+		wp_die( wp_kses_post( $html ), esc_html( sprintf( __( '%s failure notice.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ), 403 );
 	}
 }

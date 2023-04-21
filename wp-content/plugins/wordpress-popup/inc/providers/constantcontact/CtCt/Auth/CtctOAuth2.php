@@ -17,6 +17,7 @@ class CtctOAuth2
     public $clientSecret;
     public $redirectUri;
     public $props;
+    public $restClient;
 
     public function __construct($clientId, $clientSecret, $redirectUri, $restClient = null)
     {

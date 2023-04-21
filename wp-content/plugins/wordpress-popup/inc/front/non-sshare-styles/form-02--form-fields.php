@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $container = '.hustle-form .hustle-form-fields';
 $component = $container . ' .hustle-field';
 

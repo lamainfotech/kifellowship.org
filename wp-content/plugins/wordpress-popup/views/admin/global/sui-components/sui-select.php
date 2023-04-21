@@ -4,8 +4,6 @@
  *
  * @package Hustle
  * @since 4.3.0
- *
- * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
 ?>

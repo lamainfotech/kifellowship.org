@@ -6,15 +6,6 @@
  * @since 4.0.0
  */
 
-$slide_one_1x = self::$plugin_url . 'assets/images/onboard-welcome.png';
-$slide_one_2x = self::$plugin_url . 'assets/images/onboard-welcome@2x.png';
-
-$slide_two_1x = self::$plugin_url . 'assets/images/onboard-migrate.png';
-$slide_two_2x = self::$plugin_url . 'assets/images/onboard-migrate@2x.png';
-
-$slide_three_1x = self::$plugin_url . 'assets/images/onboard-create.png';
-$slide_three_2x = self::$plugin_url . 'assets/images/onboard-create@2x.png';
-
 $is_first_time_opening = empty( filter_input( INPUT_GET, 'show-migrate', FILTER_VALIDATE_BOOLEAN ) );
 $support_link          = Opt_In_Utils::get_link( 'support' );
 
@@ -29,7 +20,7 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 		id="hustle-dialog--migrate"
 		class="sui-modal-content"
 		aria-modal="true"
-		aria-label="<?php esc_html_e( 'Modal for migrating your existing tracking data to the latest Hustle version.', 'hustle' ); ?>"
+		aria-label="<?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Modal for migrating your existing tracking data to the latest %s version.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>"
 		aria-live="polite"
 		data-nonce="<?php echo esc_attr( wp_create_nonce( 'hustle_dismiss_notification' ) ); ?>"
 		data-is-first="<?php echo $is_first_time_opening ? '1' : '0'; ?>"
@@ -44,7 +35,15 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 
 					<?php if ( ! $this->is_branding_hidden ) : ?>
 						<figure class="sui-box-banner" role="banner" aria-hidden="true">
-							<?php echo $this->render_image_markup( $slide_one_1x, $slide_one_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+							<?php
+							$image_attrs = array(
+								'path'        => self::$plugin_url . 'assets/images/onboard-welcome.png',
+								'retina_path' => self::$plugin_url . 'assets/images/onboard-welcome@2x.png',
+								'class'       => 'sui-image sui-image-center',
+							);
+
+							$this->render( 'admin/image-markup', $image_attrs );
+							?>
 						</figure>
 					<?php endif; ?>
 
@@ -53,7 +52,7 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 						<?php printf( esc_html__( 'Hey, %s', 'hustle' ), esc_html( $username ) ); ?>
 					</h3>
 
-					<p class="sui-description"><?php esc_html_e( "Welcome to Hustle, the only plugin you'll ever need to turn your visitors into loyal subscribers, leads and customers.", 'hustle' ); ?></p>
+					<p class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( "Welcome to %s, the only plugin you'll ever need to turn your visitors into loyal subscribers, leads and customers.", 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></p>
 
 				</div>
 
@@ -84,7 +83,15 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 				<div class="sui-box-header sui-flatten sui-content-center sui-spacing-top--60">
 
 					<figure class="sui-box-banner" role="banner" aria-hidden="true">
-						<?php echo $this->render_image_markup( $slide_two_1x, $slide_two_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php
+						$image_attrs = array(
+							'path'        => self::$plugin_url . 'assets/images/onboard-migrate.png',
+							'retina_path' => self::$plugin_url . 'assets/images/onboard-migrate@2x.png',
+							'class'       => 'sui-image sui-image-center',
+						);
+
+						$this->render( 'admin/image-markup', $image_attrs );
+						?>
 					</figure>
 
 					<h3
@@ -99,11 +106,11 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 						id="hustle-dialog--migrate-slide-2-description"
 						class="sui-description"
 						style="margin-bottom: 0;"
-						data-default-text="<?php esc_html_e( 'Nice work on updating the Hustle! All your modules are already in place. However, you need to migrate the data of your existing modules such as tracking data and email list manually.', 'hustle' ); ?>"
+						data-default-text="<?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Nice work on updating the %s! All your modules are already in place. However, you need to migrate the data of your existing modules such as tracking data and email list manually.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>"
 						data-migrate-text="<?php esc_html_e( 'Data migration is in progress. It can take anywhere from a few seconds to a couple of hours depending upon the data of your existing modules and traffic on your site.', 'hustle' ); ?>"
-						data-done-text="<?php esc_html_e( "We've successfully migrated your existing data. You're good to continue using Hustle!", 'hustle' ); ?>"
+						data-done-text="<?php /* translators: Plugin name */ echo esc_html( sprintf( __( "We've successfully migrated your existing data. You're good to continue using %s!", 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>"
 					>
-						<?php esc_html_e( 'Nice work on updating the Hustle! All your modules are already in place. However, you need to migrate the data of your existing modules such as tracking data and email list manually.', 'hustle' ); ?>
+						<?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Nice work on updating the %s! All your modules are already in place. However, you need to migrate the data of your existing modules such as tracking data and email list manually.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>
 					</p>
 
 				</div>
@@ -218,7 +225,15 @@ $username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->us
 					</button>
 
 					<figure class="sui-box-banner" role="banner" aria-hidden="true">
-						<?php echo $this->render_image_markup( $slide_three_1x, $slide_three_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php
+						$image_attrs = array(
+							'path'        => self::$plugin_url . 'assets/images/onboard-create.png',
+							'retina_path' => self::$plugin_url . 'assets/images/onboard-create@2x.png',
+							'class'       => 'sui-image sui-image-center',
+						);
+
+						$this->render( 'admin/image-markup', $image_attrs );
+						?>
 					</figure>
 
 					<h3 class="sui-box-title sui-lg"><?php esc_html_e( 'Create Module', 'hustle' ); ?></h3>

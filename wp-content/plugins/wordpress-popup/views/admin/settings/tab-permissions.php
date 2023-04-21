@@ -66,7 +66,8 @@ if ( 'permissions' !== $section ) {
 				'roles'         => $roles,
 				'form_id'       => $form_id,
 				'label'         => __( 'Edit Integrations', 'hustle' ),
-				'description'   => __( 'Choose the user roles which can access the Integrations page and connect or disconnect Hustle to third-party apps.', 'hustle' ),
+				/* translators: Plugin name */
+				'description'   => sprintf( __( 'Choose the user roles which can access the Integrations page and connect or disconnect %s to third-party apps.', 'hustle' ), Opt_In_Utils::get_plugin_name() ),
 				'input_name'    => 'edit_integrations[]',
 				'current_value' => $settings['edit_integrations'],
 			)

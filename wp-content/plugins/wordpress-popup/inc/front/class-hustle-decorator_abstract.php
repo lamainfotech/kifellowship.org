@@ -79,6 +79,6 @@ abstract class Hustle_Decorator_Abstract {
 
 		$styles = $this->get_styles();
 
-		return $styles;
+		return wp_strip_all_tags( $styles );
 	}
 }

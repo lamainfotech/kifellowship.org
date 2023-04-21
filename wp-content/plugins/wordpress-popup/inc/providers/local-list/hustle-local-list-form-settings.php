@@ -85,7 +85,8 @@ if ( ! class_exists( 'Hustle_Local_List_Form_Settings' ) ) :
 				get_admin_url( get_current_blog_id(), 'admin.php' )
 			);
 			$step_html    = Hustle_Provider_Utils::get_integration_modal_title_markup(
-				__( 'Hustle\'s Local List', 'hustle' ),
+				/* translators: Plugin name */
+				sprintf( __( '%s\'s Local List', 'hustle' ), Opt_In_Utils::get_plugin_name() ),
 				sprintf(
 					/* translators: 1. open 'a' tag 2. closing 'a' tag */
 					__( 'Save the submissions in your database so you can access them or export them from the %1$sEmail Lists%2$s page. Local list (when active) also stores the status of active third-party apps for each submission.', 'hustle' ),

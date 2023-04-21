@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 // SETTINGS: Padding.
 $padding_top    = ( '' !== $advanced['popup_cont_padding_top'] ) ? $advanced['popup_cont_padding_top'] . $advanced['popup_cont_padding_unit'] : '0';
 $padding_right  = ( '' !== $advanced['popup_cont_padding_right'] ) ? $advanced['popup_cont_padding_right'] . $advanced['popup_cont_padding_unit'] : '0';

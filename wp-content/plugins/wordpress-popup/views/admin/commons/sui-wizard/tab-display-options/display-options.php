@@ -127,8 +127,9 @@ $inline_both  = self::$plugin_url . 'assets/images/embed-position-both';
 				<span class="sui-description" style="display: none;" data-toggle-content="widget-enabled">
 					<?php
 					printf(
-						/* translators: 'Appearance' string linked to the widgets lists */
-						esc_html__( 'Enabling this will add this embed to widget named "Hustle" under the Available Widgets list as a possible option. You can go to %s and configure this widget to show your embed in the sidebars.', 'hustle' ),
+						/* translators: 1. Plugin name 2. 'Appearance' string linked to the widgets lists */
+						esc_html__( 'Enabling this will add this embed to widget named "%1$s" under the Available Widgets list as a possible option. You can go to %2$s and configure this widget to show your embed in the sidebars.', 'hustle' ),
+						esc_html( Opt_In_Utils::get_plugin_name() ),
 						sprintf(
 							'<strong>%1$s > %2$s</strong>',
 							esc_html__( 'Appearance', 'hustle' ),

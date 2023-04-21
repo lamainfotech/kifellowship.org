@@ -532,7 +532,7 @@ class Hustle_Provider_Utils {
 		}
 
 		if ( ! empty( $subtitle ) ) {
-			$html .= '<p class="sui-description">' . $subtitle . '</p>';
+			$html .= '<p class="sui-description">' . wp_kses_post( $subtitle ) . '</p>';
 		}
 
 		$html .= '</div>';
@@ -609,7 +609,7 @@ class Hustle_Provider_Utils {
 				'<%1$s class="sui-button-icon sui-tooltip %2$s" data-tooltip="%3$s" %4$s >',
 				$tag,
 				esc_attr( $action_class . $class ),
-				__( 'Refresh list', 'hustle' ),
+				esc_html__( 'Refresh list', 'hustle' ),
 				disabled( $disabled, true, false )
 			);
 				$html     .= '<span class="sui-loading-text" aria-hidden="true">';

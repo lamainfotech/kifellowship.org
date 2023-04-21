@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component = '.hustle-layout-form .hustle-checkbox.hustle-gdpr';
 
 // SETTINGS: Margin.

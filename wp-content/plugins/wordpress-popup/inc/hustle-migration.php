@@ -13,12 +13,27 @@
 class Hustle_Migration {
 
 	/**
+	 * Is multisite
+	 *
+	 * @var bool
+	 */
+	private $is_multisite = false;
+
+	/**
 	 * Instance of Hustle_410_Migration.
 	 *
 	 * @since 4.1.0
 	 * @var Hustle_410_Migration
 	 */
 	public $migration_410;
+
+	/**
+	 * Instance of Hustle_430_Migration.
+	 *
+	 * @since 4.3.0
+	 * @var Hustle_430_Migration
+	 */
+	private $migration_430;
 
 	/**
 	 * Hustle_Migration instance.

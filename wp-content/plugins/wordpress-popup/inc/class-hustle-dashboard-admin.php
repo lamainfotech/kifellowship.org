@@ -13,7 +13,7 @@ class Hustle_Dashboard_Admin extends Hustle_Admin_Page_Abstract {
 
 	const WELCOME_MODAL_NAME   = 'welcome_modal';
 	const MIGRATE_MODAL_NAME   = 'migrate_modal';
-	const HIGHLIGHT_MODAL_NAME = 'release_highlight_modal_460';
+	const HIGHLIGHT_MODAL_NAME = 'release_highlight_modal_470';
 	const MIGRATE_NOTICE_NAME  = 'migrate_notice';
 
 	/**
@@ -62,7 +62,7 @@ class Hustle_Dashboard_Admin extends Hustle_Admin_Page_Abstract {
 	 */
 	public function register_admin_menu() {
 
-		$parent_menu_title = Opt_In_Utils::is_free() ? __( 'Hustle', 'hustle' ) : __( 'Hustle Pro', 'hustle' );
+		$parent_menu_title = Opt_In_Utils::get_plugin_name();
 
 		// Parent menu.
 		add_menu_page(

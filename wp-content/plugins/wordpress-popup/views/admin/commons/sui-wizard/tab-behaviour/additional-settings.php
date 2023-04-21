@@ -125,6 +125,35 @@ $hide_after_subscription_desc = $is_optin ?
 
 		</div>
 
+		<?php // SETTINGS: Visibility after CTA Button 2 conversion. ?>
+		<div class="sui-form-field" data-toggle-content="show-cta2">
+
+			<label class="sui-settings-label"><?php esc_html_e( 'Visibility after CTA ( Button 2 ) conversion', 'hustle' ); ?></label>
+
+			<?php /* translators: module type in small caps and in singular */ ?>
+			<span class="sui-description" style="margin-bottom: 10px;"><?php printf( esc_html__( 'Choose the %s visibility once a visitor has clicked on the CTA button 2.', 'hustle' ), esc_html( $smallcaps_singular ) ); ?></span>
+
+			<select class="sui-select hustle-select-with-container" data-attribute="hide_after_cta2" name="hide_after_cta2" data-content-on="no_show_on_post,no_show_all">
+				<option value="keep_show" <?php selected( $settings['hide_after_cta2'], 'keep_show' ); ?>><?php esc_html_e( 'Keep showing this module', 'hustle' ); ?></option>
+				<option value="no_show_all" <?php selected( $settings['hide_after_cta2'], 'no_show_all' ); ?>><?php esc_html_e( 'No longer show this module across the site', 'hustle' ); ?></option>
+				<option value="no_show_on_post" <?php selected( $settings['hide_after_cta2'], 'no_show_on_post' ); ?>><?php esc_html_e( 'No longer show this module on this post/page', 'hustle' ); ?></option>
+			</select>
+
+			<?php
+			// Reset cookie settings.
+			$this->render(
+				'admin/commons/sui-wizard/tab-behaviour/reset-cookie-settings',
+				array(
+					'settings'           => $settings,
+					'data_field_content' => 'hide_after_cta2',
+					'option_prefix'      => 'after_cta2_',
+					'description'        => __( 'This module will be visible again after this much time has passed since CTA ( Button 2 ) conversion.', 'hustle' ),
+				)
+			);
+			?>
+
+		</div>
+
 		<?php // SETTINGS: External form conversion behavior. ?>
 
 		<div class="sui-form-field">

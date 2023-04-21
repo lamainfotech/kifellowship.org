@@ -6,8 +6,6 @@
  * @since 4.0.0
  */
 
-$image_1x = self::$plugin_url . 'assets/images/hustle-welcome.png';
-$image_2x = self::$plugin_url . 'assets/images/hustle-welcome@2x.png';
 ?>
 
 <div class="sui-box sui-message sui-message-lg">
@@ -15,10 +13,21 @@ $image_2x = self::$plugin_url . 'assets/images/hustle-welcome@2x.png';
 
 	<?php
 	if ( ! $this->is_branding_hidden ) :
-		echo $this->render_image_markup( $image_1x, $image_2x, 'sui-image' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$image_attrs = array(
+			'path'        => self::$plugin_url . 'assets/images/hustle-welcome.png',
+			'retina_path' => self::$plugin_url . 'assets/images/hustle-welcome@2x.png',
+		);
 	else :
-		echo $this->render_image_markup( $this->branding_image, '', 'sui-image', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		$image_attrs = array(
+			'path'   => $this->branding_image,
+			'width'  => 172,
+			'height' => 192,
+		);
 	endif;
+	$image_attrs['class'] = 'sui-image';
+
+	// Image markup.
+	$this->render( 'admin/image-markup', $image_attrs );
 	?>
 
 	<div class="sui-message-content">

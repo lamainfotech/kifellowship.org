@@ -6,8 +6,6 @@
  * @since 4.0.0
  */
 
-$image_1x = self::$plugin_url . 'assets/images/hustle-visibility.png';
-$image_2x = self::$plugin_url . 'assets/images/hustle-visibility@2x.png';
 ?>
 
 <?php // TEMPLATE: Visibility Group. ?>
@@ -164,10 +162,21 @@ $image_2x = self::$plugin_url . 'assets/images/hustle-visibility@2x.png';
 
 				<?php
 				if ( ! $this->is_branding_hidden ) :
-					echo $this->render_image_markup( $image_1x, $image_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$image_attrs = array(
+						'path'        => self::$plugin_url . 'assets/images/hustle-visibility.png',
+						'retina_path' => self::$plugin_url . 'assets/images/hustle-visibility@2x.png',
+					);
 				else :
-					echo $this->render_image_markup( $this->branding_image, '', 'sui-image sui-image-center', 172, 192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					$image_attrs = array(
+						'path'   => $this->branding_image,
+						'width'  => 172,
+						'height' => 192,
+					);
 				endif;
+				$image_attrs['class'] = 'sui-image sui-image-center';
+
+				// Image markup.
+				$this->render( 'admin/image-markup', $image_attrs );
 				?>
 
 			</div>
@@ -622,6 +631,29 @@ $image_2x = self::$plugin_url . 'assets/images/hustle-visibility@2x.png';
 
 	</div>
 
+	<div class="sui-col">
+
+		<label class="sui-label"><?php esc_html_e( 'Reset cookie through', 'hustle' ); ?></label>
+
+		<select
+			id="{{ groupId }}-{{ type }}-less_than_expiration"
+			name="{{ groupId }}-{{ type }}-less_than_expiration"
+			class="sui-select"
+			data-val="less_than_expiration"
+			data-attribute="less_than_expiration"
+		>
+			<# _.each( optinVars.less_than_expiration, function( value, key ) { #>
+				<option
+					value="{{ key }}"
+					{{ _.selected( ( less_than_expiration === key ), true) }}
+				>
+					{{ value }}
+				</option>
+			<# }); #>
+		</select>
+
+	</div>
+
 </div>
 
 </script>
@@ -732,7 +764,7 @@ $image_2x = self::$plugin_url . 'assets/images/hustle-visibility@2x.png';
 
 				<textarea placeholder="<?php esc_html_e( 'Enter the referrer URL', 'hustle' ); ?>"
 					class="sui-form-control"
-					data-attribute="refs">{{{ refs }}}</textarea>
+					data-attribute="refs">{{ refs }}</textarea>
 
 				<span class="sui-description"><?php esc_html_e( 'It can be a full URL or a pattern like “.website.com”. You can use wildcards in URLs. Enter one pattern/URL per line.', 'hustle' ); ?></span>
 
@@ -884,7 +916,7 @@ $image_2x = self::$plugin_url . 'assets/images/hustle-visibility@2x.png';
 
 				<textarea placeholder="<?php esc_html_e( 'Enter the URLs', 'hustle' ); ?>"
 					class="sui-form-control"
-					data-attribute="urls">{{{ urls }}}</textarea>
+					data-attribute="urls">{{ urls }}</textarea>
 
 				<span class="sui-description"><?php esc_html_e( 'Enter only one URL per line. You can use wildcards in URLs. Ensure the correct protocol - "http://" or "https://" - is used, or do not include the protocol at all so the URL will apply for both protocols.', 'hustle' ); ?></span>
 

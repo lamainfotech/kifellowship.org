@@ -4,11 +4,8 @@
  *
  * @package Hustle
  * @since 4.3.0
- *
- * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
-$html  = '';
 $label = ( isset( $label ) && ! empty( $label ) ) ? $label : __( 'Pick a unit', 'hustle' );
 $units = array(
 	'px' => 'px',
@@ -27,9 +24,10 @@ if ( ! empty( $extra_units ) ) {
 	$units = array_merge( $units, $extra_units );
 }
 
-$html .= '<label for="hustle-' . $name . '" id="hustle-' . $name . '-label" class="sui-label">';
-$html .= esc_html( $label );
-$html .= Hustle_Layout_Helper::get_html_for_options(
+echo '<label for="hustle-' . esc_attr( $name ) . '" id="hustle-' . esc_attr( $name ) . '-label" class="sui-label">';
+echo esc_html( $label );
+
+Hustle_Layout_Helper::get_html_for_options(
 	array(
 		array(
 			'type'       => 'select',
@@ -44,9 +42,7 @@ $html .= Hustle_Layout_Helper::get_html_for_options(
 				'aria-labelledby' => 'hustle-' . $name . '-label',
 			),
 		),
-	),
-	true
+	)
 );
-$html .= '</label>';
 
-echo $html;
+echo '</label>';

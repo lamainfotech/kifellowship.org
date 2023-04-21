@@ -115,6 +115,6 @@
 <script id="hustle-modules-active-integration-desc-tpl" type="text/template">
 
 	<?php // Description. ?>
-	{{title}}<?php esc_html_e( " is active (collecting data) on the following modules. Are you sure you wish to disconnect it? Note that if disconnecting this app results into modules without an active app, we'll activate the Hustle's Local List for those modules.", 'hustle' ); ?>
+	{{title}}<?php /* translators: Plugin name */ echo esc_html( sprintf( __( " is active (collecting data) on the following modules. Are you sure you wish to disconnect it? Note that if disconnecting this app results into modules without an active app, we'll activate the %s's Local List for those modules.", 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?>
 
 </script>

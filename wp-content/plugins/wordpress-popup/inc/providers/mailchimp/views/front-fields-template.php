@@ -81,7 +81,7 @@ $display_none = 'hidden' === $group_type ? ' style="display:none;"' : '';
 				class="hustle-select2"
 				data-rtl-support=<?php echo ( ! $is_rtl ) ? 'false' : 'true'; ?>
 				data-language="en"
-				data-placeholder="<?php echo esc_html( $dropdown_placeholder ); ?>"
+				data-placeholder="<?php echo esc_attr( $dropdown_placeholder ); ?>"
 			>
 
 				<?php

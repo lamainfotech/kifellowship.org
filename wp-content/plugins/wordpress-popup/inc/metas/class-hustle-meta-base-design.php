@@ -126,6 +126,8 @@ class Hustle_Meta_Base_Design extends Hustle_Meta {
 			'close_icon_style'                            => 'flat',
 			'close_icon_style_mobile'                     => 'flat',
 			'close_button_static_background'              => '#f4973c',
+			'close_icon_size'                             => '12',
+			'close_icon_size_mobile'                      => '12',
 
 			// ========================================|
 			// 3. Typography.

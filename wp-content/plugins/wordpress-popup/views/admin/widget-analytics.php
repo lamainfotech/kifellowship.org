@@ -102,7 +102,7 @@ $available_module_types = array(
 
 				<div class="hustle-message-empty" style="display:none;">
 					<p class="hustle-title"><?php esc_html_e( "We haven't collected enough data yet.", 'hustle' ); ?></p>
-					<p class="hustle-text"><?php esc_html_e( 'You will start viewing the performance statistics of your Hustle modules shortly. So feel free to check back soon', 'hustle' ); ?></p>
+					<p class="hustle-text"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'You will start viewing the performance statistics of your %s modules shortly. So feel free to check back soon', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></p>
 				</div>
 
 				<canvas id="hustle-analytics-chart"></canvas>

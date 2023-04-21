@@ -24,8 +24,9 @@ class Hustle_Module_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			self::WIDGET_ID,
-			__( 'Hustle', 'hustle' ),
-			array( 'description' => __( 'A widget to add Hustle Embeds and Social Sharing.', 'hustle' ) )
+			Opt_In_Utils::get_plugin_name(),
+			/* translators: Plugin name */
+			array( 'description' => sprintf( __( 'A widget to add %s Embeds and Social Sharing.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) )
 		);
 	}
 
@@ -40,38 +41,28 @@ class Hustle_Module_Widget extends WP_Widget {
 	 * @return string
 	 */
 	public function widget( $args, $instance ) {
-		// phpcs:disable
-		if ( empty( $instance['module_id'] ) ) {
+		if ( ! empty( $instance['module_id'] ) ) {
+			$module = Hustle_Module_Collection::instance()->return_model_from_id( $instance['module_id'] );
 
-			echo $args['before_widget'];
-
-			if ( ! empty( $instance['title'] ) ) {
-				echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
+			if ( is_wp_error( $module ) || ! $module || empty( $module->active ) || ! $module->is_display_type_active( Hustle_Module_Model::WIDGET_MODULE ) ) {
+				return;
 			}
-			echo esc_attr__( 'Select Module', 'hustle' );
-
-			echo $args['after_widget'];
-
-			return;
 		}
 
-		$module = Hustle_Module_Collection::instance()->return_model_from_id( $instance['module_id'] );
-
-		if ( is_wp_error( $module ) || ! $module || empty( $module->active ) || ! $module->is_display_type_active( Hustle_Module_Model::WIDGET_MODULE ) ) {
-			return;
-		}
-
-		echo $args['before_widget'];
+		echo wp_kses_post( $args['before_widget'] );
 
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ). $args['after_title'];
+			echo wp_kses_post( $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'] );
 		}
 
-		$custom_classes = apply_filters( 'hustle_widget_module_custom_classes', '', $module );
-		$module->display( Hustle_Module_Model::WIDGET_MODULE, $custom_classes );
+		if ( ! empty( $instance['module_id'] ) ) {
+			$custom_classes = apply_filters( 'hustle_widget_module_custom_classes', '', $module );
+			echo $module->display( Hustle_Module_Model::WIDGET_MODULE, $custom_classes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		} else {
+			esc_attr_e( 'Select Module', 'hustle' );
+		}
 
-		echo $args['after_widget'];
-		// phpcs:enable
+		echo wp_kses_post( $args['after_widget'] );
 	}
 
 

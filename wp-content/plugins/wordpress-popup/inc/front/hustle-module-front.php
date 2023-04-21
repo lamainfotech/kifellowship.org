@@ -133,11 +133,7 @@ class Hustle_Module_Front {
 			0
 		);
 
-		add_action(
-			'wp_footer',
-			array( $this, 'render_non_inline_modules' ),
-			-1
-		);
+		add_action( 'template_redirect', array( $this, 'render_non_inline_modules' ) );
 
 		add_filter( 'get_the_excerpt', array( $this, 'remove_the_content_filter' ), 9 );
 		add_filter( 'wp_trim_excerpt', array( $this, 'restore_the_content_filter' ) );
@@ -858,16 +854,23 @@ class Hustle_Module_Front {
 	 * Render non inline modules
 	 */
 	public function render_non_inline_modules() {
+		$html = '';
 
 		foreach ( $this->non_inline_modules as $module ) {
 
 			if ( Hustle_Module_Model::SOCIAL_SHARING_MODULE !== $module->module_type ) {
-				$module->display();
-
+				$html .= $module->display();
 			} elseif ( $module->is_display_type_active( Hustle_SShare_Model::FLOAT_DESKTOP ) || $module->is_display_type_active( Hustle_SShare_Model::FLOAT_MOBILE ) ) {
-				$module->display( Hustle_SShare_Model::FLOAT_MODULE );
+				$html .= $module->display( Hustle_SShare_Model::FLOAT_MODULE );
 			}
 		}
+
+		add_action(
+			'wp_footer',
+			function() use ( $html ) {
+				echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			}
+		);
 	}
 
 	/**
@@ -880,13 +883,10 @@ class Hustle_Module_Front {
 	public function unsubscribe_shortcode( $atts ) {
 		$messages = Hustle_Settings_Admin::get_unsubscribe_messages();
 		$email    = filter_input( INPUT_GET, 'email', FILTER_VALIDATE_EMAIL );
-		$nonce    = filter_input( INPUT_GET, 'token' );
+		$nonce    = filter_input( INPUT_GET, 'token', FILTER_SANITIZE_SPECIAL_CHARS );
 		if ( $nonce && $email ) {
 			$error_message = $messages['invalid_data'];
-			// checking if email is valid.
-			if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-				return $error_message;
-			}
+
 			$entry        = new Hustle_Entry_Model();
 			$unsubscribed = $entry->unsubscribe_email( $email, $nonce );
 			if ( $unsubscribed ) {
@@ -923,7 +923,7 @@ class Hustle_Module_Front {
 		Opt_In_Utils::validate_ajax_call( 'hustle_gutenberg_get_unsubscribe_form' );
 
 		$atts = array();
-		$ids  = filter_input( INPUT_GET, 'module_ids' );
+		$ids  = filter_input( INPUT_GET, 'module_ids', FILTER_SANITIZE_SPECIAL_CHARS );
 		$skip = filter_input( INPUT_GET, 'skip_confirmation', FILTER_VALIDATE_BOOLEAN );
 
 		if ( $ids ) {
@@ -991,11 +991,7 @@ class Hustle_Module_Front {
 			}
 
 			// Display the module.
-			ob_start();
-
-			$module->display( Hustle_Module_Model::SHORTCODE_MODULE, $custom_classes );
-
-			return ob_get_clean();
+			return $module->display( Hustle_Module_Model::SHORTCODE_MODULE, $custom_classes );
 		}
 
 		if ( isset( $this->non_inline_modules[ $module_id ] ) && ! empty( $content ) ) {
@@ -1065,10 +1061,7 @@ class Hustle_Module_Front {
 			}
 
 			$custom_classes = apply_filters( 'hustle_inline_module_custom_classes', '', $module );
-
-			ob_start();
-			$module->display( Hustle_Module_Model::INLINE_MODULE, $custom_classes );
-			$module_markup = ob_get_clean();
+			$module_markup  = $module->display( Hustle_Module_Model::INLINE_MODULE, $custom_classes );
 
 			$display          = $module->get_display()->to_array();
 			$display_position = $display['inline_position'];

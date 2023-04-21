@@ -200,8 +200,8 @@ if ( ! class_exists( 'Hustle_HubSpot' ) ) :
 				);
 
 			} else {
-
-				$description = __( 'Connect the Hubspot integration by authenticating it using the button below. Note that you’ll be taken to the Hubspot website to grant access to Hustle and then redirected back.', 'hustle' );
+				/* translators: Plugin name */
+				$description = sprintf( __( 'Connect the Hubspot integration by authenticating it using the button below. Note that you’ll be taken to the Hubspot website to grant access to %s and then redirected back.', 'hustle' ), Opt_In_Utils::get_plugin_name() );
 
 				$buttons = array(
 					'auth' => array(
@@ -385,7 +385,7 @@ if ( ! class_exists( 'Hustle_HubSpot' ) ) :
 		 */
 		public function process_external_redirect() {
 
-			$status   = filter_input( INPUT_GET, 'status' );
+			$status   = filter_input( INPUT_GET, 'status', FILTER_SANITIZE_SPECIAL_CHARS );
 			$response = array();
 
 			$api           = $this->api();
@@ -407,7 +407,7 @@ if ( ! class_exists( 'Hustle_HubSpot' ) ) :
 							'action'  => 'notification',
 							'status'  => 'success',
 							/* translators: integration name */
-							'message' => sprintf( esc_html__( '%s successfully connected.', 'hustle' ), '<strong>' . $this->title . '</strong>' ),
+							'message' => sprintf( esc_html__( '%s successfully connected.', 'hustle' ), '<strong>' . esc_html( $this->title ) . '</strong>' ),
 						);
 
 						$this->save_account_details();
@@ -427,7 +427,7 @@ if ( ! class_exists( 'Hustle_HubSpot' ) ) :
 					'action'  => 'notification',
 					'status'  => 'error',
 					/* translators: integration name */
-					'message' => sprintf( esc_html__( 'Authentication failed! Please check your %s credentials and try again.', 'hustle' ), $this->title ),
+					'message' => sprintf( esc_html__( 'Authentication failed! Please check your %s credentials and try again.', 'hustle' ), esc_html( $this->title ) ),
 				);
 
 			}

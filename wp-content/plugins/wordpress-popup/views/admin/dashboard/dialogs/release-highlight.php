@@ -6,11 +6,9 @@
  * @since 4.0.0
  */
 
-$banner_img_1x = self::$plugin_url . 'assets/images/release-highlight-header.png';
-$banner_img_2x = self::$plugin_url . 'assets/images/release-highlight-header@2x.png';
-$user          = wp_get_current_user();
-$username      = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->user_login;
-$url           = 'https://wpmudev.com/docs/wpmu-dev-plugins/hustle/#integrations';
+$user     = wp_get_current_user();
+$username = ! empty( $user->user_firstname ) ? $user->user_firstname : $user->user_login;
+$url      = 'https://wpmudev.com/docs/wpmu-dev-plugins/hustle/#integrations';
 ?>
 
 <div class="sui-modal sui-modal-md">
@@ -35,29 +33,26 @@ $url           = 'https://wpmudev.com/docs/wpmu-dev-plugins/hustle/#integrations
 				</button>
 
 				<figure role="banner" class="sui-box-banner" aria-hidden="true">
-				<?php echo $this->render_image_markup( $banner_img_1x, $banner_img_2x, 'sui-image sui-image-center' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<?php
+					$image_attrs = array(
+						'path'        => self::$plugin_url . 'assets/images/release-highlight-header.png',
+						'retina_path' => self::$plugin_url . 'assets/images/release-highlight-header@2x.png',
+						'class'       => 'sui-image sui-image-center',
+					);
+
+					$this->render( 'admin/image-markup', $image_attrs );
+					?>
 				</figure>
 
-				<h3 id="hustle-dialog--release-highlight-title" class="sui-box-title sui-lg"><?php esc_html_e( 'New! Unsubscribe from third-party email lists', 'hustle' ); ?></h3>
+				<h3 id="hustle-dialog--release-highlight-title" class="sui-box-title sui-lg"><?php esc_html_e( 'Accessibility and Visibility Improvements', 'hustle' ); ?></h3>
 
 				<p id="hustle-dialog--release-highlight-description" class="sui-description">
-					<?php /* translators: url */ ?>
-					<?php printf( esc_html__( 'In the newest Hustle 4.6.0 release, your connected third-party email lists will automatically be updated when a user unsubscribes using Hustle forms. See the list of supported third-party apps in our %1$sdocumentation%2$s.', 'hustle' ), '<a target="_blank" href="' . esc_url( $url ) . '">', '</a>' ); ?>
+					<?php /* translators: 1. open link 2. close link 3. Plugin name */ ?>
+					<?php printf( esc_html__( 'Hey %1$s, Know what? %2$s is now accessible like never before! You can now navigate %2$s modules with screen readers as well as the tab key, making it more accessible and inclusive', 'hustle' ), esc_html( $username ), esc_html( Opt_In_Utils::get_plugin_name() ) ); ?>
 				</p>
 
-				<ul style="margin: 0 0 0 20px; list-style: disc;text-align: left;">
-
-					<li>
-						<h6 style="margin-bottom: 0;"><?php esc_html_e( 'Right-to-Left support', 'hustle' ); ?></h6>
-						<p class="sui-description" style="margin-left: -20px;margin-bottom: 30px;"><?php esc_html_e( 'We\'ve also added support for RTL languages. So, whether your site is in Arabic, Hebrew, or any other RTL language, your modules will look spot on!', 'hustle' ); ?></p>
-					</li>
-
-					<li>
-						<h6 style="margin-bottom: 0;"><?php esc_html_e( 'Two call-to-action buttons', 'hustle' ); ?></h6>
-						<p class="sui-description" style="margin-left: -20px;"><?php esc_html_e( 'Choose whether you want to include one or two call-to-action buttons, or none at all.', 'hustle' ); ?></p>
-					</li>
-
-				</ul>
+				<?php /* translators: 1. open 'b' tag  2. close 'b' tag */ ?>
+				<p class="sui-description"><?php printf( esc_html__( 'Not just that! You can now schedule your Hustle modules (slide-ins and popups) to display a specified number of times in a %1$sday/week/month/year%2$s. Target your audience with precision, without overwhelming them with too many popups', 'hustle' ), '<b>', '</b>' ); ?></p>
 
 
 			</div>

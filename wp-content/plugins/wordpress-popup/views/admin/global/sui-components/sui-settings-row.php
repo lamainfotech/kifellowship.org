@@ -4,8 +4,6 @@
  *
  * @package Hustle
  * @since 4.3.0
- *
- * @phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
  */
 
 $vanilla_hide              = ( isset( $vanilla_hide ) ) ? $vanilla_hide : false;
@@ -34,43 +32,37 @@ printf(
 				switch ( $label_tag ) {
 
 					case 'h3':
-						echo '<h3 class="sui-settings-label">' . $label . '</h3>';
+						echo '<h3 class="sui-settings-label">' . esc_html( $label ) . '</h3>';
 						break;
 
 					case 'h4':
-						echo '<h4 class="sui-settings-label">' . $label . '</h4>';
+						echo '<h4 class="sui-settings-label">' . esc_html( $label ) . '</h4>';
 						break;
 
 					case 'h5':
-						echo '<h5 class="sui-settings-label">' . $label . '</h5>';
+						echo '<h5 class="sui-settings-label">' . esc_html( $label ) . '</h5>';
 						break;
 
 					case 'h6':
-						echo '<h6 class="sui-settings-label">' . $label . '</h6>';
+						echo '<h6 class="sui-settings-label">' . esc_html( $label ) . '</h6>';
 						break;
 
 					case 'p':
-						echo '<p class="sui-settings-label">' . $label . '</p>';
+						echo '<p class="sui-settings-label">' . esc_html( $label ) . '</p>';
 						break;
 
 					default:
-						echo '<h2 class="sui-settings-label">' . $label . '</h2>';
+						echo '<h2 class="sui-settings-label">' . esc_html( $label ) . '</h2>';
 						break;
 				}
 			}
 
 			if ( $has_multiline_description ) {
-
-				$paragraph = '';
-
 				foreach ( $multi_description as $k => $description ) {
-					$paragraph .= '<p class="sui-description">' . $description . '</p>';
+					echo '<p class="sui-description">' . wp_kses_post( $description ) . '</p>';
 				}
-
-				echo $paragraph;
-
 			} elseif ( $has_description ) {
-				echo '<p class="sui-description">' . $description . '</p>';
+				echo '<p class="sui-description">' . wp_kses_post( $description ) . '</p>';
 			}
 			?>
 
@@ -80,7 +72,7 @@ printf(
 
 	<div class="sui-box-settings-col-2">
 
-		<?php echo $content; ?>
+		<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 	</div>
 

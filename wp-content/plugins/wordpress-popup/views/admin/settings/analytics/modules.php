@@ -11,7 +11,7 @@
 
 	<div class="sui-box-settings-col-1">
 		<span class="sui-settings-label"><?php esc_html_e( 'Modules', 'hustle' ); ?></span>
-		<span class="sui-description"><?php esc_html_e( 'Select the Hustle modules for which the selected User Roles will see analytics in their WordPress Admin area.', 'hustle' ); ?></span>
+		<span class="sui-description"><?php /* translators: Plugin name */ echo esc_html( sprintf( __( 'Select the %s modules for which the selected User Roles will see analytics in their WordPress Admin area.', 'hustle' ), Opt_In_Utils::get_plugin_name() ) ); ?></span>
 	</div>
 
 	<div class="sui-box-settings-col-2">

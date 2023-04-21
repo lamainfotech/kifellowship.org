@@ -6,8 +6,6 @@
  * @since 4.3.0
  */
 
-// phpcs:disable Generic.WhiteSpace.ScopeIndent.Incorrect
-
 $component = '.hustle-form .hustle-form-options';
 
 $is_mobile_enabled  = ( '1' === $design['enable_mobile_settings'] );
