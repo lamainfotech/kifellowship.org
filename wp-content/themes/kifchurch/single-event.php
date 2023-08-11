@@ -3,8 +3,10 @@
 get_header();
 $title = get_the_title();
 $image = get_the_post_thumbnail();
-$date = get_field('lit_event_date', get_the_ID(), false);
-$date = DateTime::createFromFormat('Y-m-d H:i:s', $date);
+$fromDate = get_field('lit_event_from_date', get_the_ID(), false);
+$fromDate = DateTime::createFromFormat('Y-m-d H:i:s', $fromDate);
+$toDate = get_field('lit_event_to_date', get_the_ID(), false);
+$toDate = DateTime::createFromFormat('Y-m-d H:i:s', $toDate);
 $location = get_field('lit_event_location');
 $video = get_field('lit_event_video');
 $slide = get_field('lit_event_slide');
@@ -29,18 +31,18 @@ if ($title || $image || $date || $location || $video || $slide || $desc) { ?>
                                 <h2 class="h4"><?php echo $title; ?></h2>
                             <?php } ?>
                             <ul class="events">
-                                <?php if (!empty($date)) { ?>
+                                <?php if (!empty($fromDate) || !empty($toDate)) { ?>
                                     <li>
                                         <div class="li-wrap">
-                                            <i class="icon-calander"></i><span><?php echo $date->format('j F, Y'); ?></span>
+                                            <i class="icon-calander"></i><span><?php echo $fromDate->format('j F'); ?><span><?php echo ' — ' . $toDate->format('j F'); ?></span>
                                         </div>
                                     </li>
                                 <?php } ?>
 
-                                <?php if (!empty($date)) { ?>
+                                <?php if (!empty($fromDate)) { ?>
                                     <li>
                                         <div class="li-wrap">
-                                            <i class="icon-clock"></i><span><?php echo $date->format('h:i A'); ?></span>
+                                            <i class="icon-clock"></i><span><?php echo $fromDate->format('h:i A'); ?></span>
                                         </div>
                                     </li>
                                 <?php } ?>
@@ -98,7 +100,7 @@ $other_events = new WP_Query(array(
     'post_type'     =>  'event',
     'post_status'   =>  'publish',
     'orderby'       =>  'meta_value',
-    'meta_key'      =>  'lit_event_date',
+    'meta_key'      =>  'lit_event_from_date',
     'order'         =>  'DESC',
     'posts_per_page' =>  4,
 ));
@@ -127,7 +129,7 @@ if ($other_event_sec_title || $other_event_sec_subtitle || $other_events || $oth
                         $other_events->the_post();
                         $other_event_img = get_the_post_thumbnail();
                         $other_event_title = get_the_title();
-                        $other_event_date = get_field('lit_event_date');
+                        $other_event_date = get_field('lit_event_from_date');
                         $other_event_location = get_field('lit_event_location');
                         $other_event_link = get_the_permalink();
                     ?>
