@@ -6,7 +6,7 @@ $events = new WP_Query(array(
     'post_type'     =>  'event',
     'post_status'   =>  'publish',
     'orderby'       =>  'meta_value',
-    'meta_key'      =>  'lit_event_date',
+    'meta_key'      =>  'lit_event_from_date',
     'order'         =>  'DESC',
     'posts_per_page'=>  12,
     'paged' => $paged,
@@ -21,7 +21,7 @@ $events = new WP_Query(array(
                     $events->the_post();
                     $event_img = get_the_post_thumbnail();
                     $event_title = get_the_title();
-                    $event_date = get_field('lit_event_date');
+                    $event_date = get_field('lit_event_from_date');
                     $event_location = get_field('lit_event_location');
                     $event_link = get_the_permalink();
                 ?>

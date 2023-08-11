@@ -250,7 +250,7 @@ $es_events = new WP_Query(array(
     'post_type'     =>  'event',
     'post_status'   =>  'publish',
     'orderby'       =>  'meta_value',
-    'meta_key'      =>  'lit_event_date',
+    'meta_key'      =>  'lit_event_from_date',
     'order'         =>  'DESC',
     'posts_per_page' =>  4,
 ));
@@ -275,7 +275,7 @@ if ($es_title || $es_subtitle || $es_events || $es_btn) { ?>
                         $es_events->the_post();
                         $es_event_img = get_the_post_thumbnail();
                         $es_event_title = get_the_title();
-                        $es_event_date = get_field('lit_event_date');
+                        $es_event_date = get_field('lit_event_from_date');
                         $es_event_location = get_field('lit_event_location');
                         $es_event_link = get_the_permalink();
                     ?>
